@@ -1,5 +1,6 @@
 {
   "name": "Castr",
+  "description": "Castr lets you show your podcast to the world. Record and upload your podcast with our unique app, and publish to the world.",
   "version": "0.0.1",
   "contributors": [ 
     {
@@ -11,9 +12,12 @@
       "email": "weiran@castr.net"
     }
   ],
-  "private": true,
   "scripts": {
     "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eddielee6/castr.git"
   },
   "dependencies": {
     "express": "3.2.5",
