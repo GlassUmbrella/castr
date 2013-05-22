@@ -1,17 +1,7 @@
 @!(model)
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>@model.title</title>
-		<link rel="stylesheet" href="/stylesheets/style.css" />
-	</head>
-	<body>
-		Hello world
-		
-		<ul>
-		@for (var i = 0; i < 12; i++) {
-			<li>@i</li>
-		}
-		</ul>
-	</body>
-</html>
+
+@function body() {
+	<h1>Index</h1>
+}
+
+@render(@model.title, body);
