@@ -1,6 +1,16 @@
 {
-  "name": "castr",
+  "name": "Castr",
   "version": "0.0.1",
+  "contributors": [ 
+    {
+      "name": "Eddie Lee",
+      "email": "eddie@castr.net"
+    },
+    {
+      "name": "Weiran Zhang",
+      "email": "weiran@castr.net"
+    }
+  ],
   "private": true,
   "scripts": {
     "start": "node app.js"
