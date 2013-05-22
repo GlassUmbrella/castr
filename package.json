@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "express": "3.2.5",
-    "bliss": "1.0.1",
-	"ejs": "0.8.4"
+    "bliss": "1.0.1"
   }
 }
