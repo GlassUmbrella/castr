@@ -36,6 +36,7 @@ if ("development" == app.get("env")) {
 
 app.get("/", viewControllers.index);
 app.get("/api", api.index);
+app.get("/api/users", api.users);
 
 
 http.createServer(app).listen(app.get("port"), function(){
