@@ -7,7 +7,8 @@ var express = require("express")
   , api = require("./api")
   , http = require("http")
   , path = require("path")
-  , Bliss = require("bliss");
+  , Bliss = require("bliss")
+  , lessMiddleware = require('less-middleware')
 
 var viewControllers = {
 	home: require("./view-controllers/index.js"),
@@ -29,6 +30,12 @@ app.use(express.cookieParser());
 app.use(express.session({ secret: "some_secret" }));
 
 app.use(app.router);
+
+app.use(lessMiddleware({
+	debug: true,
+	src: __dirname + '/public',
+	compress: true
+}));
 app.use(express.static(path.join(__dirname, "public")));
 
 // set view engine
