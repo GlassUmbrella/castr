@@ -42,6 +42,20 @@ if ("development" == app.get("env")) {
 	app.use(express.errorHandler());
 }
 
+// basic subdomain routing
+app.get('/*', function(req, res, next) {
+	var baseUrl = "castr.dev:3000";
+
+	var requestUrl = req.headers.host;
+	requestUrl = requestUrl.replace(baseUrl, 'baseUrl');
+	var parts = requestUrl.split('.');
+	if(parts.indexOf("baseUrl") == 1) {
+		global.subdomain = parts[0];
+	}
+
+	next();
+});
+
 app.get("/", viewControllers.home.index);
 app.get("/api", api.index);
 app.get("/api/users", api.users);

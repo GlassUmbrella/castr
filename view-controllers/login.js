@@ -1,8 +1,3 @@
-
-/*
- * GET home page.
- */
-
 // mock users table
 var users = [
 	{
