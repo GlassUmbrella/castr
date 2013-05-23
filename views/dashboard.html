@@ -1,8 +1,10 @@
 @!(model)
 
 @function body() {
-	<h1>Dashboard</h1>
-	<p>Title: @model.title</p>
+
+	<img src="/images/logo.png" />
+	<h1>@model.title</h1>
+
 	<p>You are: @model.user.name</p>
 	<p>Subdomain: @model.subdomain</p>
 	<a href="/logout">Logout</a>
