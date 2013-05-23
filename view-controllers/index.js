@@ -4,5 +4,9 @@
  */
 
 exports.index = function(req, res) {
-  res.render("index.html", { title: "Express" });
+	if(req.session.user != null) {
+		res.render("index.html", { title: "Home", user: req.session.user });
+	} else {
+		res.redirect("/login");
+	}
 };

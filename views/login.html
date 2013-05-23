@@ -1,0 +1,21 @@
+@!(model)
+
+@function body() {
+	<h1>Index</h1>
+	<p>Title: @model.title</p>
+	<form method="post" action="/performLogin">
+		<p>
+			<label>Email:</label>
+			<input type="text" name="email">
+		</p>
+		<p>
+			<label>Password:</label>
+			<input type="text" name="password">
+		</p>
+		<p>
+			<input type="submit" value="Login">
+		</p>
+	</form>
+}
+
+@render("_layout.html", model.title, body)
