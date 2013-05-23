@@ -11,8 +11,8 @@ var express = require("express")
   , lessMiddleware = require('less-middleware')
 
 var viewControllers = {
-	home: require("./view-controllers/index.js"),
-	auth: require("./view-controllers/login.js")
+	home: require("./view-controllers/homeController.js"),
+	auth: require("./view-controllers/authController.js")
 };
 
 var app = express();
@@ -49,6 +49,15 @@ if ("development" == app.get("env")) {
 	app.use(express.errorHandler());
 }
 
+global.secure = function(req, res) {
+	if(req.session.user == null) {
+		res.redirect("/login");
+		return false;
+	} else {
+		return true;
+	}
+};
+
 // basic subdomain routing
 app.get('/*', function(req, res, next) {
 	var baseUrl = "castr.dev:3000";
@@ -58,6 +67,8 @@ app.get('/*', function(req, res, next) {
 	var parts = requestUrl.split('.');
 	if(parts.indexOf("baseUrl") == 1) {
 		global.subdomain = parts[0];
+	} else {
+		global.subdomain = null;
 	}
 
 	next();

@@ -31,7 +31,7 @@ exports.performLogin = function(req, res) {
 };
 
 exports.logout = function(req, res) {
-	req.session.destroy(function(){
+	req.session.destroy(function() {
     	res.redirect('/');
 	});
 };
