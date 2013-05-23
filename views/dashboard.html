@@ -1,10 +1,11 @@
 @!(model)
 
 @function body() {
-	<h1>Index</h1>
+	<h1>Dashboard</h1>
 	<p>Title: @model.title</p>
 	<p>You are: @model.user.name</p>
 	<p>Subdomain: @model.subdomain</p>
+	<a href="/logout">Logout</a>
 }
 
 @render("_layout.html", model.title, body)

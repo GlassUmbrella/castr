@@ -56,6 +56,16 @@ if ('production' == app.get('env')) {
 	}));
 }
 
+function requiresAuth() {
+    return function(req, res, next) {
+        if(req.session.user != null) {
+        	next();
+        } else {
+            res.redirect("/login");
+        }
+    }
+}
+
 // Basic subdomain routing
 app.get('/*', function(req, res, next) {
 	var baseUrl = "castr.dev:3000";
@@ -71,7 +81,11 @@ app.get('/*', function(req, res, next) {
 });
 
 // Routes
-app.get("/", viewControllers.dashboard.index);
+app.get("/", function(req, res){
+	res.redirect("/dashboard");
+});
+
+app.get("/dashboard", requiresAuth(), viewControllers.dashboard.index);
 
 app.get("/login", viewControllers.auth.login);
 app.post("/performLogin", viewControllers.auth.performLogin);

@@ -1,20 +1,20 @@
 @!(model)
 
 @function body() {
-	<h1>Index</h1>
+	<h1>Login</h1>
 	<p>Title: @model.title</p>
 	<form method="post" action="/performLogin">
-		<p>
-			<label>Email:</label>
-			<input type="text" name="email">
-		</p>
-		<p>
-			<label>Password:</label>
-			<input type="password" name="password">
-		</p>
-		<p>
-			<input type="submit" value="Login">
-		</p>
+		<div>
+			<label for="loginEmail">Email:</label>
+			<input type="text" name="loginEmail" id="loginEmail" />
+		</div>
+		<div>
+			<label for="loginPassword">Password:</label>
+			<input type="password" name="loginPassword" id="loginPassword" />
+		</div>
+		<div>
+			<input type="submit" value="Login" />
+		</div>
 	</form>
 }
 

@@ -2,12 +2,12 @@
 var users = [
 	{
 		email: "eddie@castr.net",
-		password:"password",
+		password: "password",
 		name: "Eddie Lee"
 	}, 
 	{
 		email: "weiran@castr.net",
-		password:"password",
+		password: "password",
 		name: "Weiran Zhang"
 	}
 ];
@@ -22,8 +22,7 @@ exports.login = function(req, res) {
 
 exports.performLogin = function(req, res) {
 	for (var i = 0; i < users.length; i++) {
-		if(users[i].email == req.body.email && users[i].password == req.body.password) {
-			console.log("Logging in " + users[i].name)
+		if(users[i].email == req.body.loginEmail && users[i].password == req.body.loginPassword) {
 			req.session.user = users[i];
 		}
 	};
