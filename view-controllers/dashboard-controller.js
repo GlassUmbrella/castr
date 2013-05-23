@@ -1,9 +1,11 @@
 exports.index = function(req, res) {
-	if(global.secure(req, res)) {
+	if(req.session.user != null) {
 		res.render("index.html", {
 			title: "Home",
 			user: req.session.user,
-			subdomain: global.subdomain
+			subdomain: req.subdomain
 		});
+	} else {
+		res.redirect("/login");
 	}
 };

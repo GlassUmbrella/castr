@@ -11,8 +11,8 @@ var express = require("express")
   , lessMiddleware = require('less-middleware')
 
 var viewControllers = {
-	home: require("./view-controllers/homeController.js"),
-	auth: require("./view-controllers/authController.js")
+	auth: require("./view-controllers/auth-controller.js"),
+	dashboard: require("./view-controllers/dashboard-controller.js")
 };
 
 var app = express();
@@ -21,44 +21,42 @@ var app = express();
 app.set("port", process.env.PORT || 3000);
 app.set("views", __dirname + "/views");
 app.set("view engine", "bliss");
+
 app.use(express.favicon());
-app.use(express.logger("dev"));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-
 app.use(express.cookieParser());
-app.use(express.session({ secret: "some_secret" }));
-
+app.use(express.session({ secret: "8FD0A82D-7ADE-433A-8CE1-F1020B545D36" })); //Just a GUID
 app.use(app.router);
 
-app.use(lessMiddleware({
-	debug: true,
-	src: __dirname + '/public',
-	compress: true
-}));
 app.use(express.static(path.join(__dirname, "public")));
 
-// set view engine
 var bliss = new Bliss();
 app.engine("html", function(path, options, fn) {
 	fn(null, bliss.render(path, options));
 });
 
 // development only
-if ("development" == app.get("env")) {
+if ('development' == app.get('env')) {
+	app.use(express.logger());
 	app.use(express.errorHandler());
+	app.use(lessMiddleware({
+		debug: true,
+		src: __dirname + '/public',
+		compress: false
+	}));
 }
 
-global.secure = function(req, res) {
-	if(req.session.user == null) {
-		res.redirect("/login");
-		return false;
-	} else {
-		return true;
-	}
-};
+// production only
+if ('production' == app.get('env')) {
+	app.use(lessMiddleware({
+		debug: false,
+		src: __dirname + '/public',
+		compress: true
+	}));
+}
 
-// basic subdomain routing
+// Basic subdomain routing
 app.get('/*', function(req, res, next) {
 	var baseUrl = "castr.dev:3000";
 
@@ -66,23 +64,24 @@ app.get('/*', function(req, res, next) {
 	requestUrl = requestUrl.replace(baseUrl, 'baseUrl');
 	var parts = requestUrl.split('.');
 	if(parts.indexOf("baseUrl") == 1) {
-		global.subdomain = parts[0];
-	} else {
-		global.subdomain = null;
+		req.subdomain = parts[0];
 	}
 
 	next();
 });
 
-app.get("/", viewControllers.home.index);
-app.get("/api", api.index);
-app.get("/api/users", api.users);
+// Routes
+app.get("/", viewControllers.dashboard.index);
 
 app.get("/login", viewControllers.auth.login);
 app.post("/performLogin", viewControllers.auth.performLogin);
 app.get("/logout", viewControllers.auth.logout);
 
+app.get("/api", api.index);
+app.get("/api/users", api.users);
 
+
+// Start server
 http.createServer(app).listen(app.get("port"), function(){
-	console.log("Express server listening on port " + app.get("port"));
+	console.log("Node.js server listening on port " + app.get("port"));
 });
