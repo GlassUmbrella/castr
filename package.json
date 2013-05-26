@@ -24,5 +24,6 @@
     "bliss": "1.0.1",
     "less-middleware": "0.1.11",
     "bcrypt-nodejs": "0.0.3"
-  }
+  },
+  "private": "true"
 }
