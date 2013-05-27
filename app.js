@@ -5,19 +5,17 @@
 var express = require("express")
   , http = require("http")
   , path = require("path")
-  , less = require('less-middleware')
-  , Sequelize = require("sequelize-mysql").sequelize
-  , MySQL = require('sequelize-mysql').mysql
+  , less = require("less-middleware")
 
 var controllers = {
-	error: require("./view-controllers/error-controller.js"),
-	auth: require("./view-controllers/auth-controller.js"),
-	dashboard: require("./view-controllers/dashboard-controller.js")
+	error: require("./controllers/error-controller"),
+	auth: require("./controllers/auth-controller"),
+	dashboard: require("./controllers/dashboard-controller")
 };
 
 var api = {
-	default: require("./api/default.js"),
-	users: require("./api/users.js")
+	default: require("./api/default"),
+	users: require("./api/users")
 };
 
 
@@ -36,20 +34,7 @@ app.use(express.methodOverride());
 
 
 // Database
-var sequelize = new Sequelize("Castr", "root", "pY1ofAvG");
-
-var User = sequelize.define('User', {
-  emailAddress: Sequelize.STRING,
-  password: Sequelize.TEXT
-});
-
-
-sequelize.sync({ force: true }).success(function() {
-	console.log("Database dropped and recreated");
-}).error(function(error) {
-	console.log("FAILED! Database was not created");
-});
-
+var orm = require("./lib/model")
 
 // Sessions
 app.use(express.cookieParser());
@@ -69,6 +54,8 @@ app.use(express.errorHandler()); //Default catch-all error handler
 
 // Live vs Dev settings
 if ('development' == app.get('env')) {
+	orm.setup("./models", "Castr", "root", "pY1ofAvG"); //Local details
+	orm.sync();
 	app.use(express.logger("dev"));
 	app.use(less({
 		debug: true,
@@ -76,6 +63,7 @@ if ('development' == app.get('env')) {
 		compress: false
 	}));
 } else if ('production' == app.get('env')) {
+	orm.setup("./models", "castr.c2h3rmbudmwv.eu-west-1.rds.amazonaws.com:3306", "castr", "y2E2FdGaEfsUKj"); //Not tested this
 	app.use(less({
 		debug: false,
 		src: __dirname + '/public',
@@ -89,6 +77,8 @@ function secure(req, res, next) {
     }
     next();
 }
+
+
 
 
 /**
