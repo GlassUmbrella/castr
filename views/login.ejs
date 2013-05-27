@@ -1,19 +1,16 @@
 <% include partials/header %>
 
-<img src="/images/logo.png" />
-<h1><%= title %></h1>
-<form method="post" action="/login">
-	<div>
-		<label for="loginEmail">Email:</label>
-		<input type="text" name="loginEmail" id="loginEmail" />
-	</div>
-	<div>
-		<label for="loginPassword">Password:</label>
-		<input type="password" name="loginPassword" id="loginPassword" />
-	</div>
-	<div>
-		<input type="submit" value="Login" />
-	</div>
-</form>
+
+<div class="container">
+	<form method="post" action="/login" class="form-signin">
+		<h2 class="form-signin-heading">Please sign in</h2>
+		<input type="text" class="input-block-level" name="loginEmail" id="loginEmail" placeholder="Email address" />
+		<input type="password" class="input-block-level" name="loginPassword" id="loginPassword" placeholder="Password" />
+		<label class="checkbox">
+			<input type="checkbox" value="remember-me"> Remember me
+		</label>
+		<button class="btn btn-large btn-primary" type="submit">Sign in</button>
+	</form>
+</div>
 
 <% include partials/footer %>
