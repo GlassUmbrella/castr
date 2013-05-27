@@ -1,0 +1,26 @@
+<% include partials/header %>
+
+<img src="/images/logo.png" />
+<h1><%= title %></h1>
+<% if(error) { %>
+    <h2><%= error %></h2>
+<% } %>
+<form method="post" action="/signup">
+	<div>
+		<label for="signupName">Name:</label>
+		<input type="text" name="signupName" id="signupName" />
+	</div>
+	<div>
+		<label for="signupEmail">Email:</label>
+		<input type="text" name="signupEmail" id="signupEmail" />
+	</div>
+	<div>
+		<label for="signupPassword">Password:</label>
+		<input type="password" name="signupPassword" id="signupPassword" />
+	</div>
+	<div>
+		<input type="submit" value="Sign up" />
+	</div>
+</form>
+
+<% include partials/footer %>
