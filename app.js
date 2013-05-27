@@ -58,6 +58,7 @@ if ('development' == app.get('env')) {
 	app.use(express.logger("dev"));
 	
 	app.use(less({
+		force: true,
 		debug: true,
 		src: __dirname + '/public',
 		compress: false
