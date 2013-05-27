@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -8,64 +7,72 @@ var express = require("express")
   , http = require("http")
   , path = require("path")
   , Bliss = require("bliss")
-  , lessMiddleware = require('less-middleware')
+  , less = require('less-middleware')
 
-var viewControllers = {
+var controllers = {
+	error: require("./view-controllers/error-controller.js"),
 	auth: require("./view-controllers/auth-controller.js"),
 	dashboard: require("./view-controllers/dashboard-controller.js")
 };
 
+
+/**
+ * Configuration.
+ */
+
 var app = express();
 
-// all environments
 app.set("port", process.env.PORT || 3000);
 app.set("views", __dirname + "/views");
-app.set("view engine", "bliss");
-
-app.use(express.favicon(__dirname + '/public/images/favicon.ico')); 
+app.set("view engine", "ejs");
 
 app.use(express.bodyParser());
 app.use(express.methodOverride());
+
+
+// Sessions
 app.use(express.cookieParser());
 app.use(express.session({ secret: "8FD0A82D-7ADE-433A-8CE1-F1020B545D36" })); //Just a GUID
+
+
+// Routing
 app.use(app.router);
-
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.favicon(__dirname + '/public/images/favicon.ico'));
 
-var bliss = new Bliss();
-app.engine("html", function(path, options, fn) {
-	fn(null, bliss.render(path, options));
-});
 
-// development only
+// Error handling
+app.use(controllers.error.handle500); //Custom error handlers
+app.use(express.errorHandler()); //Default catch-all error handler
+
+
+// Live vs Dev settings
 if ('development' == app.get('env')) {
-	app.use(express.logger());
-	app.use(express.errorHandler());
-	app.use(lessMiddleware({
+	app.use(express.logger("dev"));
+	app.use(less({
 		debug: true,
 		src: __dirname + '/public',
 		compress: false
 	}));
-}
-
-// production only
-if ('production' == app.get('env')) {
-	app.use(lessMiddleware({
+} else if ('production' == app.get('env')) {
+	app.use(less({
 		debug: false,
 		src: __dirname + '/public',
 		compress: true
 	}));
 }
 
-function requiresAuth() {
-    return function(req, res, next) {
-        if(req.session.user != null) {
-        	next();
-        } else {
-            res.redirect("/login");
-        }
+function secure(req, res, next) {
+    if(req.session.user == null) {
+    	return res.redirect("/login");
     }
+    next();
 }
+
+
+/**
+ * Routes.
+ */
 
 // Basic subdomain routing
 app.get('/*', function(req, res, next) {
@@ -81,22 +88,30 @@ app.get('/*', function(req, res, next) {
 	next();
 });
 
+
 // Routes
-app.get("/", function(req, res){
+app.get("/", function(req, res) {
 	res.redirect("/dashboard");
 });
 
-app.get("/dashboard", requiresAuth(), viewControllers.dashboard.index);
+app.get("/dashboard", secure, controllers.dashboard.index);
 
-app.get("/login", viewControllers.auth.login);
-app.post("/performLogin", viewControllers.auth.performLogin);
-app.get("/logout", viewControllers.auth.logout);
+app.get("/login", controllers.auth.login);
+app.post("/performLogin", controllers.auth.performLogin);
+app.get("/logout", controllers.auth.logout);
 
 app.get("/api", api.index);
 app.get("/api/users", api.users);
 
+app.get("/make-error", function(req, res) {
+	throw new Error("Bang!");
+});
 
-// Start server
+
+/**
+ * Listen.
+ */
+ 
 http.createServer(app).listen(app.get("port"), function(){
 	console.log("Node.js server listening on port " + app.get("port"));
 });

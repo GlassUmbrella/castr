@@ -1,0 +1,19 @@
+<% include partials/header %>
+
+<img src="/images/logo.png" />
+<h1><%= title %></h1>
+<form method="post" action="/performLogin">
+	<div>
+		<label for="loginEmail">Email:</label>
+		<input type="text" name="loginEmail" id="loginEmail" />
+	</div>
+	<div>
+		<label for="loginPassword">Password:</label>
+		<input type="password" name="loginPassword" id="loginPassword" />
+	</div>
+	<div>
+		<input type="submit" value="Login" />
+	</div>
+</form>
+
+<% include partials/footer %>

@@ -14,7 +14,7 @@ var users = [
 
 exports.login = function(req, res) {
 	if(req.session.user == null) {
-		res.render("login.html", { title: "Login" });
+		res.render("login", { title: "Login" });
 	} else {
 		res.redirect('/');
 	}
