@@ -3,16 +3,21 @@
  */
 
 var express = require("express")
-  , api = require("./api")
   , http = require("http")
   , path = require("path")
-  , Bliss = require("bliss")
   , less = require('less-middleware')
+  , Sequelize = require("sequelize-mysql").sequelize
+  , MySQL = require('sequelize-mysql').mysql
 
 var controllers = {
 	error: require("./view-controllers/error-controller.js"),
 	auth: require("./view-controllers/auth-controller.js"),
 	dashboard: require("./view-controllers/dashboard-controller.js")
+};
+
+var api = {
+	default: require("./api/default.js"),
+	users: require("./api/users.js")
 };
 
 
@@ -28,6 +33,22 @@ app.set("view engine", "ejs");
 
 app.use(express.bodyParser());
 app.use(express.methodOverride());
+
+
+// Database
+var sequelize = new Sequelize("Castr", "root", "pY1ofAvG");
+
+var User = sequelize.define('User', {
+  emailAddress: Sequelize.STRING,
+  password: Sequelize.TEXT
+});
+
+
+sequelize.sync({ force: true }).success(function() {
+	console.log("Database dropped and recreated");
+}).error(function(error) {
+	console.log("FAILED! Database was not created");
+});
 
 
 // Sessions
@@ -100,8 +121,8 @@ app.get("/login", controllers.auth.login);
 app.post("/performLogin", controllers.auth.performLogin);
 app.get("/logout", controllers.auth.logout);
 
-app.get("/api", api.index);
-app.get("/api/users", api.users);
+app.get("/api", api.default.home);
+app.get("/api/users", api.users.list);
 
 app.get("/make-error", function(req, res) {
 	throw new Error("Bang!");
