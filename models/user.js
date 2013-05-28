@@ -7,27 +7,24 @@ module.exports = {
 	model: {
 		emailAddress: {
 			type: Seq.STRING,
-			validate: {
-				notEmpty: true
-			}
+			unique: true,
+            allowNull: false
 		},
 		name: {
 			type: Seq.STRING,
-			validate: {
-				notEmpty: true
-			}
+			allowNull: false
 		},
 		password: {
 			type: Seq.STRING,
-			validate: {
-				notEmpty: true
-			}
+			allowNull: false
 		},
 		resetCode: {
-			type: Seq.STRING
+			type: Seq.STRING,
+			allowNull: true
 		},
 		resetRequestTime: {
-			type: Seq.DATE
+			type: Seq.DATE,
+			allowNull: true
 		}
 	}
 }
