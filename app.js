@@ -9,6 +9,7 @@ var express = require("express")
   , orm = require("./lib/model")
   , mailer = require("./lib/mailer")
   , cookieSessions = require("./lib/cookie-sessions")
+  , AWS = require("aws-sdk")
   ,	config = require("./config");
 
 var controllers = {
@@ -28,6 +29,15 @@ var api = {
  */
 
 var app = express();
+
+
+//AWS
+/*
+AWS.config.update(config.aws.credentials);
+AWS.config.update(config.aws.region);
+*/
+//See here https://npmjs.org/package/aws-sdk
+
 
 global.baseUrl = "castr.dev:3000";
 
