@@ -23,10 +23,10 @@
     "express": "3.2.5",
     "ejs": "0.8.4",
     "less-middleware": "0.1.11",
-    
     "bcrypt-nodejs": "0.0.3",
     "sequelize-mysql": "1.6.0",
-    "socket.io": "0.9.14"
+    "socket.io": "0.9.14",
+	"nodemailer": "0.4.4"
   },
   "private": "true"
 }

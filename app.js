@@ -7,6 +7,7 @@ var express = require("express")
   , path = require("path")
   , less = require("less-middleware")
   , orm = require("./lib/model")
+  , mailer = require("./lib/mailer");
 
 var controllers = {
 	error: require("./controllers/error-controller"),
@@ -42,16 +43,25 @@ app.use(express.session({ secret: "8FD0A82D-7ADE-433A-8CE1-F1020B545D36" })); //
 // Routing
 app.use(app.router);
 app.use(express.static(path.join(__dirname, "public")));
-app.use(express.favicon(__dirname + '/public/images/favicon.ico'));
+app.use(express.favicon(__dirname + "/public/images/favicon.ico"));
 
 
 // Error handling
 app.use(controllers.error.handle500); //Custom error handlers
 app.use(express.errorHandler()); //Default catch-all error handler
 
+// Email
+mailer.init({
+    service: "Mandrill",
+    auth: {
+        user: "weiran@castr.net",
+        pass: "fnAY7SkbVK_oX5AI3J7WoA"
+    }
+});
+
 
 // Dev configuration
-if ('development' == app.get('env')) {
+if ("development" == app.get("env")) {
 	orm.setup("./models", "Castr", "root", "pY1ofAvG"); //Local details
 	orm.sync();
 	
@@ -60,18 +70,18 @@ if ('development' == app.get('env')) {
 	app.use(less({
 		force: true,
 		debug: true,
-		src: __dirname + '/public',
+		src: __dirname + "/public",
 		compress: false
 	}));
 }
 
 // Live configuration
-if ('production' == app.get('env')) {
+if ("production" == app.get("env")) {
 	orm.setup("./models", "castr.c2h3rmbudmwv.eu-west-1.rds.amazonaws.com:3306", "castr", "y2E2FdGaEfsUKj"); //Not tested this
 	
 	app.use(less({
 		debug: false,
-		src: __dirname + '/public',
+		src: __dirname + "/public",
 		compress: true
 	}));
 }
@@ -95,7 +105,7 @@ app.get("/*", function(req, res, next) {
 
 	var requestUrl = req.headers.host;
 	requestUrl = requestUrl.replace(baseUrl, "baseUrl");
-	var parts = requestUrl.split('.');
+	var parts = requestUrl.split(".");
 	if(parts.indexOf("baseUrl") == 1) {
 		req.subdomain = parts[0];
 	}
