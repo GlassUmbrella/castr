@@ -21,12 +21,18 @@ exports.post_login = function(req, res) {
 			emailAddress: req.body.loginEmail
 		}
 	}).success(function(user) {
-		bcrypt.compare(req.body.loginPassword, user.password, function(err, res) {
-			if(res) {
-				request.session.user = user;
-				responce.redirect("/");
-			}
-		});
+		if(user) {
+			bcrypt.compare(request.body.loginPassword, user.password, function(err, res) {
+				if(res) {
+					request.session.user = user;
+					responce.redirect("/");
+				} else {
+					res.render("auth/login", { title: "Login" });
+				}
+			});
+		} else {
+			res.render("auth/login", { title: "Login" });
+		}
 	});
 };
 
