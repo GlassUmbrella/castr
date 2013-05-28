@@ -99,6 +99,13 @@ function requiresAuth(req, res, next) {
     next();
 }
 
+function anonymousOnly(req, res, next) {
+	if(req.session.user != null) {
+		return res.redirect("/");
+	}
+	next();
+}
+
 function requiresSubDomain(req, res, next) {
 	var requestUrl = req.headers.host;
 	requestUrl = requestUrl.replace(global.baseUrl, "baseUrl");
@@ -123,24 +130,20 @@ app.get("/", function(req, res) {
 
 app.get("/dashboard", requiresAuth, controllers.dashboard.index);
 
-app.get("/signup", controllers.auth.signup);
-app.post("/signup", controllers.auth.post_signup);
+app.get("/signup", anonymousOnly, controllers.auth.signup);
+app.post("/signup", anonymousOnly, controllers.auth.post_signup);
 
-app.get("/login", controllers.auth.login);
-app.post("/login", controllers.auth.post_login);
+app.get("/login", anonymousOnly, controllers.auth.login);
+app.post("/login", anonymousOnly, controllers.auth.post_login);
 app.get("/logout", controllers.auth.logout);
 
-app.get("/forgot", controllers.auth.forgot);
-app.post("/forgot", controllers.auth.post_forgot);
-app.get("/reset:resetCode?:emailAddress?", controllers.auth.reset);
-app.post("/reset", controllers.auth.post_reset);
+app.get("/forgot", anonymousOnly, controllers.auth.forgot);
+app.post("/forgot", anonymousOnly, controllers.auth.post_forgot);
+app.get("/reset:resetCode?:emailAddress?", anonymousOnly, controllers.auth.reset);
+app.post("/reset", anonymousOnly, controllers.auth.post_reset);
 
 app.get("/api", api.default.home);
 app.get("/api/users", api.users.list);
-
-app.get("/make-error", function(req, res) {
-	throw new Error("Bang!");
-});
 
 
 /**

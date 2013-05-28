@@ -3,18 +3,11 @@ var bcrypt	= require("bcrypt-nodejs");
 var uuid	= require("node-uuid");
 
 exports.login = function(req, res) {
-	if(req.session.user == null) {
-		res.render("auth/login", { title: "Login" });
-	} else {
-		res.redirect('/');
-	}
+	res.render("auth/login", { title: "Login" });
 };
 
 exports.post_login = function(req, res) {
 	var Users = orm.model("user");
-	
-	var request = req;
-	var responce = res;
 	
 	Users.find({
 		where: {
@@ -22,16 +15,16 @@ exports.post_login = function(req, res) {
 		}
 	}).success(function(user) {
 		if(user) {
-			bcrypt.compare(request.body.loginPassword, user.password, function(err, res) {
-				if(res) {
-					request.session.user = user;
-					responce.redirect("/");
+			bcrypt.compare(req.body.loginPassword, user.password, function(err, responce) {
+				if(responce) {
+					req.session.user = user;
+					res.redirect("/"); //Login sucessfull
 				} else {
-					res.render("auth/login", { title: "Login" });
+					res.render("auth/login", { title: "Login" }); //Password is wrong
 				}
 			});
 		} else {
-			res.render("auth/login", { title: "Login" });
+			res.render("auth/login", { title: "Login" }); //Email does not exist
 		}
 	});
 };
@@ -42,11 +35,7 @@ exports.logout = function(req, res) {
 };
 
 exports.signup = function(req, res) {
-	if(req.session.user == null) {
-		res.render("auth/signup", { title: "Signup", error: null });
-	} else {
-		res.redirect('/');
-	}
+	res.render("auth/signup", { title: "Signup", error: null });
 };
 
 exports.post_signup = function(req, res) {
