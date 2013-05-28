@@ -28,6 +28,8 @@ var api = {
 
 var app = express();
 
+global.baseUrl = "castr.dev:3000";
+
 app.set("port", process.env.PORT || 3000);
 app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
@@ -98,10 +100,8 @@ function requiresAuth(req, res, next) {
 }
 
 function requiresSubDomain(req, res, next) {
-	var baseUrl = "castr.dev:3000";
-
 	var requestUrl = req.headers.host;
-	requestUrl = requestUrl.replace(baseUrl, "baseUrl");
+	requestUrl = requestUrl.replace(global.baseUrl, "baseUrl");
 	var parts = requestUrl.split(".");
 	if(parts.indexOf("baseUrl") == 1) {
 		req.subdomain = parts[0];

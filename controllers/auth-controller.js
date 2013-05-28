@@ -83,7 +83,8 @@ exports.post_forgot = function(req, res) {
 					from: "Castr Team <team@castr.net>",
 				    to: user.emailAddress,
 				    subject: "Castr Password Reset",
-				    text: "Go here: http://" + req.headers.host + "/reset?resetCode=" + guid + "&emailAddress=" + user.emailAddress
+				    forceEmbeddedImages: true,
+				    html: "<img src='http://" + global.baseUrl + "/images/logo.png' /><p>To reset your password <a href='http://" + req.headers.host + "/reset?resetCode=" + guid + "&emailAddress=" + user.emailAddress + "'>click here</a>!</p>"
 				});
 				res.render("auth/forgot", { title: "Forgot Password", sent: true });
 			});
