@@ -26,7 +26,7 @@ module.exports = {
 		resetCode: {
 			type: Seq.STRING
 		},
-		resetExpireTime: {
+		resetRequestTime: {
 			type: Seq.DATE
 		}
 	}

@@ -46,7 +46,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.favicon(__dirname + "/public/images/favicon.ico"));
 
 // Error handling
-app.use(controllers.error.handle500); //Custom error handlers
+//app.use(controllers.error.handle500); //Custom error handlers
 app.use(express.errorHandler()); //Default catch-all error handler
 
 // Email
@@ -129,6 +129,11 @@ app.post("/signup", controllers.auth.post_signup);
 app.get("/login", controllers.auth.login);
 app.post("/login", controllers.auth.post_login);
 app.get("/logout", controllers.auth.logout);
+
+app.get("/forgot", controllers.auth.forgot);
+app.post("/forgot", controllers.auth.post_forgot);
+app.get("/reset:resetCode?:emailAddress?", controllers.auth.reset);
+app.post("/reset", controllers.auth.post_reset);
 
 app.get("/api", api.default.home);
 app.get("/api/users", api.users.list);
