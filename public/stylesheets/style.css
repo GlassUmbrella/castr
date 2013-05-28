@@ -1,7 +1,5 @@
 @import "vendor/normalize.css";
 
-@import "vendor/bootstrap-responsive.min.css";
-
 @import "vendor/bootstrap.min.css";
 body {
   padding-top: 40px;
@@ -9,7 +7,7 @@ body {
   background-color: #f5f5f5;
 }
 .form-signin {
-  max-width: 300px;
+  max-width: 400px;
   padding: 19px 29px 29px;
   margin: 0 auto 20px;
   background-color: #fff;
