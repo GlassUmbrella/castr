@@ -27,7 +27,8 @@
     "sequelize-mysql": "1.6.0",
     "socket.io": "0.9.14",
 	"nodemailer": "0.4.4",
-	"node-uuid": "1.4.0"
+	"node-uuid": "1.4.0",
+	"aws-sdk": "1.1.0"
   },
   "private": "true"
 }
