@@ -8,7 +8,7 @@ var express = require("express")
   , less = require("less-middleware")
   , orm = require("./lib/model")
   , mailer = require("./lib/mailer")
-  , MySQLSessionStore = require('connect-mysql-session')(express);
+  , cookieSessions = require('./lib/cookie-sessions');
 
 var controllers = {
 	error: require("./controllers/error-controller"),
@@ -37,12 +37,8 @@ app.use(express.methodOverride());
 
 
 // Sessions
-app.use(express.cookieParser());
-app.use(express.session({
-    store: new MySQLSessionStore("Castr", "root", "pY1ofAvG"),
-    secret: "8FD0A82D-7ADE-433A-8CE1-F1020B545D36" //Just a GUID
-}));
-
+app.use(express.cookieParser("B50E1047-493E-41FA-9E31-03830CFEA5F0"));
+app.use(cookieSessions("8FD0A82D-7ADE-433A-8CE1-F1020B545D36"));
 
 
 // Routing

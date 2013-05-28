@@ -1,5 +1,8 @@
-var orm = require("../lib/model");
-var bcrypt = require("bcrypt-nodejs");
+var orm		= require("../lib/model");
+var bcrypt	= require("bcrypt-nodejs");
+var uuid	= require('node-uuid');
+
+console.log("Auth-Controller");
 
 exports.login = function(req, res) {
 	if(req.session.user == null) {
@@ -41,6 +44,11 @@ exports.signup = function(req, res) {
 	} else {
 		res.redirect('/');
 	}
+};
+
+exports.forgot_pasword_request = function(req, res) {
+	var guid = uuid.v4();
+	
 };
 
 exports.post_signup = function(req, res) {

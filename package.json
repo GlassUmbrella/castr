@@ -27,7 +27,7 @@
     "sequelize-mysql": "1.6.0",
     "socket.io": "0.9.14",
 	"nodemailer": "0.4.4",
-	"connect-mysql-session": "0.1.3"
+	"node-uuid": "1.4.0"
   },
   "private": "true"
 }
