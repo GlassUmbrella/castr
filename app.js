@@ -32,20 +32,18 @@ app.set("port", process.env.PORT || 3000);
 app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
 
+// Handle form data
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-
 
 // Sessions
 app.use(express.cookieParser("B50E1047-493E-41FA-9E31-03830CFEA5F0"));
 app.use(cookieSessions("8FD0A82D-7ADE-433A-8CE1-F1020B545D36"));
 
-
 // Routing
 app.use(app.router);
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.favicon(__dirname + "/public/images/favicon.ico"));
-
 
 // Error handling
 app.use(controllers.error.handle500); //Custom error handlers
@@ -92,16 +90,14 @@ if ("production" == app.get("env")) {
  * Routes.
  */
  
-function secure(req, res, next) {
+function requiresAuth(req, res, next) {
     if(req.session.user == null) {
     	return res.redirect("/login");
     }
     next();
 }
 
-
-// Basic subdomain routing
-app.get("/*", function(req, res, next) {
+function requiresSubDomain(req, res, next) {
 	var baseUrl = "castr.dev:3000";
 
 	var requestUrl = req.headers.host;
@@ -109,18 +105,23 @@ app.get("/*", function(req, res, next) {
 	var parts = requestUrl.split(".");
 	if(parts.indexOf("baseUrl") == 1) {
 		req.subdomain = parts[0];
+		next();
+	} else {
+		next("route");
 	}
-
-	next();
-});
+}
 
 
 // Routes
+app.get("/", requiresSubDomain, function(req, res) {
+	res.end("This is the subdomain: " + req.subdomain);
+});
+
 app.get("/", function(req, res) {
 	res.redirect("/dashboard");
 });
 
-app.get("/dashboard", secure, controllers.dashboard.index);
+app.get("/dashboard", requiresAuth, controllers.dashboard.index);
 
 app.get("/signup", controllers.auth.signup);
 app.post("/signup", controllers.auth.post_signup);
