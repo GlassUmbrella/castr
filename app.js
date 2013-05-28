@@ -8,7 +8,8 @@ var express = require("express")
   , less = require("less-middleware")
   , orm = require("./lib/model")
   , mailer = require("./lib/mailer")
-  , cookieSessions = require('./lib/cookie-sessions');
+  , cookieSessions = require("./lib/cookie-sessions")
+  ,	config = require("./config");
 
 var controllers = {
 	error: require("./controllers/error-controller"),
@@ -52,13 +53,7 @@ app.use(express.favicon(__dirname + "/public/images/favicon.ico"));
 app.use(express.errorHandler()); //Default catch-all error handler
 
 // Email
-mailer.init({
-    service: "Mandrill",
-    auth: {
-        user: "weiran@castr.net",
-        pass: "fnAY7SkbVK_oX5AI3J7WoA"
-    }
-});
+mailer.init(config.mailer);
 
 
 // Dev configuration
