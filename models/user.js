@@ -5,8 +5,29 @@ var orm = require("../lib/model")
 //Creating our module
 module.exports = {
 	model: {
-		emailAddress: Seq.STRING,
-		name: Seq.STRING,
-		password: Seq.STRING
+		emailAddress: {
+			type: Seq.STRING,
+			validate: {
+				notEmpty: true
+			}
+		},
+		name: {
+			type: Seq.STRING,
+			validate: {
+				notEmpty: true
+			}
+		},
+		password: {
+			type: Seq.STRING,
+			validate: {
+				notEmpty: true
+			}
+		},
+		resetCode: {
+			type: Seq.STRING
+		},
+		resetExpireTime: {
+			type: Seq.DATE
+		}
 	}
 }
