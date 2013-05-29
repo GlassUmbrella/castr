@@ -7,7 +7,7 @@
 			<p>Error!</p>
 		<% } %>
 		<input type="text" class="input-block-level" name="emailAddress" id="emailAddress" placeholder="Email address" value="<%= emailAddress || '' %>" />
-		<input type="text" class="input-block-level" name="resetCode" id="resetCode" placeholder="Reset code" value="<%= resetCode || '' %>" />
+		<input type="hidden" class="input-block-level" name="resetCode" id="resetCode" placeholder="Reset code" value="<%= resetCode || '' %>" />
 		<input type="password" class="input-block-level" name="newPassword" id="newPassword" placeholder="New password" />
 		<button class="btn btn-large btn-primary" type="submit">Reset</button>
 	</form>

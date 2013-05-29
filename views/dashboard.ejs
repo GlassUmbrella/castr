@@ -2,12 +2,45 @@
 
 <div class="container">
 
-	<img src="/images/logo.png" />
-	<h1><%= title %></h1>
+	<!-- Static navbar -->
+  <div class="navbar">
+    <div class="container">
+      <a class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="navbar-brand" href="/">Castr</a>
+      <div class="nav-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Feed</a></li>
+          <li><a href="#">Podcast</a></li>
+          <li><a href="#">Another Link</a></li>
+          
+        </ul>
+      </div><!--/.nav-collapse -->
+      <ul class="nav navbar-nav pull-right">
+         <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= user.name %> <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+	            <li><a href="#">Profile</a></li>
+	            <li class="divider"></li>
+              <li><a href="/logout">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+    </div>
+  </div>
+  
+  <div class="starter-template">
+    <h1><%= title %></h1>
+    <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+    
+    <img src="/images/logo.png" />
 	
-	<p>You are: <%= user.name %></p>
-	<a class="btn btn-link" href="/logout">Logout</a>
+  </div>
 
-</div>
+</div><!-- /container -->
+
 
 <% include partials/footer %>
