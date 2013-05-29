@@ -26,5 +26,8 @@ module.exports = {
 			type: Seq.DATE,
 			allowNull: true
 		}
-	}
+	},
+    relations:{
+       hasMany: "podcast" 
+    }
 }
