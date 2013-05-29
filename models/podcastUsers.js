@@ -5,15 +5,17 @@ var orm = require("../lib/model")
 //Creating our module
 module.exports = {
 	model: {
-		name: {
-			type: Seq.STRING,
-            allowNull: false
+		isOwner: { //Maybe make this a role...
+			type: Seq.BOOLEAN
+		},
+		test: {
+			type: Seq.STRING
 		}
 	},
     relations:{
-       hasMany: [
-       		{ name: "Episode" },
-       		{ name: "PodcastUsers" }
+       belongsTo: [
+       		{ name: "Podcast" },
+       		{ name: "User" }
        ]
     }
 }

@@ -9,11 +9,5 @@ module.exports = {
 			type: Seq.STRING,
             allowNull: false
 		}
-	},
-    relations:{
-       hasMany: [
-       		{ name: "Episode" },
-       		{ name: "PodcastUsers" }
-       ]
-    }
+	}
 }

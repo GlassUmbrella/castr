@@ -28,6 +28,6 @@ module.exports = {
 		}
 	},
     relations:{
-       hasMany: "podcast" 
+       hasMany: [ { name: "PodcastUsers" } ]
     }
 }

@@ -69,7 +69,6 @@ mailer.init(config.mailer);
 // Dev configuration
 if ("development" == app.get("env")) {
 	orm.setup("./models", "Castr", "root", "pY1ofAvG"); //Local details
-	orm.sync();
 	
 	app.use(express.logger("dev"));
 	
