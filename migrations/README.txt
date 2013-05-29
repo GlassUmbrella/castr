@@ -1,0 +1,1 @@
+SEE http://sequelizejs.com/documentation#migrations
