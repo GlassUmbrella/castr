@@ -7,7 +7,7 @@ exports.login = function(req, res) {
 };
 
 exports.post_login = function(req, res) {
-	var Users = orm.model("Users");
+	var Users = orm.model("User");
 	
 	Users.find({
 		where: {
@@ -39,7 +39,7 @@ exports.signup = function(req, res) {
 };
 
 exports.post_signup = function(req, res) {
-	var Users = orm.model("Users");
+	var Users = orm.model("User");
 	
 	bcrypt.hash(req.body.signupPassword, null, null, function(err, hash) {
 		Users.create({
