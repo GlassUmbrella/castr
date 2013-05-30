@@ -24,7 +24,7 @@ module.exports = {
 	},
     relations:{
        hasMany: [
-       		{ name: "Episode" },
+       		{ name: "Episodes" },
        		{ name: "PodcastUsers" }
        ]
     }

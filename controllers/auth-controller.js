@@ -7,7 +7,7 @@ exports.login = function(req, res) {
 };
 
 exports.post_login = function(req, res) {
-	var Users = orm.model("User");
+	var Users = orm.model("Users");
 	
 	Users.find({
 		where: {
@@ -39,7 +39,7 @@ exports.signup = function(req, res) {
 };
 
 exports.post_signup = function(req, res) {
-	var Users = orm.model("User");
+	var Users = orm.model("Users");
 	
 	bcrypt.hash(req.body.signupPassword, null, null, function(err, hash) {
 		Users.create({
@@ -61,7 +61,7 @@ exports.forgot = function(req, res) {
 };
 
 exports.post_forgot = function(req, res) {
-	var Users = orm.model("User");
+	var Users = orm.model("Users");
 
 	Users.find({
 		where: {
@@ -94,7 +94,7 @@ exports.reset = function(req, res) {
 };
 
 exports.post_reset = function(req, res) {
-	var Users = orm.model("User");
+	var Users = orm.model("Users");
 
 	Users.find({
 		where: {

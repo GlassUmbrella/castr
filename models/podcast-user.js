@@ -14,8 +14,8 @@ module.exports = {
 	},
     relations:{
        belongsTo: [
-       		{ name: "Podcast" },
-       		{ name: "User" }
+       		{ name: "Podcasts" },
+       		{ name: "Users" }
        ]
     }
 }
