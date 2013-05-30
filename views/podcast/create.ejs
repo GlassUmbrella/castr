@@ -1,0 +1,44 @@
+<% include ../partials/header %>
+<div class="container">
+	<div class="panel">
+		<div class="panel-heading">Create a new podcast</div>
+		<p>Ready to start recording?</p>
+		<form class="form-horizontal">
+			<div class="row">
+			    <label class="col col-lg-2 control-label" for="title">Title</label>
+			    <div class="col col-lg-6">
+				    <input type="text" id="title" placeholder="Your podcast's title">
+			    </div>
+			</div>
+			<div class="row">
+			    <label class="col col-lg-2 control-label" for="url">Domain</label>
+				<div class="col col-lg-6">
+					<div class="input-group">
+					    <input type="text" style="text-align:right" id="url">
+					    <span class="input-group-addon">.castr.net</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<label class="col col-lg-2 control-label" for="description">Description</label>
+				<div class="col col-lg-6">
+					<textarea id="description" placeholder="A short description of your podcast"></textarea>
+				</div>
+			</div>
+			<div class="row">
+				<label class="col col-lg-2 control-label" for="description">Cover Art</label>
+				<div class="col col-lg-6">
+					<input type="file" id="cover">
+					<p class="help-block">Upload a large image for your cover. Ideally 1024x1024 or larger.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col col-offset-2 col-lg-6 controls">
+					<button type="submit" class="btn btn-primary">Create</button>
+					<a href="/" class="btn btn-link">Cancel</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<% include ../partials/footer %>

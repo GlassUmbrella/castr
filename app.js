@@ -15,7 +15,8 @@ var express = require("express")
 var controllers = {
 	error: require("./controllers/error-controller"),
 	auth: require("./controllers/auth-controller"),
-	dashboard: require("./controllers/dashboard-controller")
+	dashboard: require("./controllers/dashboard-controller"),
+	podcasts: require("./controllers/podcasts-controller")
 };
 
 var api = {
@@ -149,6 +150,8 @@ app.post("/reset", anonymousOnly, controllers.auth.post_reset);
 app.get("/api", api.default.home);
 app.get("/api/users", api.users.list);
 
+app.get("/podcasts", requiresAuth, controllers.podcasts.index);
+app.get("/podcasts/create", requiresAuth, controllers.podcasts.create);
 
 /**
  * Listen.
