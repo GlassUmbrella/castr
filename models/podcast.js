@@ -5,9 +5,21 @@ var orm = require("../lib/model")
 //Creating our module
 module.exports = {
 	model: {
-		name: {
+		title: {
 			type: Seq.STRING,
             allowNull: false
+		},
+		description: {
+			type: Seq.STRING,
+			allowNull: false
+		},
+		coverLocation: {
+			type: Seq.STRING,
+			allowNull: false
+		},
+		url: {
+			type: Seq.STRING,
+			allowNull: false
 		}
 	},
     relations:{
