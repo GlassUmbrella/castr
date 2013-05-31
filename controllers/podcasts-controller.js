@@ -21,13 +21,13 @@ exports.post_create = function (req, res) {
 
 // api
 
-exports.isUrlUnique = function (req, res) {
-	
+exports.isUrlUnique = function(req, res) {
+	return this.isUrlUnique(req["url"]);
 }
 
 // helpers
 
-this.isUrlUnique = function (url) {
+this.isUrlUnique = function(url) {
 	var Podcasts = orm.model("Podcasts");
 	Podcasts.count({ where: { url: url }}).success(function (count) {
 		return count == 0;

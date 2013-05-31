@@ -21,7 +21,8 @@ var controllers = {
 
 var api = {
 	default: require("./api/default"),
-	users: require("./api/users")
+	users: require("./api/users"),
+	podcasts: require("./api/podcasts")
 };
 
 
@@ -149,14 +150,18 @@ app.post("/reset", anonymousOnly, controllers.auth.post_reset);
 
 app.get("/api", api.default.home);
 app.get("/api/users", api.users.list);
+app.get("/api/podcasts", api.podcasts.list);
+app.get("/api/podcasts/isUrlUnique", api.podcasts.isUrlUnique);
 
 app.get("/podcasts", requiresAuth, controllers.podcasts.index);
+app.get("/podcasts/create", requiresAuth, controllers.podcasts.create);
+
 app.get("/podcasts/create", requiresAuth, controllers.podcasts.create);
 
 /**
  * Listen.
  */
  
-http.createServer(app).listen(app.get("port"), function(){
+http.createServer(app).listen(app.get("port"), function() {
 	console.log("Node.js server listening on port " + app.get("port"));
 });
