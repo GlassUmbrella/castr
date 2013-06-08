@@ -3,18 +3,18 @@
 	<div class="panel">
 		<div class="panel-heading">Create a new podcast</div>
 		<p>Ready to start recording?</p>
-		<form class="form-horizontal">
+		<form method="post" action="/podcasts/create" class="form-horizontal">
 			<div class="row">
 			    <label class="col col-lg-2 control-label" for="title">Title</label>
 			    <div class="col col-lg-6">
-				    <input type="text" id="title" placeholder="Your podcast's title">
+				    <input type="text" id="title" name="title" placeholder="Your podcast's title">
 			    </div>
 			</div>
 			<div class="row">
 			    <label class="col col-lg-2 control-label" for="url">Domain</label>
 				<div class="col col-lg-6">
 					<div class="input-group">
-					    <input type="text" style="text-align:right" id="url">
+					    <input type="text" style="text-align:right" id="url" name="url">
 					    <span class="input-group-addon">.castr.net</span>
 					</div>
 				</div>
@@ -22,7 +22,7 @@
 			<div class="row">
 				<label class="col col-lg-2 control-label" for="description">Description</label>
 				<div class="col col-lg-6">
-					<textarea id="description" placeholder="A short description of your podcast"></textarea>
+					<textarea id="description" name="description" placeholder="A short description of your podcast"></textarea>
 				</div>
 			</div>
 			<div class="row">

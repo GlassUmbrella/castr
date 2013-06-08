@@ -9,6 +9,7 @@ var express = require("express")
   , orm = require("./lib/model")
   , mailer = require("./lib/mailer")
   , cookieSessions = require("./lib/cookie-sessions")
+  , validation = require("./lib/validation")
   , AWS = require("aws-sdk")
   ,	config = require("./config");
 
@@ -155,8 +156,7 @@ app.get("/api/podcasts/isUrlUnique", api.podcasts.isUrlUnique);
 
 app.get("/podcasts", requiresAuth, controllers.podcasts.index);
 app.get("/podcasts/create", requiresAuth, controllers.podcasts.create);
-
-app.get("/podcasts/create", requiresAuth, controllers.podcasts.create);
+app.post("/podcasts/create", requiresAuth, controllers.podcasts.post_create);
 
 /**
  * Listen.
