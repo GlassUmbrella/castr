@@ -68,6 +68,7 @@ app.use(express.errorHandler()); //Default catch-all error handler
 // Email
 mailer.init(config.mailer);
 
+console.log("Environment: " + app.get("env"));
 
 // Dev configuration
 var databaseUser = {};
