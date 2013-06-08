@@ -42,7 +42,7 @@ AWS.config.update(config.aws.region);
 //See here https://npmjs.org/package/aws-sdk
 
 
-global.baseUrl = "castr.dev:3000";
+// global.baseUrl = "castr.dev:3000";
 
 app.set("port", process.env.PORT || 3000);
 app.set("views", __dirname + "/views");
@@ -74,8 +74,10 @@ console.log("Environment: " + app.get("env"));
 var databaseUser = {};
 if ("development" == app.get("env")) {
 	databaseUser = config.mysql.dev;
+	global.baseUrl = "castr.dev:3000";
 } else {
-	databaseUser = config.mysql.live;	
+	databaseUser = config.mysql.live;
+	global.baseUrl = "82.196.8.12:80";	
 }
 
 app.use(express.logger(app.get("env")));
