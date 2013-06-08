@@ -20,12 +20,16 @@ module.exports = {
 		url: {
 			type: Seq.STRING,
 			allowNull: false
+		},
+		ownerUserId: {
+			type: Seq.INTEGER,
+			allowNull: false
 		}
 	},
     relations:{
        hasMany: [
        		{ name: "Episode" },
-       		{ name: "PodcastUser" }
+       		{ name: "User" }
        ]
     }
 }
