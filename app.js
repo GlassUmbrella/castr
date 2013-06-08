@@ -70,18 +70,22 @@ mailer.init(config.mailer);
 
 
 // Dev configuration
+var databaseUser = {};
 if ("development" == app.get("env")) {
-	orm.setup("./models", "Castr", "root", "pY1ofAvG"); //Local details
-	
-	app.use(express.logger("dev"));
-	
-	app.use(less({
-		force: true,
-		debug: true,
-		src: __dirname + "/public",
-		compress: false
-	}));
+	databaseUser = config.mysql.dev;
+} else {
+	databaseUser = config.mysql.live;	
 }
+
+app.use(express.logger(app.get("env")));
+orm.setup("./models", databaseUser.database, databaseUser.username, databaseUser.password); 
+
+app.use(less({
+	force: true,
+	debug: true,
+	src: __dirname + "/public",
+	compress: false
+}));
 
 // Live configuration
 if ("production" == app.get("env")) {
