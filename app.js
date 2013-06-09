@@ -75,24 +75,16 @@ var databaseUser = {};
 if ("development" == app.get("env")) {
 	databaseUser = config.mysql.dev;
 	global.baseUrl = "castr.dev:3000";
-} else {
+
+	app.use(less({
+		force: true,
+		debug: true,
+		src: __dirname + "/public",
+		compress: false
+	}));
+} else { // "development" == app.get("env")
 	databaseUser = config.mysql.live;
-	global.baseUrl = "82.196.8.12:80";	
-}
-
-app.use(express.logger(app.get("env")));
-orm.setup("./models", databaseUser.database, databaseUser.username, databaseUser.password); 
-
-app.use(less({
-	force: true,
-	debug: true,
-	src: __dirname + "/public",
-	compress: false
-}));
-
-// Live configuration
-if ("production" == app.get("env")) {
-	orm.setup("./models", "castr.c2h3rmbudmwv.eu-west-1.rds.amazonaws.com:3306", "castr", "y2E2FdGaEfsUKj"); //Not tested this
+	global.baseUrl = "82.196.8.12:80";
 	
 	app.use(less({
 		debug: false,
@@ -101,6 +93,8 @@ if ("production" == app.get("env")) {
 	}));
 }
 
+app.use(express.logger(app.get("env")));
+orm.setup("./models", databaseUser.database, databaseUser.username, databaseUser.password, { host: databaseUser.host }); 
 
 /**
  * Routes.

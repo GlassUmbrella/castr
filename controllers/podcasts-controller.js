@@ -1,7 +1,14 @@
 var orm	= require("../lib/model");
 
 exports.index = function(req, res) {
+	var Podcast = orm.model("Podcast");
+	var podcasts = [];
+	var user = req.session.user;
 	
+	Podcast.findAll({ where: { ownerUserId: user.id } }).success(function (result) {
+		podcasts = result;
+		res.render("podcast/index", { title: "My podcasts", podcasts: podcasts });
+	});
 };
 
 exports.create = function (req, res) {

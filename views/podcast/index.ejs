@@ -1,0 +1,17 @@
+<% include ../partials/header %>
+<script>
+	function PodcastsIndexViewModel() {
+		this.podcasts = <%-JSON.stringify(podcasts) %>;
+	}
+	
+	$(document).ready(function() {
+		ko.applyBindings(new PodcastsIndexViewModel());	
+	});
+</script>
+<div class="container">
+	<ul data-bind="foreach: podcasts">
+		<li data-bind="text: title"></li>
+	</ul>
+	<a href="podcasts/create">Create new podcast</a>
+</div>
+<% include ../partials/footer %>
