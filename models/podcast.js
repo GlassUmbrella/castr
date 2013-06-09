@@ -26,10 +26,10 @@ module.exports = {
 			allowNull: false
 		}
 	},
-    relations:{
-       hasMany: [
+    relations: {
+    	hasMany: [
        		{ name: "Episode" },
        		{ name: "User" }
-       ]
+    	]
     }
 }

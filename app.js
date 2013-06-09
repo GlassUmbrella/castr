@@ -17,7 +17,8 @@ var controllers = {
 	error: require("./controllers/error-controller"),
 	auth: require("./controllers/auth-controller"),
 	dashboard: require("./controllers/dashboard-controller"),
-	podcasts: require("./controllers/podcasts-controller")
+	podcasts: require("./controllers/podcasts-controller"),
+	episodes: require("./controllers/episodes-controller")
 };
 
 var api = {
@@ -158,6 +159,11 @@ app.get("/api/podcasts/isUrlUnique", api.podcasts.isUrlUnique);
 app.get("/podcasts", requiresAuth, controllers.podcasts.index);
 app.get("/podcasts/create", requiresAuth, controllers.podcasts.create);
 app.post("/podcasts/create", requiresAuth, controllers.podcasts.post_create);
+
+app.get("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.episodes.create);
+app.post("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.episodes.post_create);
+app.get("/podcasts/:podcastId", requiresAuth, controllers.episodes.episodesIndex);
+app.get("/podcasts/:podcastId/episodes/:episodeNumber", requiresAuth, controllers.episodes.episode);
 
 /**
  * Listen.

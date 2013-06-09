@@ -7,12 +7,12 @@ exports.index = function(req, res) {
 	
 	Podcast.findAll({ where: { ownerUserId: user.id } }).success(function (result) {
 		podcasts = result;
-		res.render("podcast/index", { title: "My podcasts", podcasts: podcasts });
+		res.render("podcasts/index", { title: "My podcasts", podcasts: podcasts });
 	});
 };
 
 exports.create = function (req, res) {
-	res.render("podcast/create", { title: "Create your new podcast", error: null });
+	res.render("podcasts/create", { title: "Create your new podcast", error: null });
 }
 
 exports.post_create = function (req, res) {

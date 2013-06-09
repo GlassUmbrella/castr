@@ -10,7 +10,8 @@
 </script>
 <div class="container">
 	<ul data-bind="foreach: podcasts">
-		<li data-bind="text: title"></li>
+		<li><a data-bind="attr: { 'href': 'podcasts/' + id }, text: title"></a></span> 
+			<a data-bind="attr: { 'href': 'podcasts/' + id + '/episodes/create' }">New episode</a></li>
 	</ul>
 	<a href="podcasts/create">Create new podcast</a>
 </div>
