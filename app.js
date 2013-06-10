@@ -10,7 +10,7 @@ var express = require("express")
   , mailer = require("./lib/mailer")
   , cookieSessions = require("./lib/cookie-sessions")
   , validation = require("./lib/validation")
-  , AWS = require("aws-sdk")
+  , azure = require("./lib/azure")
   ,	config = require("./config");
 
 var controllers = {
@@ -33,14 +33,6 @@ var api = {
  */
 
 var app = express();
-
-
-//AWS
-/*
-AWS.config.update(config.aws.credentials);
-AWS.config.update(config.aws.region);
-*/
-//See here https://npmjs.org/package/aws-sdk
 
 
 // global.baseUrl = "castr.dev:3000";
@@ -73,7 +65,7 @@ console.log("Environment: " + app.get("env"));
 
 // Dev configuration
 var databaseUser = {};
-if ("development" == app.get("env")) {
+if("development" == app.get("env")) {
 	databaseUser = config.mysql.dev;
 	global.baseUrl = "castr.dev:3000";
 
@@ -96,6 +88,7 @@ if ("development" == app.get("env")) {
 
 app.use(express.logger(app.get("env")));
 orm.setup("./models", databaseUser.database, databaseUser.username, databaseUser.password, { host: databaseUser.host }); 
+azure.setup(config.azure.account, config.azure.accessKey);
 
 /**
  * Routes.
