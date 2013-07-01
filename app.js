@@ -88,7 +88,7 @@ if("development" == app.get("env")) {
 
 app.use(express.logger(app.get("env")));
 orm.setup("./models", databaseUser.database, databaseUser.username, databaseUser.password, { host: databaseUser.host }); 
-azure.setup(config.azure.account, config.azure.accessKey);
+// azure.setup(config.azure.account, config.azure.accessKey);
 
 /**
  * Routes.
