@@ -61,11 +61,11 @@ app.use(express.errorHandler()); //Default catch-all error handler
 // Email
 mailer.init(config.mailer);
 
-console.log("Environment: " + app.get("env"));
+console.log("Environment: " + app.settings.env);
 
 // Dev configuration
 var databaseUser = {};
-if("development" == app.get("env")) {
+if("development" == app.settings.env) {
 	databaseUser = config.mysql.dev;
 	global.baseUrl = "castr.dev:3000";
 
@@ -75,7 +75,7 @@ if("development" == app.get("env")) {
 		src: __dirname + "/public",
 		compress: false
 	}));
-} else { // "development" == app.get("env")
+} else { // "development" == app.settings.env
 	databaseUser = config.mysql.live;
 	global.baseUrl = "82.196.8.12:80";
 	
@@ -86,7 +86,7 @@ if("development" == app.get("env")) {
 	}));
 }
 
-app.use(express.logger(app.get("env")));
+app.use(express.logger(app.settings.env));
 orm.setup("./models", databaseUser.database, databaseUser.username, databaseUser.password, { host: databaseUser.host }); 
 // azure.setup(config.azure.account, config.azure.accessKey);
 
