@@ -10,13 +10,18 @@
 		ko.applyBindings(new EpisodesIndexViewModel());	
 	});
 </script>
-<div class="container">
-	<div class="episodes" data-bind="foreach: episodes">
-		<section class="episode">
-			<h2><a data-bind="attr: { 'href': '/episodes/' + episodeNumber }">Episode #<span data-bind="text: episodeNumber"></span>: <span data-bind="text: title"></span></a></h2>
-			<div class="body" data-bind="text: description">
-			</div>
-		</section>
-	</div>
+<div class="episodes" data-bind="foreach: episodes">
+	<section class="episode">
+		<h3><a data-bind="attr: { 'href': '/episodes/' + episodeNumber }">Episode #<span data-bind="text: episodeNumber"></span>: <span data-bind="text: title"></span></a></h3>
+		<div class="body" data-bind="text: description"></div>
+	</section>
 </div>
+<ul class="pager">
+  <li class="previous disabled">
+    <a href="#">&larr; Older</a>
+  </li>
+  <li class="next disabled">
+    <a href="#">Newer &rarr;</a>
+  </li>
+</ul>
 <% include ../partials/footer %>

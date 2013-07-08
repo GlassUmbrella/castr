@@ -1,17 +1,13 @@
 <% include ../partials/header %>
-
-<div class="container">
-	<form method="post" action="/forgot" class="form-signin">
-		<h2 class="form-signin-heading">Forgot password</h2>
-		
-		<% if(!sent) { %>
-			<input type="text" class="input-block-level" name="emailAddress" id="emailAddress"  placeholder="Email address" />
-			<button class="btn btn-large btn-primary" type="submit">Reset</button>
-		<% } else { %>
-			<p>Sent!</p>
-		<% } %>
-		
-	</form>
-</div>
-
+<form method="post" action="/forgot" class="form-signin">
+	<h2 class="form-signin-heading">Forgot password</h2>
+	
+	<% if(!sent) { %>
+		<input type="text" class="input-block-level" name="emailAddress" id="emailAddress"  placeholder="Email address" />
+		<button class="btn btn-large btn-primary" type="submit">Reset</button>
+	<% } else { %>
+		<p>Sent!</p>
+	<% } %>
+	
+</form>
 <% include ../partials/footer %>
