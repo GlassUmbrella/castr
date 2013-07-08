@@ -24,6 +24,10 @@ module.exports = {
 		audioLocation: {
 			type: Seq.STRING,
             allowNull: false
+		},
+		notes: {
+			type: Seq.STRING,
+			allowNull: true
 		}
 	},
     relations: {

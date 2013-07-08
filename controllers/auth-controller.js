@@ -3,11 +3,12 @@ var bcrypt	= require("bcrypt-nodejs");
 var uuid	= require("node-uuid");
 
 exports.login = function(req, res) {
-	res.render("auth/login", { title: "Login" });
+	res.render("auth/login", { title: "Login", message: null });
 };
 
 exports.post_login = function(req, res) {
 	var Users = orm.model("User");
+	var invalidCredentialsMessage = "The username or password you entered is incorrect.";
 	
 	Users.find({
 		where: {
@@ -15,16 +16,16 @@ exports.post_login = function(req, res) {
 		}
 	}).success(function(user) {
 		if(user) {
-			bcrypt.compare(req.body.loginPassword, user.password, function(err, responce) {
-				if(responce) {
+			bcrypt.compare(req.body.loginPassword, user.password, function(err, response) {
+				if(response) {
 					req.session.user = user;
 					res.redirect("/"); //Login sucessfull
 				} else {
-					res.render("auth/login", { title: "Login" }); //Password is wrong
+					res.render("auth/login", { title: "Login", message: invalidCredentialsMessage }); //Password is wrong
 				}
 			});
 		} else {
-			res.render("auth/login", { title: "Login" }); //Email does not exist
+			res.render("auth/login", { title: "Login", message: invalidCredentialsMessage }); //Email does not exist
 		}
 	});
 };

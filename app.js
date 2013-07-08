@@ -108,7 +108,7 @@ function anonymousOnly(req, res, next) {
 	next();
 }
 
-function requiresSubDomain(req, res, next) {
+function requiresSubdomain(req, res, next) {
 	var requestUrl = req.headers.host;
 	requestUrl = requestUrl.replace(global.baseUrl, "baseUrl");
 	var parts = requestUrl.split(".");
@@ -122,9 +122,13 @@ function requiresSubDomain(req, res, next) {
 
 
 // Routes
-app.get("/", requiresSubDomain, function(req, res) {
-	res.end("This is the subdomain: " + req.subdomain);
-});
+
+// Subdomain routes
+
+app.get("/", requiresSubdomain, controllers.episodes.episodesIndex);
+app.get("/episodes/:episodeNumber", requiresSubdomain, controllers.episodes.episode);
+
+// Main app routes
 
 app.get("/", function(req, res) {
 	res.redirect("/dashboard");
@@ -155,8 +159,9 @@ app.post("/podcasts/create", requiresAuth, controllers.podcasts.post_create);
 
 app.get("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.episodes.create);
 app.post("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.episodes.post_create);
-app.get("/podcasts/:podcastId", requiresAuth, controllers.episodes.episodesIndex);
-app.get("/podcasts/:podcastId/episodes/:episodeNumber", requiresAuth, controllers.episodes.episode);
+
+// app.get("/podcasts/:podcastId", requiresAuth, controllers.episodes.episodesIndex);
+// app.get("/podcasts/:podcastId/episodes/:episodeNumber", requiresAuth, controllers.episodes.episode);
 
 /**
  * Listen.

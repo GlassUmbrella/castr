@@ -1,4 +1,5 @@
 <% include ../partials/header %>
+<% include ../partials/podcast-header %>
 <script>
 	function EpisodesIndexViewModel() {
 		this.episodes = <%-JSON.stringify(episodes) %>;
@@ -10,9 +11,12 @@
 	});
 </script>
 <div class="container">
-	<ul data-bind="foreach: episodes">
-		<li><a data-bind="attr: { 'href': '/podcasts/' + PodcastId + '/episodes/' + episodeNumber }, text: title"></a></li>
-	</ul>
-	<a href="/podcasts/<%=podcast.id%>/episodes/create">Create new episode</a>
+	<div class="episodes" data-bind="foreach: episodes">
+		<section class="episode">
+			<h2><a data-bind="attr: { 'href': '/episodes/' + episodeNumber }">Episode #<span data-bind="text: episodeNumber"></span>: <span data-bind="text: title"></span></a></h2>
+			<div class="body" data-bind="text: description">
+			</div>
+		</section>
+	</div>
 </div>
 <% include ../partials/footer %>

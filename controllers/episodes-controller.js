@@ -49,17 +49,44 @@ exports.post_create = function(req, res) {
 exports.episodesIndex = function(req, res) {
 	var Episode = orm.model("Episode");
 	var Podcast = orm.model("Podcast");
-	
-	Podcast.find({ where: { id: req.params.podcastId }, include: [Episode] }).success(function(podcast) {
-		console.log(podcast);
-		res.render("episodes/index", { title: "Episodes", podcast: podcast, episodes: podcast.episodes });
-	});
+
+	var podcastDomain = req.subdomain;
+	if(podcastDomain) {
+		Podcast.find({ where: { url: podcastDomain }, include: [Episode], orderBy: [Episode.episodeNumber] })
+		.success(function(podcast) {
+			if(podcast) {
+				res.render("episodes/index", { title: "Episodes", podcast: podcast, episodes: podcast.episodes });
+			} else {
+				// TODO: 404
+			}
+		});
+	} else {
+		// TODO: 404
+	}
 };
 
 exports.episode = function(req, res) {
 	var Episode = orm.model("Episode");
-	Episode.find({ where: { PodcastId: req.params.podcastId, episodeNumber: req.params.episodeNumber } })
-	.success(function(episode) {
-		res.render("episodes/episode", { title: episode.title, episode: episode });
-	})
+	var Podcast = orm.model("Podcast");
+
+	var podcastDomain = req.subdomain;
+	if (podcastDomain) {
+		Podcast.find({ where: { url: podcastDomain } })
+		.success(function(podcast) {
+			if(podcast) {
+				Episode.find({ where: { PodcastId: podcast.id, episodeNumber: req.params.episodeNumber } })
+				.success(function(episode) {
+					if (episode) {
+						res.render("episodes/episode", { title: episode.title, episode: episode, podcast: podcast });
+					} else {
+						// TODO: 404
+					}
+				});
+			} else {
+				// TODO: 404
+			}
+		});
+	} else {
+		// TODO: 404
+	}
 };

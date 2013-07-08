@@ -1,7 +1,12 @@
 <% include ../partials/header %>
+<% include ../partials/podcast-header %>
 <div class="container">
-	<h2><%=episode.title%></h2>
-	<p><%=episode.description%></p>
-	<p><a href="/podcasts/<%=episode.PodcastId%>">Back to episodes</a></p>
+	<section class="episode">
+		<h2>Episode #<%=episode.episodeNumber%>: <%=episode.title%></h2>
+		<div class="body">
+			<p><%=episode.description%></p>
+		</div>
+	</section>
+	<p><a href="/">Back to episodes</a></p>
 </div>
 <% include ../partials/footer %>

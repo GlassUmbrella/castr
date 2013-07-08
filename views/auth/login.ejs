@@ -1,9 +1,9 @@
 <% include ../partials/header %>
 
-
 <div class="container">
 	<form method="post" action="/login" class="form-signin">
 		<h2 class="form-signin-heading">Please sign in</h2>
+		<% if(message) { %><div class="message error"><%= message %></div><% } %>
 		<input type="text" class="input-block-level" name="loginEmail" id="loginEmail" placeholder="Email address" />
 		<input type="password" class="input-block-level" name="loginPassword" id="loginPassword" placeholder="Password" />
 		<button class="btn btn-large btn-primary" type="submit">Sign in</button>
