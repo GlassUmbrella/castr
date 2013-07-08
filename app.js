@@ -126,6 +126,10 @@ function requiresSubdomain(req, res, next) {
 // Subdomain routes
 
 app.get("/", requiresSubdomain, controllers.episodes.episodesIndex);
+app.get("/episodes", requiresSubdomain, controllers.episodes.episodesIndex);
+app.get("/rss", requiresSubdomain, controllers.podcasts.rss);
+app.get("/itunes", requiresSubdomain, controllers.podcasts.itunes);
+app.get("/contact", requiresSubdomain, controllers.podcasts.contact);
 app.get("/episodes/:episodeNumber", requiresSubdomain, controllers.episodes.episode);
 
 // Main app routes
