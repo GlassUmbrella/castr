@@ -126,6 +126,7 @@ function requiresSubdomain(req, res, next) {
 // Subdomain routes
 
 app.get("/", requiresSubdomain, controllers.episodes.episodesIndex);
+app.get("/page/:pageNumber", requiresSubdomain, controllers.episodes.episodesIndex);
 app.get("/episodes", requiresSubdomain, controllers.episodes.episodesIndex);
 app.get("/rss", requiresSubdomain, controllers.podcasts.rss);
 app.get("/itunes", requiresSubdomain, controllers.podcasts.itunes);
@@ -134,9 +135,11 @@ app.get("/episodes/:episodeNumber", requiresSubdomain, controllers.episodes.epis
 
 // Main app routes
 
-app.get("/", function(req, res) {
-	res.redirect("/dashboard");
-});
+// app.get("/", function(req, res) {
+// 	res.redirect("/dashboard");
+// });
+
+app.get("/", controllers.dashboard.splash);
 
 app.get("/dashboard", requiresAuth, controllers.dashboard.index);
 
@@ -163,9 +166,6 @@ app.post("/podcasts/create", requiresAuth, controllers.podcasts.post_create);
 
 app.get("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.episodes.create);
 app.post("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.episodes.post_create);
-
-// app.get("/podcasts/:podcastId", requiresAuth, controllers.episodes.episodesIndex);
-// app.get("/podcasts/:podcastId/episodes/:episodeNumber", requiresAuth, controllers.episodes.episode);
 
 /**
  * Listen.
