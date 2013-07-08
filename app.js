@@ -77,7 +77,7 @@ if("development" == app.settings.env) {
 	}));
 } else { // "development" == app.settings.env
 	databaseUser = config.mysql.live;
-	global.baseUrl = "82.196.8.12:80";
+	global.baseUrl = "castr.net";
 	
 	app.use(less({
 		debug: false,
