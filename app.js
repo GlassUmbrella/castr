@@ -109,6 +109,7 @@ function anonymousOnly(req, res, next) {
 }
 
 function requiresSubdomain(req, res, next) {
+	console.log("Host: " + req.headers.host);
 	var requestUrl = req.headers.host;
 	requestUrl = requestUrl.replace(global.baseUrl, "baseUrl");
 	var parts = requestUrl.split(".");
