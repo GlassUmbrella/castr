@@ -5,12 +5,44 @@
 	}
 	
 	$(document).ready(function() {
+		var podcastsIndexViewModel = new PodcastsIndexViewModel();
+		
+		for (var i = 0; i < podcastsIndexViewModel.podcasts; i++) {
+			var podcast = podcastsIndexViewModel.podcasts[i];
+			podcast.latestEpisode(getLatestEpisode(podcast.podcastId));
+		}
+
 		ko.applyBindings(new PodcastsIndexViewModel());	
 	});
+
+	function getLatestEpisode(podcastId) {
+		$.get({
+			url: "/api/podcasts/" + podcastId + "/latestEpisode",
+		}).done(function(result) {
+			alert(result);
+		});
+	}
 </script>
-<ul data-bind="foreach: podcasts">
-	<li><a data-bind="attr: { 'href': 'podcasts/' + id }, text: title"></a></span> 
-		<a data-bind="attr: { 'href': 'podcasts/' + id + '/episodes/create' }">New episode</a></li>
-</ul>
-<a href="podcasts/create">Create new podcast</a>
+<h2>My Podcasts</h2>
+<table>
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Last Episode</th>
+			<th>No of episodes</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody data-bind="foreach: podcasts">
+		<tr>
+			<td><a data-bind="attr: { 'href': 'podcasts/' + id }, text: title"></a></td>
+<!-- 			<td><span data-bind="text: latestEpisode"></span></td>
+			<td><span data-bind="text: numberOfEpisodes"></span></td>
+ -->			<td><a data-bind="attr: { 'href': 'podcasts/' + id + '/episodes/create' }">New episode</a></td>
+		</tr>
+	</tbody>
+</table>
+
+<a class="btn" href="podcasts/create">Create new podcast</a>
+
 <% include ../partials/footer %>

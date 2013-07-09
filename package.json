@@ -28,7 +28,8 @@
     "socket.io": "0.9.14",
   	"nodemailer": "0.4.4",
   	"node-uuid": "1.4.0",
-  	"azure": "0.7.10"
+  	"azure": "0.7.10",
+    "markdown": "0.4.0"
   },
   "private": "true"
 }

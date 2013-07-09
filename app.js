@@ -159,6 +159,8 @@ app.post("/reset", anonymousOnly, controllers.auth.post_reset);
 app.get("/api", api.default.home);
 app.get("/api/users", api.users.list);
 app.get("/api/podcasts", api.podcasts.list);
+app.get("/api/podcasts/:podcastId/latestEpisode", api.podcasts.latestEpisode);
+app.get("/api/podcasts/:podcastId/episodes/count", api.podcasts.numberOfEpisodes);
 app.get("/api/podcasts/isUrlUnique", api.podcasts.isUrlUnique);
 
 app.get("/podcasts", requiresAuth, controllers.podcasts.index);

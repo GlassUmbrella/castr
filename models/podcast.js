@@ -24,6 +24,10 @@ module.exports = {
 		ownerUserId: {
 			type: Seq.INTEGER,
 			allowNull: false
+		},
+		iTunesUrl: {
+			type: Seq.STRING,
+			allowNull: true
 		}
 	},
     relations: {
