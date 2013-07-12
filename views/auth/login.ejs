@@ -1,11 +1,26 @@
 <% include ../partials/header %>
-<form method="post" action="/login" class="form-signin">
-	<h2 class="form-signin-heading">Please sign in</h2>
-	<% if(message) { %><div class="message error"><%= message %></div><% } %>
-	<input type="text" class="input-block-level" name="loginEmail" id="loginEmail" placeholder="Email address" />
-	<input type="password" class="input-block-level" name="loginPassword" id="loginPassword" placeholder="Password" />
-	<button class="btn btn-large btn-primary" type="submit">Sign in</button>
-	<a class="btn btn-link" href="/signup">Sign up</a>
-	<a class="btn btn-link" href="/forgot">Forgot password</a>
-</form>
+<div class="login">
+	<form method="post" action="/login" class="form-signin">
+		<div class="login-screen">
+			<div class="login-form">
+		
+				<% if(message) { %><div class="message error"><%= message %></div><% } %>
+
+				<div class="control-group">
+					<input type="text" class="login-field" name="loginEmail" id="loginEmail" placeholder="Email address" />
+					<label class="login-field-icon fui-user" for="loginEmail"></label>
+				</div>
+
+				<div class="control-group">
+					<input type="password" class="login-field" name="loginPassword" id="loginPassword" placeholder="Password" />
+					<label class="login-field-icon fui-lock" for="login-pass"></label>
+				</div>
+
+				<button class="btn btn-large btn-primary btn-block" type="submit">Sign in</button>
+				<a class="btn btn-large btn-secondary btn-block" href="/signup">Register</a>
+				<a class="login-link" href="/forgot">Forgot password?</a>
+			</div>
+		</div>
+	</form>
+</div>
 <% include ../partials/footer %>

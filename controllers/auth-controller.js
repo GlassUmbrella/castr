@@ -11,7 +11,7 @@ exports.post_login = function(req, res) {
 	var invalidCredentialsMessage = "The username or password you entered is incorrect.";
 	
 	Users.find({
-		where: {
+		where: {	
 			emailAddress: req.body.loginEmail
 		}
 	}).success(function(user) {
