@@ -49,6 +49,12 @@ app.use(express.methodOverride());
 app.use(express.cookieParser("B50E1047-493E-41FA-9E31-03830CFEA5F0"));
 app.use(cookieSessions("8FD0A82D-7ADE-433A-8CE1-F1020B545D36"));
 
+// Middleware
+app.use(function(req, res, next) {
+	res.locals.session = req.session;
+	next();
+});
+
 // Routing
 app.use(app.router);
 app.use(express.static(path.join(__dirname, "public")));

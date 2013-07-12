@@ -1,5 +1,5 @@
 exports.index = function(req, res) {
-	res.render("dashboard/index", { title: "Dashboard", user: req.session.user });
+	res.render("dashboard/index", { title: "Dashboard" });
 };
 
 exports.splash = function(req, res) {
