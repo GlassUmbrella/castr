@@ -1,19 +1,24 @@
 <% include ../partials/header %>
-<div class="login">
+<div class="login span6 offset3">
 	<form method="post" action="/login" class="form-signin">
 		<div class="login-screen">
 			<div class="login-form">
 		
-				<% if(message) { %><div class="message error"><%= message %></div><% } %>
+				<% if(message) { %>
+				<div class="alert alert-error">
+					<button type="button" class="close fui-cross" data-dismiss="alert"></button>
+					<%= message %>
+				</div>
+				<% } %>
 
 				<div class="control-group">
-					<input type="text" class="login-field" name="loginEmail" id="loginEmail" placeholder="Email address" />
-					<label class="login-field-icon fui-user" for="loginEmail"></label>
+					<input type="text" class="login-field span6" name="loginEmail" id="loginEmail" placeholder="Email address" />
+					<!-- <label class="login-field-icon fui-user" for="loginEmail"></label> -->
 				</div>
 
 				<div class="control-group">
-					<input type="password" class="login-field" name="loginPassword" id="loginPassword" placeholder="Password" />
-					<label class="login-field-icon fui-lock" for="login-pass"></label>
+					<input type="password" class="login-field span6" name="loginPassword" id="loginPassword" placeholder="Password" />
+					<!-- <label class="login-field-icon fui-lock" for="login-pass"></label> -->
 				</div>
 
 				<button class="btn btn-large btn-primary btn-block" type="submit">Sign in</button>

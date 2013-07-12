@@ -25,7 +25,22 @@
 	}
 </script>
 <h2>My Podcasts</h2>
-<table>
+<div class="row">
+	<div class="span3">
+		<ul class="nav nav-list nav-list-vivid">
+	        <li class="nav-header">My Podcasts</li>
+	        <!-- ko foreach: podcasts -->
+            <li>
+            	<a href="#">
+            	<span data-bind="text: title"></span>
+                <span class="nav-counter">19</span>
+              </a>
+            <!-- /ko -->
+          </ul>
+</div>
+<div class="span9">
+
+<table class="table table-bordered">
 	<thead>
 		<tr>
 			<th>Name</th>
@@ -37,12 +52,15 @@
 	<tbody data-bind="foreach: podcasts">
 		<tr>
 			<td><a data-bind="attr: { 'href': 'podcasts/' + id }, text: title"></a></td>
+			<td></td><td></td>
 <!-- 			<td><span data-bind="text: latestEpisode"></span></td>
 			<td><span data-bind="text: numberOfEpisodes"></span></td>
- -->			<td><a data-bind="attr: { 'href': 'podcasts/' + id + '/episodes/create' }">New episode</a></td>
+ -->			<td><a class="btn mlm" data-bind="attr: { 'href': 'podcasts/' + id + '/episodes/create' }"><i class="fui-plus-inverted"></i>Episode</a></td>
 		</tr>
 	</tbody>
 </table>
+</div>
+</div>
 
 <a class="btn" href="podcasts/create">Create new podcast</a>
 
