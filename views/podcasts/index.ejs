@@ -2,7 +2,24 @@
 <% include ../partials/menu %>
 <script>
 	function PodcastsIndexViewModel() {
-		this.podcasts = <%-JSON.stringify(podcasts) %>;
+		self.podcasts = <%-JSON.stringify(podcasts) %>;
+
+		self.selectedPodcastId = ko.observable(0);
+
+		self.selectedPodcast = function() {
+			for(var i = 0; i < self.podcasts.length; i++) {
+				var podcast = self.podcasts[i];
+				if (podcast.id == self.selectedPodcastId()) {
+					return podcast;
+				}
+			}
+		}
+
+		self.selectPodcast = function() {
+			selectedPodcastId(this.id);
+		};
+
+		return self;
 	}
 	
 	$(document).ready(function() {
@@ -13,55 +30,54 @@
 			podcast.latestEpisode(getLatestEpisode(podcast.podcastId));
 		}
 
-		ko.applyBindings(new PodcastsIndexViewModel());	
-	});
+		ko.applyBindings(podcastsIndexViewModel);
 
-	function getLatestEpisode(podcastId) {
-		$.get({
-			url: "/api/podcasts/" + podcastId + "/latestEpisode",
-		}).done(function(result) {
-			alert(result);
-		});
-	}
+		if (podcastsIndexViewModel.podcasts.length > 0) {
+			podcastsIndexViewModel.selectedPodcastId(podcastsIndexViewModel.podcasts[0].id);
+		}
+	});
 </script>
-<h2>My Podcasts</h2>
+<h3>My Podcasts</h3>
+<p>Selected podcast:<span data-bind="text: JSON.stringify(selectedPodcast)"></span></p>
 <div class="row">
 	<div class="span3">
 		<ul class="nav nav-list nav-list-vivid">
-	        <li class="nav-header">My Podcasts</li>
+	        <li class="nav-header">Podcasts</li>
 	        <!-- ko foreach: podcasts -->
-            <li>
-            	<a href="#">
-            	<span data-bind="text: title"></span>
-                <span class="nav-counter">19</span>
-              </a>
+            <li data-bind="attr: { class: selectedPodcastId() == id ? 'active' : '' }">
+            	<a href="#" data-bind="click: selectPodcast">
+            		<span data-bind="text: title"></span>
+                	<span class="nav-counter" data-bind="text: episodes.length"></span>
+              	</a>
+            </li>
             <!-- /ko -->
-          </ul>
+            <li class="nav-header">Create</li>
+            <li>
+				<a class="" href="podcasts/create"><span class="fui-plus"></span> Create new podcast</a>	
+			</li>
+            </ul>
+		</ul>
+	</div>
+	<div class="span9">
+	<!-- ko if: selectedPodcast() -->
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th class="span1">Episode</th>
+					<th>Title</th>
+					<th>Published Date</th>
+				</tr>
+			</thead>
+			<tbody data-bind="foreach: selectedPodcast().episodes">
+				<tr>
+					<td><span class="label label-large label-primary" data-bind="text: episodeNumber"></span></td>
+					<td><a data-bind="text: title, attr: { href: '/podcasts/' + PodcastId + '/episodes/' + id }"></a></td>
+					<td><span data-bind="text: publishDate"></span></td>
+				</tr>
+			</tbody>
+		</table>
+	<!-- /ko -->
+	</div>
 </div>
-<div class="span9">
-
-<table class="table table-bordered">
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th>Last Episode</th>
-			<th>No of episodes</th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody data-bind="foreach: podcasts">
-		<tr>
-			<td><a data-bind="attr: { 'href': 'podcasts/' + id }, text: title"></a></td>
-			<td></td><td></td>
-<!-- 			<td><span data-bind="text: latestEpisode"></span></td>
-			<td><span data-bind="text: numberOfEpisodes"></span></td>
- -->			<td><a class="btn mlm" data-bind="attr: { 'href': 'podcasts/' + id + '/episodes/create' }"><i class="fui-plus-inverted"></i>Episode</a></td>
-		</tr>
-	</tbody>
-</table>
-</div>
-</div>
-
-<a class="btn" href="podcasts/create">Create new podcast</a>
 
 <% include ../partials/footer %>

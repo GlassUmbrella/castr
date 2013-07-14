@@ -1,40 +1,42 @@
 var orm	= require("../lib/model");
 
-exports.list = function(req, res) {
-  res.json({ result: "List of users" });
-};
-
 exports.isUrlUnique = function(req, res) {
 	var url = req.get.url.tolower();
 	var Podcast = orm.model("Podcast");
 	Podcast.count({ where: { url: url }})
 	.success(function(podcastCount) {
 		if (podcastCount && podcastCount == 0) {
-			res.json( { result: true } );
+			res.json({ result: true });
 		} else {
-			res.json( { result: false } );
+			res.json({ result: false });
 		}
 	});
 };
 
-exports.latestEpisode = function(req, res) {
-	var podcastId = req.params.podcastId;
-	var Episode = orm.model("Episode");
-	Episode.find({ where: { PodcastId: podcastId }})
-	.success(function(episode) {
-		if (episode) {
-			return res.json({ result: { episode: episode }});
+exports.list = function(req, res) {
+	var Podcast = orm.model("Podcast");
+
+	Podcast.findAll({ where: { ownerUserId: req.session.user.id } })
+	.success(function(podcasts) {
+		if (podcasts) {
+			res.json({ result: podcasts });
+		} else {
+			res.json({ result: [] });
 		}
 	});
 }
 
-exports.numberOfEpisodes = function(req, res) {
+exports.episodes = function(req, res) {
 	var podcastId = req.params.podcastId;
+	var Podcast = orm.model("Podcast");
 	var Episode = orm.model("Episode");
-	Episode.count({ where: { PodcastId: podcastId }})
-	.success(function(episodeCount) {
-		if (episodeCount) {
-			return res.json({ result: episodeCount });
+
+	Podcast.find({ where: { ownerUserId: req.session.user.id, id: podcastId }, include: [Episode]})
+	.success(function(podcast) {
+		if (podcast) {
+			res.json({ result: podcast.episodes });
+		} else {
+			res.status(401);
 		}
 	});
 }

@@ -19,7 +19,7 @@ module.exports = {
 		},
 		episodeNumber: {
 			type: Seq.INTEGER,
-            allowNull: false
+            allowNull: true
 		},
 		audioLocation: {
 			type: Seq.STRING,
@@ -28,6 +28,10 @@ module.exports = {
 		notes: {
 			type: Seq.STRING,
 			allowNull: true
+		},
+		isPublished: {
+			type: Seq.BOOLEAN,
+			allowNull: false
 		}
 	},
     relations: {
