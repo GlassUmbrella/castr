@@ -148,6 +148,7 @@ app.get("/episodes/:episodeNumber", requiresSubdomain, controllers.episodes.epis
 // });
 
 app.get("/", controllers.public.home);
+app.get("/about", controllers.public.about);
 
 app.get("/dashboard", requiresAuth, controllers.dashboard.index);
 
