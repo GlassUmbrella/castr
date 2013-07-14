@@ -1,4 +1,24 @@
 <% include ../partials/header %>
+<div class="navbar">
+  	<div class="navbar-inner">
+	    <div class="container">
+		    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-01" value="Castr"></button>
+	      	<div class="nav-collapse collapse" id="nav-collapse-01">
+	      		<span class="brand">Castr</span>
+				<form class="navbar-search form-search pull-right" action="/search">
+                    <div class="input-append">
+                      	<input type="text" class="search-query span2" name="term" placeholder="Search Podcasts">
+                      	<button type="submit" class="btn btn-large">
+                        	<i class="fui-search"></i>
+                      	</button>
+                    </div>
+              	</form>
+			</div>
+	    </div>
+    </div>
+</div>
+<h3>Login</h3>
+<hr>
 <div class="login span6 offset3">
 	<form method="post" action="/login" class="form-signin">
 		<div class="login-screen">
@@ -21,9 +41,17 @@
 					<!-- <label class="login-field-icon fui-lock" for="login-pass"></label> -->
 				</div>
 
-				<button class="btn btn-large btn-primary btn-block" type="submit">Sign in</button>
-				<a class="btn btn-large btn-secondary btn-block" href="/signup">Register</a>
-				<a class="login-link" href="/forgot">Forgot password?</a>
+				<div class="control-group">
+					<button class="btn btn-large btn-primary btn-block" type="submit">Sign in</button>
+				</div>
+
+				<hr>
+
+				<div class="control-group">
+					<a class="btn btn-small btn-info btn-block" href="/signup">Register</a>
+					<a class="btn btn-small btn-secondary btn-block" href="/forgot">Forgot password?</a>
+					</div>
+				</div>				
 			</div>
 		</div>
 	</form>
