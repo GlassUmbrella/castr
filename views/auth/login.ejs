@@ -21,39 +21,35 @@
 <hr>
 <div class="login span6 offset3">
 	<form method="post" action="/login" class="form-signin">
-		<div class="login-screen">
-			<div class="login-form">
-		
-				<% if(message) { %>
-				<div class="alert alert-error">
-					<button type="button" class="close fui-cross" data-dismiss="alert"></button>
-					<%= message %>
-				</div>
-				<% } %>
+		<fieldset>
+		<% if(message) { %>
+		<div class="alert alert-error">
+			<button type="button" class="close fui-cross" data-dismiss="alert"></button>
+			<%= message %>
+		</div>
+		<% } %>
 
-				<div class="control-group">
-					<input type="text" class="login-field span6" name="loginEmail" id="loginEmail" placeholder="Email address" />
-					<!-- <label class="login-field-icon fui-user" for="loginEmail"></label> -->
-				</div>
+		<div class="control-group huge">
+			<input type="text" class="login-field span6" name="loginEmail" id="loginEmail" placeholder="Email address" />
+		</div>
 
-				<div class="control-group">
-					<input type="password" class="login-field span6" name="loginPassword" id="loginPassword" placeholder="Password" />
-					<!-- <label class="login-field-icon fui-lock" for="login-pass"></label> -->
-				</div>
+		<div class="control-group huge">
+			<input type="password" class="login-field span6" name="loginPassword" id="loginPassword" placeholder="Password" />
+			<!-- <label class="login-field-icon fui-lock" for="login-pass"></label> -->
+		</div>
 
-				<div class="control-group">
-					<button class="btn btn-large btn-primary btn-block" type="submit">Sign in</button>
-				</div>
+		<div class="control-group">
+			<button class="btn btn-huge btn-primary btn-block" type="submit">Sign in</button>
+		</div>
 
-				<hr>
+		<hr>
 
-				<div class="control-group">
-					<a class="btn btn-small btn-info btn-block" href="/signup">Register</a>
-					<a class="btn btn-small btn-secondary btn-block" href="/forgot">Forgot password?</a>
-					</div>
-				</div>				
+		<div class="controls control-row">
+			<a class="btn btn-small btn-info" href="/signup">Register a New Account</a>
+			<a class="btn btn-small btn-secondary" href="/forgot">Forgot your password?</a>
 			</div>
 		</div>
+		</fieldset>
 	</form>
 </div>
 <% include ../partials/footer %>
