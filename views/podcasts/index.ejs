@@ -20,10 +20,19 @@
 		self.selectPodcast = function() {
 			var podcastId = this.id;
 			selectedPodcastId(podcastId);
-			$.getJSON("/api/podcasts/{0}/episodes".format(podcastId), function(data) {
+			self.updateEpisodes();
+		};
+
+		self.selectPodcastId = function(podcastId) {
+			selectedPodcastId(podcastId);
+			self.updateEpisodes();
+		}
+
+		self.updateEpisodes = function() {
+			$.getJSON("/api/podcasts/{0}/episodes".format(self.selectedPodcastId()), function(data) {
 				self.episodes(data.result);
 			});
-		};
+		}
 
 		return self;
 	}
@@ -37,6 +46,15 @@
 		}
 
 		ko.applyBindings(podcastsIndexViewModel);
+
+		var selectedPodcastId = <%= selectedPodcastId %>
+
+		if (selectedPodcastId > 0) {
+			podcastsIndexViewModel.selectPodcastId(selectedPodcastId);
+		}
+
+		// if theres a podcast sepecified, select it
+
 
 		// find a better way to select the first podcast
 		// if (podcastsIndexViewModel.podcasts.length > 0) {

@@ -11,6 +11,7 @@ var express = require("express")
   , cookieSessions = require("./lib/cookie-sessions")
   , validation = require("./lib/validation")
   , azure = require("./lib/azure")
+  , shared = require("./public/js/castr/shared.js")
   ,	config = require("./config");
 
 var controllers = {
@@ -97,6 +98,7 @@ app.use(express.logger(app.settings.env));
 orm.setup("./models", databaseUser.database, databaseUser.username, databaseUser.password, { host: databaseUser.host }); 
 // azure.setup(config.azure.account, config.azure.accessKey);
 
+
 /**
  * Routes.
  */
@@ -128,8 +130,6 @@ function requiresSubdomain(req, res, next) {
 	}
 }
 
-
-// Routes
 
 // Subdomain routes
 
@@ -165,15 +165,16 @@ app.get("/reset:resetCode?:emailAddress?", anonymousOnly, controllers.auth.reset
 app.post("/reset", anonymousOnly, controllers.auth.post_reset);
 
 app.get("/api", api.default.home);
-app.get("/api/podcasts", api.podcasts.list);
-app.get("/api/podcasts/:podcastId/episodes", api.podcasts.episodes);
-app.get("/api/podcasts/isUrlUnique", api.podcasts.isUrlUnique);
+app.get("/api/podcasts", requiresAuth, api.podcasts.list);
+app.get("/api/podcasts/:podcastId/episodes", requiresAuth, api.podcasts.episodes);
+app.get("/api/podcasts/isUrlUnique", requiresAuth, api.podcasts.isUrlUnique);
 
 app.get("/podcasts", requiresAuth, controllers.podcasts.index);
+app.get("/podcasts/:podcastId", requiresAuth, controllers.podcasts.index);
 app.get("/podcasts/create", requiresAuth, controllers.podcasts.create);
 app.post("/podcasts/create", requiresAuth, controllers.podcasts.post_create);
 
-app.get("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.episodes.create);
+app.get("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.podcasts.episode_create);
 app.post("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.episodes.post_create);
 
 /**

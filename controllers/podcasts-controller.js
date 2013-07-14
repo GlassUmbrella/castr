@@ -4,10 +4,17 @@ exports.index = function(req, res) {
 	var Podcast = orm.model("Podcast");
 	var Episode = orm.model("Episode");
 	var user = req.session.user;
+	var selectedPodcastId = 0;
+	if(req.params.podcastId) {
+		selectedPodcastId = req.params.podcastId;
+	}
 	
 	Podcast.findAll({ where: { ownerUserId: user.id } })
 	.success(function(podcasts) {
-		res.render("podcasts/index", { title: "My podcasts", podcasts: podcasts });
+		res.render("podcasts/index", { 
+			title: "My podcasts", podcasts: podcasts, 
+			selectedPodcastId : selectedPodcastId 
+		});
 	});
 };
 
@@ -49,6 +56,22 @@ exports.post_create = function(req, res) {
 	
 			// redirect the user to that podcast's dashboard
 		});
+	});
+}
+
+exports.episode_create = function(req, res) {
+	var Podcast = orm.model("Podcast");
+
+	Podcast.find({ where: { id: req.params.podcastId } })
+	.success(function(podcast) {
+		if(podcast) {
+			res.render("podcasts/episode-create", { 
+					title: "Create a new episode", 
+					podcast: podcast 
+				});
+		} else {
+			res.status(404);
+		}
 	});
 }
 

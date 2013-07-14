@@ -1,0 +1,47 @@
+<% include ../partials/header %>
+<% include ../partials/menu %>
+<script>
+$(document).ready(function() {
+	$('input[type=file]').bootstrapFileInput();
+});
+</script>
+<ul class="breadcrumb">
+	<li><a href="/podcasts">My Podcasts</a></li>
+	<li class="active"><a href="/podcasts/<%= podcast.id %>"><%= podcast.title %></a></li>
+</ul>
+<h3>Create a new episode</h3>
+<hr>
+<div class="panel">
+<% var postUrl = "/podcasts/{0}/episodes/create".format(podcast.id); %>
+	<form method="post" action="<%= postUrl %>" class="form-horizontal">
+		<fieldset>
+			<div class="control-group huge">
+			    <label class="control-label" for="title">Episode title</label>
+			    <div class="controls">
+				    <input type="text" id="title" name="title" placeholder="Your episode title" class="span6">
+			    </div>
+		    </div>
+
+			<div class="control-group">
+				<label class="control-label" for="description">Description</label>
+				<div class="controls">
+					<textarea id="description" name="description" placeholder="A short description of your episode" rows="10" class="input-block-level"></textarea>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label" for="description">Audio file</label>
+				<div class="controls">
+					<input type="file" id="cover" title="Upload your episode MP3 file">
+					<span class="help-block">MP3 encoded audio file of your podcast. Maximum file size is 50MB.</span>
+				</div>
+			</div>
+
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary">Save as draft</button>
+				<a href="<%= '/podcasts/{0}'.format(podcast.id) %>" class="btn btn btn-danger">Discard</a>
+			</div>
+		</fieldset>
+	</form>
+</div>
+<% include ../partials/footer %>
