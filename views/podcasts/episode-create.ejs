@@ -9,7 +9,7 @@ $(document).ready(function() {
 	<li><a href="/podcasts">My Podcasts</a></li>
 	<li class="active"><a href="/podcasts/<%= podcast.id %>"><%= podcast.title %></a></li>
 </ul>
-<h3>Create a new episode</h3>
+<h3>Create a new episode of <%= podcast.title %></h3>
 <hr>
 <div class="panel">
 <% var postUrl = "/podcasts/{0}/episodes/create".format(podcast.id); %>
@@ -25,7 +25,14 @@ $(document).ready(function() {
 			<div class="control-group">
 				<label class="control-label" for="description">Description</label>
 				<div class="controls">
-					<textarea id="description" name="description" placeholder="A short description of your episode" rows="10" class="input-block-level"></textarea>
+					<textarea id="description" name="description" placeholder="A short description of your episode" rows="3" class="input-block-level"></textarea>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label" for="notes">Show notes</label>
+				<div class="controls">
+					<textarea id="notes" name="notes" placeholder="Include links to things you talk about" rows="5" class="input-block-level"></textarea>
 				</div>
 			</div>
 

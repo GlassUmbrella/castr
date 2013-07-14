@@ -19,7 +19,7 @@ var controllers = {
 	auth: require("./controllers/auth-controller"),
 	dashboard: require("./controllers/dashboard-controller"),
 	podcasts: require("./controllers/podcasts-controller"),
-	episodes: require("./controllers/episodes-controller"),
+	site: require("./controllers/site-controller"),
 	public: require("./controllers/public-controller")
 };
 
@@ -133,13 +133,13 @@ function requiresSubdomain(req, res, next) {
 
 // Subdomain routes
 
-app.get("/", requiresSubdomain, controllers.episodes.episodesIndex);
-app.get("/page/:pageNumber", requiresSubdomain, controllers.episodes.episodesIndex);
-app.get("/episodes", requiresSubdomain, controllers.episodes.episodesIndex);
-app.get("/rss", requiresSubdomain, controllers.podcasts.rss);
-app.get("/itunes", requiresSubdomain, controllers.podcasts.itunes);
-app.get("/contact", requiresSubdomain, controllers.podcasts.contact);
-app.get("/episodes/:episodeNumber", requiresSubdomain, controllers.episodes.episode);
+app.get("/", requiresSubdomain, controllers.site.index);
+app.get("/page/:pageNumber", requiresSubdomain, controllers.site.index);
+app.get("/episodes", requiresSubdomain, controllers.site.index);
+app.get("/rss", requiresSubdomain, controllers.site.rss);
+app.get("/itunes", requiresSubdomain, controllers.site.itunes);
+app.get("/contact", requiresSubdomain, controllers.site.contact);
+app.get("/episodes/:episodeNumber", requiresSubdomain, controllers.site.episode);
 
 // Main app routes
 
@@ -175,7 +175,7 @@ app.get("/podcasts/create", requiresAuth, controllers.podcasts.create);
 app.post("/podcasts/create", requiresAuth, controllers.podcasts.post_create);
 
 app.get("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.podcasts.episode_create);
-app.post("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.episodes.post_create);
+app.post("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.podcasts.post_episode_create);
 
 /**
  * Listen.

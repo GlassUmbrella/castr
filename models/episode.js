@@ -11,7 +11,7 @@ module.exports = {
 		},
 		publishDate: {
 			type: Seq.DATE,
-            allowNull: false
+            allowNull: true
 		},
 		description: {
 			type: Seq.STRING,

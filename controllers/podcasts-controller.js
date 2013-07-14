@@ -2,7 +2,6 @@ var orm	= require("../lib/model");
 
 exports.index = function(req, res) {
 	var Podcast = orm.model("Podcast");
-	var Episode = orm.model("Episode");
 	var user = req.session.user;
 	var selectedPodcastId = 0;
 	if(req.params.podcastId) {
@@ -17,6 +16,10 @@ exports.index = function(req, res) {
 		});
 	});
 };
+
+/**
+ * Podcasts 
+ */
 
 exports.create = function(req, res) {
 	res.render("podcasts/create", { title: "Create your new podcast", error: null });
@@ -59,6 +62,10 @@ exports.post_create = function(req, res) {
 	});
 }
 
+/**
+ * Episodes 
+ */
+
 exports.episode_create = function(req, res) {
 	var Podcast = orm.model("Podcast");
 
@@ -75,23 +82,24 @@ exports.episode_create = function(req, res) {
 	});
 }
 
-exports.rss = function(req, res) {
-	res.end("<xml>This is supposed to be a RSS feed.</xml>");
-}
-
-exports.itunes = function(req, res) {
-	res.end("TODO: redirect to iTunes RSS");
-}
-
-exports.contact = function(req, res) {
+exports.post_episode_create = function(req, res) {
 	var Podcast = orm.model("Podcast");
-
-	Podcast.find({ where: { url: req.subdomain }})
-	.success(function(podcast) {
-		if(podcast) {
-			res.render("podcasts/contact", { title: "Contact", podcast: podcast });
-		} else {
-			return 404;
-		}
+	var podcastId = req.params.podcastId;
+	
+	Podcast.find({ where: { id: podcastId } }).success(function(podcast) {
+		// TODO: check if episode rate limit reached for podcast
+		
+		var Episode = orm.model("Episode");
+		Episode.create({
+			title: req.body.title,
+			description: req.body.description,
+			notes: req.body.notes,
+			audioLocation: "",
+			isPublished: false
+		}).success(function(episode) {
+			episode.setPodcast(podcast);
+		});
+	
+		res.redirect("/podcasts/" + podcastId + "/episodes/" + req.body.episodeNumber);
 	});
-}
+};

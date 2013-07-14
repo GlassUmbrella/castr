@@ -36,6 +36,11 @@
 			});
 		}
 
+		self.selectedPodcastUrl = function() {
+			var podcast = self.selectedPodcast();
+			return "http://{0}.castr.net".format(podcast.url);
+		}
+
 		return self;
 	}
 	
@@ -49,7 +54,7 @@
 
 		ko.applyBindings(podcastsIndexViewModel);
 
-		var selectedPodcastId = <%= selectedPodcastId %>
+		var selectedPodcastId = <%= selectedPodcastId %>;
 
 		if (selectedPodcastId > 0) {
 			podcastsIndexViewModel.selectPodcastId(selectedPodcastId);
@@ -74,7 +79,7 @@
             <!-- /ko -->
             <li class="nav-header">Create</li>
             <li>
-				<a class="" href="podcasts/create"><span class="fui-plus"></span> Create new podcast</a>	
+				<a class="" href="/podcasts/create"><span class="fui-plus"></span> Create new podcast</a>	
 			</li>
             </ul>
 		</ul>
@@ -91,7 +96,12 @@
 			</thead>
 			<tbody data-bind="foreach: episodes">
 				<tr>
-					<td><span class="label label-large label-primary" data-bind="text: episodeNumber"></span></td>
+				<!-- ko if: episodeNumber > 0 -->
+					<td><span class="label label-large label-primary" data-bind="text: '#' + episodeNumber"></span></td>
+				<!-- /ko -->
+				<!-- ko if: !episodeNumber -->
+					<td><span class="label label-large label-secondary">Draft</span></td>
+				<!-- /ko -->
 					<td><a data-bind="text: title, attr: { href: '/podcasts/' + PodcastId + '/episodes/' + id }"></a></td>
 					<td><span data-bind="text: publishDate"></span></td>
 				</tr>
@@ -102,7 +112,7 @@
 		<div class="iconbar pull-right">
             <ul>
 	            <li><a href="" class="fui-plus" data-bind="attr: { href: '/podcasts/{0}/episodes/create'.format(selectedPodcast().id) }"></a></li>
-	            <li><a href="#fakelink" class="fui-calendar"></a></li>
+	            <li><a data-bind="attr: { href: selectedPodcastUrl() }" class="fui-upload"></a></li>
 	            <li><a href="#fakelink" class="fui-chat"></a></li>
 	            <li><a href="#fakelink" class="fui-mail">
 		                <span class="iconbar-unread">1</span></a></li>
