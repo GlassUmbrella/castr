@@ -29,8 +29,10 @@
 		}
 
 		self.updateEpisodes = function() {
-			$.getJSON("/api/podcasts/{0}/episodes".format(self.selectedPodcastId()), function(data) {
+			var podcastId = self.selectedPodcastId();
+			$.getJSON("/api/podcasts/{0}/episodes".format(podcastId), function(data) {
 				self.episodes(data.result);
+				history.pushState(null, "", "/podcasts/{0}".format(podcastId));
 			});
 		}
 
@@ -51,15 +53,9 @@
 
 		if (selectedPodcastId > 0) {
 			podcastsIndexViewModel.selectPodcastId(selectedPodcastId);
+		} else {
+			podcastsIndexViewModel.selectPodcastId(podcastsIndexViewModel.podcasts[0].id);
 		}
-
-		// if theres a podcast sepecified, select it
-
-
-		// find a better way to select the first podcast
-		// if (podcastsIndexViewModel.podcasts.length > 0) {
-		// 	podcastsIndexViewModel.selectFirstPodcast(podcastsIndexViewModel.podcasts[0]);
-		// }
 	});
 </script>
 <h3>My Podcasts</h3>
