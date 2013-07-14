@@ -3,11 +3,10 @@ var orm	= require("../lib/model");
 exports.index = function(req, res) {
 	var Podcast = orm.model("Podcast");
 	var Episode = orm.model("Episode");
-	var podcasts = [];
 	var user = req.session.user;
 	
-	Podcast.findAll({ where: { ownerUserId: user.id }, include: [Episode] }).success(function(result) {
-		podcasts = result;
+	Podcast.findAll({ where: { ownerUserId: user.id } })
+	.success(function(podcasts) {
 		res.render("podcasts/index", { title: "My podcasts", podcasts: podcasts });
 	});
 };
