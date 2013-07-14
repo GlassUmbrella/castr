@@ -23,6 +23,7 @@ function setMenuActiveItem() {
 		    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-01" value="Castr"></button>
 	      	<div class="nav-collapse collapse" id="nav-collapse-01">
 	      		<span class="brand">Castr</span>
+	      		<% if (session.user) { %>
 		        <ul class="nav">
 					<li id="dashboard-menu-item">
 						<a href="/dashboard">
@@ -46,6 +47,7 @@ function setMenuActiveItem() {
 			            </ul>
 					</li>
 				</ul>
+				<% } %>
 				<form class="navbar-search form-search pull-right" action="/search">
                     <div class="input-append">
                       	<input type="text" class="search-query span2" name="term" placeholder="Search Podcasts">

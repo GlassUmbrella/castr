@@ -1,55 +1,40 @@
 <% include ../partials/header %>
-<div class="navbar">
-  	<div class="navbar-inner">
-	    <div class="container">
-		    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-01" value="Castr"></button>
-	      	<div class="nav-collapse collapse" id="nav-collapse-01">
-	      		<span class="brand">Castr</span>
-				<form class="navbar-search form-search pull-right" action="/search">
-                    <div class="input-append">
-                      	<input type="text" class="search-query span2" name="term" placeholder="Search Podcasts">
-                      	<button type="submit" class="btn btn-large">
-                        	<i class="fui-search"></i>
-                      	</button>
-                    </div>
-              	</form>
-			</div>
-	    </div>
-    </div>
-</div>
+<% include ../partials/menu %>
+
 <h3>Login</h3>
 <hr>
+
 <div class="login span6 offset3">
-	<form method="post" action="/login" class="form-signin">
+	<form method="post" action="/login" class="form-horizontal">
 		<fieldset>
-		<% if(message) { %>
-		<div class="alert alert-error">
-			<button type="button" class="close fui-cross" data-dismiss="alert"></button>
-			<%= message %>
-		</div>
-		<% } %>
-
-		<div class="control-group huge">
-			<input type="text" class="login-field span6" name="loginEmail" id="loginEmail" placeholder="Email address" />
-		</div>
-
-		<div class="control-group huge">
-			<input type="password" class="login-field span6" name="loginPassword" id="loginPassword" placeholder="Password" />
-			<!-- <label class="login-field-icon fui-lock" for="login-pass"></label> -->
-		</div>
-
-		<div class="control-group">
-			<button class="btn btn-huge btn-primary btn-block" type="submit">Sign in</button>
-		</div>
-
-		<hr>
-
-		<div class="controls control-row">
-			<a class="btn btn-small btn-info" href="/signup">Register a New Account</a>
-			<a class="btn btn-small btn-secondary" href="/forgot">Forgot your password?</a>
+			<% if(message) { %>
+			<div class="alert alert-error">
+				<button type="button" class="close fui-cross" data-dismiss="alert"></button>
+				<%= message %>
 			</div>
-		</div>
+			<% } %>
+
+			<div class="control-group huge">
+				<input type="text" class="login-field span6" name="loginEmail" id="loginEmail" placeholder="Email address" />
+			</div>
+
+			<div class="control-group huge">
+				<input type="password" class="login-field span6" name="loginPassword" id="loginPassword" placeholder="Password" />
+				<!-- <label class="login-field-icon fui-lock" for="login-pass"></label> -->
+			</div>
+
+			<div class="control-group">
+				<button class="btn btn-huge btn-primary btn-block" type="submit">Sign in</button>
+			</div>
+
+			<hr>
+
+			<div class="controls-row">
+				<a class="btn btn-small btn-info" href="/signup">Register a New Account</a>
+				<a class="btn btn-small btn-secondary" href="/forgot">Forgot your password?</a>
+			</div>
 		</fieldset>
 	</form>
 </div>
+
 <% include ../partials/footer %>

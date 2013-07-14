@@ -1,12 +1,49 @@
 <% include ../partials/header %>
-<form method="post" action="/signup" class="form-signin">
-	<h2 class="form-signin-heading">Sign up</h2>
-	<% if(error) { %>
-	    <h3><%= error %></h3>
-	<% } %>
-	<input type="text" class="input-block-level" name="signupName" id="signupName"  placeholder="Name" />
-	<input type="text" class="input-block-level" name="signupEmail" id="signupEmail" placeholder="Email address" />
-	<input type="password" class="input-block-level" name="signupPassword" id="signupPassword" placeholder="Password" />
-	<button class="btn btn-large btn-primary" type="submit">Sign up</button>
+<% include ../partials/menu %>
+<h3>Register a new account</h3>
+<hr>
+<form method="post" action="/signup" class="form-horizontal">
+	<fieldset>
+		<% if(error) { %>
+			<div class="alert alert-error">
+				<button type="button" class="close fui-cross" data-dismiss="alert"></button>
+		    	<%= error %>
+		    </div>
+		<% } %>
+
+		<div class="control-group huge">
+			<label class="control-label" for="signupName">Your name</label>
+			<div class="controls">
+				<input type="text" name="signupName" id="signupName" placeholder="Name" class="span6" />
+			</div>
+		</div>
+
+		<div class="control-group huge">
+			<label class="control-label" for="signupEmail">Email address</label>
+			<div class="controls">
+				<input type="text" name="signupEmail" id="signupEmail" placeholder="Email address" class="span6" />
+			</div>
+		</div>
+
+		<div class="control-group huge">
+			<label class="control-label" for="signupPassword">Password</label>
+			<div class="controls">
+				<input type="password" class="span6" name="signupPassword" id="signupPassword" placeholder="Password" />
+			</div>
+		</div>
+
+		<div class="control-group huge">
+			<label class="control-label" for="signupInviteCode">Invite code</label>
+			<div class="controls">
+				<input type="text" class="span6" name="signupInviteCode" id="signupInviteCode" placeholder="Invite code" />
+				<span class="help-block"><a href="/">Need an invite code?</a></span>
+			</div>
+		</div>
+
+
+		<div class="form-actions">
+			<button class="btn btn-large btn-primary" type="submit">Sign up</button>
+		</div>
+	</fieldset>
 </form>
 <% include ../partials/footer %>
