@@ -110,7 +110,7 @@ function requiresAuth(req, res, next) {
 
 function anonymousOnly(req, res, next) {
 	if(req.session.user != null) {
-		return res.redirect("/");
+		return res.redirect("/dashboard");
 	}
 	next();
 }
@@ -148,6 +148,7 @@ app.get("/episodes/:episodeNumber", requiresSubdomain, controllers.episodes.epis
 // });
 
 app.get("/", controllers.public.home);
+app.get("/about", controllers.public.about);
 
 app.get("/dashboard", requiresAuth, controllers.dashboard.index);
 
