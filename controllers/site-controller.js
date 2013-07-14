@@ -3,13 +3,29 @@ var orm	= require("../lib/model");
 exports.index = function(req, res) {
 	var Episode = orm.model("Episode");
 	var Podcast = orm.model("Podcast");
+	var markdown = require("markdown").markdown;
 
 	var podcastDomain = req.subdomain;
 	if(podcastDomain) {
-		Podcast.find({ where: { url: podcastDomain }, include: [Episode], orderBy: [Episode.episodeNumber] })
-		.success(function(podcast) {
+		Podcast.find({ 
+			where: { url: podcastDomain }
+		}).success(function(podcast) {
 			if(podcast) {
-				res.render("episodes/index", { title: "Episodes", podcast: podcast, episodes: podcast.episodes });
+				Episode.findAll({ 
+					where: { 
+						PodcastId: podcast.id, 
+						isPublished: true 
+					},
+					order: "episodeNumber DESC"
+				})
+				.success(function(episodes) {
+					res.render("site/index", { 
+						title: podcast.title, 
+						podcast: podcast,
+						episodes: episodes,
+						markdown: markdown // markdown parser
+					});
+				});
 			} else {
 				res.status(404);
 			}
@@ -31,7 +47,7 @@ exports.episode = function(req, res) {
 				Episode.find({ where: { PodcastId: podcast.id, episodeNumber: req.params.episodeNumber } })
 				.success(function(episode) {
 					if (episode) {
-						res.render("episodes/episode", { title: episode.title, episode: episode, podcast: podcast });
+						res.render("site/episode", { title: episode.title, episode: episode, podcast: podcast });
 					} else {
 						res.status(404);
 					}
@@ -59,7 +75,7 @@ exports.contact = function(req, res) {
 	Podcast.find({ where: { url: req.subdomain }})
 	.success(function(podcast) {
 		if(podcast) {
-			res.render("podcasts/contact", { title: "Contact", podcast: podcast });
+			res.render("site/contact", { title: "Contact", podcast: podcast });
 		} else {
 			return 404;
 		}

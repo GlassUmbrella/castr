@@ -1,27 +1,46 @@
-<% include ../partials/header %>
-<% include ../partials/podcast-header %>
-<script>
-	function EpisodesIndexViewModel() {
-		this.episodes = <%-JSON.stringify(episodes) %>;
-		this.podcast = <%-JSON.stringify(podcast) %>;
-	}
-	
-	$(document).ready(function() {
-		ko.applyBindings(new EpisodesIndexViewModel());	
-	});
-</script>
-<div class="episodes" data-bind="foreach: episodes">
+<% include /partials/header %>
+
+<div class="episodes">
+<% 
+	for(var i = 0; i < episodes.length; i++) { 
+		var episode  = episodes[i];
+%>
 	<section class="episode">
-		<h3><a data-bind="attr: { 'href': '/episodes/' + episodeNumber }">Episode #<span data-bind="text: episodeNumber"></span>: <span data-bind="text: title"></span></a></h3>
-		<div class="body" data-bind="text: description"></div>
+		<h3>
+			<a href="<%= '/episodes/{0}'.format(episode.episodeNumber) %>">
+				Episode #<%= episode.episodeNumber %>: <%= episode.title %>
+			</a>
+		</h3>
+
+		<div class="description lead">
+			<%
+			var descriptionHtml = markdown.toHTML(episode.description);
+			%>
+			<%- descriptionHtml %>
+		</div>
+
+		<% if(episode.notes) { %>
+		<div class="show-notes">
+			<%
+			var showNotesHtml = markdown.toHTML(episode.notes);
+			%>
+			<%- showNotesHtml %>
+		</div>
+		<% } %>
+
+		<div class="">
+			<a href="<%= '/episodes/{0}/download'.format(episode.episodeNumber) %>" class="btn btn-mini">
+				<i class="fui-plus-inverted"></i>
+				Download episode #<%=episode.episodeNumber%>
+			</a>
+		</div>
+
+		<div class="">
+			First Broadcast: <%= episode.publishDate %>
+		</div>
+
 	</section>
+	<hr>
+<%	} %>
 </div>
-<ul class="pager">
-  <li class="previous disabled">
-    <a href="#">&larr; Older</a>
-  </li>
-  <li class="next disabled">
-    <a href="#">Newer &rarr;</a>
-  </li>
-</ul>
-<% include ../partials/footer %>
+<% include /partials/footer %>

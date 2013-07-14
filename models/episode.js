@@ -14,7 +14,7 @@ module.exports = {
             allowNull: true
 		},
 		description: {
-			type: Seq.STRING,
+			type: Seq.TEXT,
             allowNull: false
 		},
 		episodeNumber: {
@@ -26,7 +26,7 @@ module.exports = {
             allowNull: false
 		},
 		notes: {
-			type: Seq.STRING,
+			type: Seq.TEXT,
 			allowNull: true
 		},
 		isPublished: {
