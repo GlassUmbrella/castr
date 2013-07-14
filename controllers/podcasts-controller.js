@@ -53,11 +53,8 @@ exports.post_create = function(req, res) {
 				ownerUserId: user.id
 			}).success(function(podcast) {
 				podcast.setUsers([user]);
-			}).failure(function(errors) {
-				// TODO: handle failure
+				res.redirect("/podcasts/{0}".format(podcast.id));
 			});
-	
-			// redirect the user to that podcast's dashboard
 		});
 	});
 }
