@@ -170,9 +170,9 @@ app.get("/api/podcasts/:podcastId/episodes", requiresAuth, api.podcasts.episodes
 app.get("/api/podcasts/isUrlUnique", requiresAuth, api.podcasts.isUrlUnique);
 
 app.get("/podcasts", requiresAuth, controllers.podcasts.index);
-app.get("/podcasts/:podcastId", requiresAuth, controllers.podcasts.index);
 app.get("/podcasts/create", requiresAuth, controllers.podcasts.create);
 app.post("/podcasts/create", requiresAuth, controllers.podcasts.post_create);
+app.get("/podcasts/:podcastId", requiresAuth, controllers.podcasts.index);
 
 app.get("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.podcasts.episode_create);
 app.post("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.podcasts.post_episode_create);
