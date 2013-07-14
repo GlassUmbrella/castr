@@ -84,7 +84,6 @@
             </ul>
 		</ul>
 	</div>
-	<!-- ko if: episodes().length > 0 -->
 	<div class="span7">
 		<table class="table table-bordered">
 			<thead>
@@ -94,6 +93,7 @@
 					<th>Published Date</th>
 				</tr>
 			</thead>
+			<!-- ko if: episodes().length > 0 -->
 			<tbody data-bind="foreach: episodes">
 				<tr>
 				<!-- ko if: episodeNumber > 0 -->
@@ -106,12 +106,21 @@
 					<td><span data-bind="text: publishDate"></span></td>
 				</tr>
 			</tbody>
+			<!-- /ko -->
+			<!-- ko if: episodes().length == 0 -->
+				<tbody>
+					<td colspan="4">You haven't recorded any episodes</td>
+				</tbody>
+			<!-- /ko -->
 		</table>
 	</div>
+
 	<div class="span2">
 		<div class="iconbar pull-right">
             <ul>
-	            <li><a href="" class="fui-plus" data-bind="attr: { href: '/podcasts/{0}/episodes/create'.format(selectedPodcast().id) }"></a></li>
+	            <li>
+	            	<a href="" class="fui-plus" data-bind="attr: { href: '/podcasts/{0}/episodes/create'.format(selectedPodcast().id) }"></a>
+	            </li>
 	            <li><a data-bind="attr: { href: selectedPodcastUrl() }" class="fui-upload"></a></li>
 	            <li><a href="#fakelink" class="fui-chat"></a></li>
 	            <li><a href="#fakelink" class="fui-mail">
@@ -123,7 +132,6 @@
             </ul>
         </div>
     </div>
-	<!-- /ko -->
 </div>
 
 <% include ../partials/footer %>
