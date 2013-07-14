@@ -25,6 +25,10 @@ module.exports = {
 		resetRequestTime: {
 			type: Seq.DATE,
 			allowNull: true
+		},
+		isAdmin: {
+			type: Seq.BOOLEAN,
+			defaultValue: false
 		}
 	},
     relations:{

@@ -20,7 +20,8 @@ var controllers = {
 	dashboard: require("./controllers/dashboard-controller"),
 	podcasts: require("./controllers/podcasts-controller"),
 	site: require("./controllers/site-controller"),
-	public: require("./controllers/public-controller")
+	public: require("./controllers/public-controller"),
+	admin: require("./controllers/admin-controller")
 };
 
 var api = {
@@ -117,6 +118,14 @@ function anonymousOnly(req, res, next) {
 	next();
 }
 
+function adminOnly(req, res, next) {
+	if(req.session.user == null || req.session.user.isAdmin == false) {
+		//403 or 404
+		return res.redirect("/dashboard");
+	}
+	next();
+}
+
 function requiresSubdomain(req, res, next) {
 	console.log("Host: " + req.headers.host);
 	var requestUrl = req.headers.host;
@@ -143,14 +152,13 @@ app.get("/episodes/:episodeNumber", requiresSubdomain, controllers.site.episode)
 
 // Main app routes
 
-// app.get("/", function(req, res) {
-// 	res.redirect("/dashboard");
-// });
-
 app.get("/", controllers.public.home);
 app.get("/about", controllers.public.about);
 
 app.get("/dashboard", requiresAuth, controllers.dashboard.index);
+
+app.get("/invite", anonymousOnly, controllers.auth.requestInvite);
+app.post("/invite", anonymousOnly, controllers.auth.post_requestInvite);
 
 app.get("/signup", anonymousOnly, controllers.auth.signup);
 app.post("/signup", anonymousOnly, controllers.auth.post_signup);
@@ -176,6 +184,9 @@ app.get("/podcasts/:podcastId", requiresAuth, controllers.podcasts.index);
 
 app.get("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.podcasts.episode_create);
 app.post("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.podcasts.post_episode_create);
+
+//Admin routes
+app.get("/admin/invites", adminOnly, controllers.admin.invites);
 
 /**
  * Listen.

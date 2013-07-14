@@ -56,6 +56,24 @@ exports.post_signup = function(req, res) {
 	});
 };
 
+exports.requestInvite = function(req, res) {
+	res.render("auth/requestInvite", { title: "Request Invite", error: null, sent: false });
+};
+
+exports.post_requestInvite = function(req, res) {
+	var Invites = orm.model("Invite");
+	
+	Invites.create({
+		name: req.body.signupName,
+		emailAddress: req.body.signupEmail,
+		inviteCode: uuid.v4(),
+		dateRequested: new Date()
+	}).success(function(invite) {
+		res.render("/auth/requestInvite", { title: "Request Invite", error: null, sent: true });
+	}).error(function(errors) {
+		res.render("auth/requestInvite", { title: "Request Invite", error: errors, sent: false });
+	});
+};
 
 exports.forgot = function(req, res) {
 	res.render("auth/forgot", { title: "Forgot Password", sent: false });

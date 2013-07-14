@@ -1,0 +1,36 @@
+<% include ../partials/header %>
+
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Email address</th>
+			<th>Invite code</th>
+			<th>Requested</th>
+			<th>Sent</th>
+			<th>Activated</th>
+			<th></th>
+		</tr>
+	</thead>
+	<%if (invites.length > 0) { %>
+		<tbody>
+			<% invites.forEach(function(invite){ %>
+			<tr>
+				<td><%= invite.name %></td>
+				<td><%= invite.emailAddress %></td>
+				<td><%= invite.inviteCode %></td>
+				<td><%= invite.dateRequested %></td>
+				<td><%= invite.dateSent %></td>
+				<td><%= invite.dateActivated %></td>
+				<td></td>
+			</tr>
+			<% }); %>
+		</tbody>
+	<% } else { %>
+		<tbody>
+			<td colspan="4">No invites</td>
+		</tbody>
+	<% } %>
+</table>
+
+<% include ../partials/footer %>
