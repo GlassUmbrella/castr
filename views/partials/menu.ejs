@@ -1,3 +1,22 @@
+<script>
+$(document).ready(function() {
+	setMenuActiveItem();
+})
+
+function setMenuActiveItem() {
+	var currentPath = window.location.pathname;
+	var activeClassName = "active";
+
+	if(currentPath.beginsWith("/dashboard")) {
+		$("#dashboard-menu-item").addClass(activeClassName);
+	}
+
+	if(currentPath.beginsWith("/podcasts")) {
+		$("#podcasts-menu-item").addClass(activeClassName);
+	}
+}
+</script>
+
 <div class="navbar">
   	<div class="navbar-inner">
 	    <div class="container">
@@ -5,13 +24,13 @@
 	      	<div class="nav-collapse collapse" id="nav-collapse-01">
 	      		<span class="brand">castr</span>
 		        <ul class="nav">
-					<li>
+					<li id="dashboard-menu-item">
 						<a href="/dashboard">
 							Dashboard
 							<span class="navbar-unread"></span>
 						</a>
 					</li>
-					<li>
+					<li id="podcasts-menu-item">
 						<a href="/podcasts">My Podcasts</a>
 					</li>
 		        </ul>

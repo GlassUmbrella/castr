@@ -38,13 +38,14 @@
 
 		ko.applyBindings(podcastsIndexViewModel);
 
-		if (podcastsIndexViewModel.podcasts.length > 0) {
-			podcastsIndexViewModel.selectPodcast(podcastsIndexViewModel.podcasts[0]);
-		}
+		// find a better way to select the first podcast
+		// if (podcastsIndexViewModel.podcasts.length > 0) {
+		// 	podcastsIndexViewModel.selectFirstPodcast(podcastsIndexViewModel.podcasts[0]);
+		// }
 	});
 </script>
 <h3>My Podcasts</h3>
-<p>Selected podcast:<span data-bind="text: JSON.stringify(selectedPodcast)"></span></p>
+<hr />
 <div class="row">
 	<div class="span3">
 		<ul class="nav nav-list nav-list-vivid">
@@ -64,8 +65,8 @@
             </ul>
 		</ul>
 	</div>
-	<div class="span9">
-	<!-- ko if: selectedPodcast() -->
+	<!-- ko if: episodes().length > 0 -->
+	<div class="span7">
 		<table class="table table-bordered">
 			<thead>
 				<tr>
@@ -82,8 +83,23 @@
 				</tr>
 			</tbody>
 		</table>
-	<!-- /ko -->
 	</div>
+	<div class="span2">
+		<div class="iconbar pull-right">
+            <ul>
+	            <li><a href="" class="fui-plus" data-bind="attr: { href: '/podcasts/{0}/episodes/create'.format(selectedPodcast().id) }"></a></li>
+	            <li><a href="#fakelink" class="fui-calendar"></a></li>
+	            <li><a href="#fakelink" class="fui-chat"></a></li>
+	            <li><a href="#fakelink" class="fui-mail">
+		                <span class="iconbar-unread">1</span></a></li>
+	            <li>
+	                <a href="#fakelink" class="fui-gear">
+	                </a>
+	            </li>
+            </ul>
+        </div>
+    </div>
+	<!-- /ko -->
 </div>
 
 <% include ../partials/footer %>

@@ -7,3 +7,15 @@ if(!String.prototype.format) {
 	    });
 	};
 }
+
+if(!String.prototype.beginsWith) {
+	String.prototype.beginsWith = function(input) {
+		return this.slice(0, input.length) == input;
+	};
+}
+
+if(!String.prototype.endsWith) {
+	String.prototype.endsWith = function(input) {
+		return this.slice(-input.length) == input;
+	};
+}

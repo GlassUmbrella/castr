@@ -8,7 +8,7 @@ exports.create = function(req, res) {
 	Podcast.find({ where: { id: podcastId }, include: [Episode] }).success(function(result) {
 		var podcast = result;
 	
-		// TODO: check if episode limit reached for podcast
+		// TODO: check if episode rate limit reached for podcast
 		
 		console.log("Episodes: " + podcast.episodes);
 		var episodeNumber = 1;
@@ -29,15 +29,15 @@ exports.post_create = function(req, res) {
 	var podcastId = req.params.podcastId;
 	
 	Podcast.find({ where: { id: podcastId } }).success(function(podcast) {
-		// TODO: check if episode limit reached for podcast
+		// TODO: check if episode rate limit reached for podcast
 		
 		var Episode = orm.model("Episode");
 		Episode.create({
 			title: req.body.title,
 			publishDate: new Date(),
 			description: req.body.description,
-			episodeNumber: req.body.episodeNumber,
-			audioLocation: ""
+			audioLocation: "",
+			isPublished: false
 		}).success(function(episode) {
 			episode.setPodcast(podcast);
 		});
