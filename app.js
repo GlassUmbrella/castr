@@ -110,7 +110,7 @@ function requiresAuth(req, res, next) {
 
 function anonymousOnly(req, res, next) {
 	if(req.session.user != null) {
-		return res.redirect("/");
+		return res.redirect("/dashboard");
 	}
 	next();
 }

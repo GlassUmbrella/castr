@@ -19,7 +19,7 @@ exports.post_login = function(req, res) {
 			bcrypt.compare(req.body.loginPassword, user.password, function(err, response) {
 				if(response) {
 					req.session.user = user;
-					res.redirect("/"); //Login sucessfull
+					res.redirect("/dashboard"); //Login sucessfull
 				} else {
 					res.render("auth/login", { title: "Login", message: invalidCredentialsMessage }); //Password is wrong
 				}
