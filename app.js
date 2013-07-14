@@ -18,7 +18,8 @@ var controllers = {
 	auth: require("./controllers/auth-controller"),
 	dashboard: require("./controllers/dashboard-controller"),
 	podcasts: require("./controllers/podcasts-controller"),
-	episodes: require("./controllers/episodes-controller")
+	episodes: require("./controllers/episodes-controller"),
+	public: require("./controllers/public-controller")
 };
 
 var api = {
@@ -146,7 +147,7 @@ app.get("/episodes/:episodeNumber", requiresSubdomain, controllers.episodes.epis
 // 	res.redirect("/dashboard");
 // });
 
-app.get("/", controllers.dashboard.splash);
+app.get("/", controllers.public.home);
 
 app.get("/dashboard", requiresAuth, controllers.dashboard.index);
 
