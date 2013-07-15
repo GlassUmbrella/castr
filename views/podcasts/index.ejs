@@ -53,8 +53,6 @@
 			podcast.latestEpisode(getLatestEpisode(podcast.podcastId));
 		}
 
-		ko.applyBindings(podcastsIndexViewModel);
-
 		var selectedPodcastId = <%= selectedPodcastId %>;
 
 		if (selectedPodcastId > 0) {
@@ -62,6 +60,8 @@
 		} else {
 			podcastsIndexViewModel.selectPodcastId(podcastsIndexViewModel.podcasts[0].id);
 		}
+
+		ko.applyBindings(podcastsIndexViewModel);
 	});
 </script>
 

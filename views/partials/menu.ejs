@@ -23,30 +23,32 @@ function setMenuActiveItem() {
 		    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-01" value="Castr"></button>
 	      		<span class="brand">Castr</span>
 	      		<% if (session.user) { %>
-		        <ul class="nav">
-					<li id="dashboard-menu-item">
-						<a href="/dashboard">
-							Dashboard
-							<span class="navbar-unread"></span>
-						</a>
-					</li>
-					<li id="podcasts-menu-item">
-						<a href="/podcasts">My Podcasts</a>
-					</li>
-		        </ul>
+			        <ul class="nav">
+						<li id="dashboard-menu-item">
+							<a href="/dashboard">
+								Dashboard
+								<span class="navbar-unread"></span>
+							</a>
+						</li>
+						<li id="podcasts-menu-item">
+							<a href="/podcasts">My Podcasts</a>
+						</li>
+			        </ul>
+				<% } %>
 	      	<div class="nav-collapse collapse" id="nav-collapse-01">
-				<ul class="nav pull-right">
-					<li class="dropdown">
-			            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-				            <%= session.user.name %> <b class="caret"></b>
-				        </a>
-			            <ul class="dropdown-menu">
-				            <li><a href="#">Profile</a></li>
-				            <li class="divider"></li>
-							<li><a href="/logout">Logout</a></li>
-			            </ul>
-					</li>
-				</ul>
+	      		<% if (session.user) { %>
+					<ul class="nav pull-right">
+						<li class="dropdown">
+				            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					            <%= session.user.name %> <b class="caret"></b>
+					        </a>
+				            <ul class="dropdown-menu">
+					            <li><a href="#">Profile</a></li>
+					            <li class="divider"></li>
+								<li><a href="/logout">Logout</a></li>
+				            </ul>
+						</li>
+					</ul>
 				<% } %>
 				<form class="navbar-search form-search pull-right" action="/search">
                     <div class="input-append">

@@ -38,5 +38,6 @@ module.exports = {
     	belongsTo: [
 	   		{ name: "Podcast" }
 		]
-    }
+    },
+    options: {}
 }

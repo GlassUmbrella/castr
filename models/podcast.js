@@ -35,5 +35,6 @@ module.exports = {
        		{ name: "Episode" },
        		{ name: "User" }
     	]
-    }
+    },
+    options: {}
 }
