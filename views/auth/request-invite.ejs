@@ -1,5 +1,5 @@
-<% include ../partials/header %>
-<% include ../partials/menu %>
+<% include ../public/partials/header %>
+
 <h3>Request an invite</h3>
 <hr>
 <form method="post" class="form-horizontal">
@@ -10,24 +10,32 @@
 		    	<%= error %>
 		    </div>
 		<% } %>
-
-		<div class="control-group huge">
-			<label class="control-label" for="signupName">Your name</label>
-			<div class="controls">
-				<input type="text" name="signupName" id="signupName" placeholder="Name" class="span6" />
+		
+		<% if(sent) { %>
+			<div class="alert alert-success">
+				You&#39;re in the queue.
+		    </div>
+		<% } else { %>
+			<div class="control-group huge">
+				<label class="control-label" for="signupName">Your name</label>
+				<div class="controls">
+					<input type="text" name="signupName" id="signupName" placeholder="Name" class="span6" />
+				</div>
 			</div>
-		</div>
-
-		<div class="control-group huge">
-			<label class="control-label" for="signupEmail">Email address</label>
-			<div class="controls">
-				<input type="text" name="signupEmail" id="signupEmail" placeholder="Email address" class="span6" />
+	
+			<div class="control-group huge">
+				<label class="control-label" for="signupEmail">Email address</label>
+				<div class="controls">
+					<input type="text" name="signupEmail" id="signupEmail" placeholder="Email address" class="span6" />
+				</div>
 			</div>
-		</div>
-
-		<div class="form-actions">
-			<button class="btn btn-large btn-primary" type="submit">Request</button>
-		</div>
+	
+			<div class="form-actions">
+				<button class="btn btn-large btn-primary" type="submit">Request</button>
+			</div>
+		<% } %>
+		
 	</fieldset>
 </form>
+
 <% include ../partials/footer %>

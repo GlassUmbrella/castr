@@ -1,4 +1,5 @@
-<% include ../partials/header %>
+<% include ../public/partials/header %>
+
 <form method="post" action="/reset" class="form-signin">
 	<h2 class="form-signin-heading">Reset password</h2>
 	<% if(error) { %>
@@ -9,4 +10,5 @@
 	<input type="password" class="input-block-level" name="newPassword" id="newPassword" placeholder="New password" />
 	<button class="btn btn-large btn-primary" type="submit">Reset</button>
 </form>
+
 <% include ../partials/footer %>

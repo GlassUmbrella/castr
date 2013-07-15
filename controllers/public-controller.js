@@ -5,7 +5,3 @@ exports.home = function(req, res) {
 		res.redirect("/dashboard");
 	}
 };
-
-exports.about = function(req, res) {
-	res.render("public/about", { title: "About" });
-};

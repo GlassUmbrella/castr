@@ -1,5 +1,13 @@
 <% include ../partials/header %>
 
+<script>
+	function sendInvite(id) {
+		$.post("/admin/send-invite", { id: id }).done(function(data) {
+			alert("Data Loaded: " + data);
+		});
+	}
+</script>
+
 <table class="table table-bordered">
 	<thead>
 		<tr>
@@ -7,7 +15,7 @@
 			<th>Email address</th>
 			<th>Invite code</th>
 			<th>Requested</th>
-			<th>Sent</th>
+			<th>Last sent</th>
 			<th>Activated</th>
 			<th></th>
 		</tr>
@@ -20,9 +28,27 @@
 				<td><%= invite.emailAddress %></td>
 				<td><%= invite.inviteCode %></td>
 				<td><%= invite.dateRequested %></td>
-				<td><%= invite.dateSent %></td>
-				<td><%= invite.dateActivated %></td>
-				<td></td>
+				<td>
+					<% if(invite.dateSent != null) { %>
+						<%= invite.dateSent %>
+					<% } else { %>
+						<span class="fui-cross"></span>
+					<% } %>
+				</td>
+				<td>
+					<% if(invite.dateActivated != null) { %>
+						<%= invite.dateActivated %>
+					<% } else { %>
+						<span class="fui-cross"></span>
+					<% } %>
+				</td>
+				<td>
+					<% if(invite.createdUserId != null) { %>
+						<span class="fui-user"></span>
+					<% } else { %>
+						<a href="javascript:sendInvite(<%= invite.id %>)"><span class="fui-mail"></span></a>
+					<% } %>
+				</td>
 			</tr>
 			<% }); %>
 		</tbody>

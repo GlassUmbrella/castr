@@ -1,10 +1,12 @@
 <% include ../partials/header %>
 <% include ../partials/menu %>
+
 <script>
-$(document).ready(function() {
+$(function() {
 	$('input[type=file]').bootstrapFileInput();
 });
 </script>
+
 <ul class="breadcrumb">
 	<li><a href="/podcasts">My Podcasts</a></li>
 	<li class="active"><a href="/podcasts/<%= podcast.id %>"><%= podcast.title %></a></li>
@@ -51,4 +53,5 @@ $(document).ready(function() {
 		</fieldset>
 	</form>
 </div>
+
 <% include ../partials/footer %>

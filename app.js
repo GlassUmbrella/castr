@@ -153,15 +153,14 @@ app.get("/episodes/:episodeNumber", requiresSubdomain, controllers.site.episode)
 // Main app routes
 
 app.get("/", controllers.public.home);
-app.get("/about", controllers.public.about);
 
 app.get("/dashboard", requiresAuth, controllers.dashboard.index);
 
-app.get("/invite", anonymousOnly, controllers.auth.requestInvite);
-app.post("/invite", anonymousOnly, controllers.auth.post_requestInvite);
+app.get("/request-invite", anonymousOnly, controllers.auth.requestInvite);
+app.post("/request-invite", anonymousOnly, controllers.auth.post_requestInvite);
 
-app.get("/signup", anonymousOnly, controllers.auth.signup);
-app.post("/signup", anonymousOnly, controllers.auth.post_signup);
+app.get("/join:inviteCode?:emailAddress?:name?", anonymousOnly, controllers.auth.join);
+app.post("/join", anonymousOnly, controllers.auth.post_join);
 
 app.get("/login", anonymousOnly, controllers.auth.login);
 app.post("/login", anonymousOnly, controllers.auth.post_login);
@@ -187,6 +186,7 @@ app.post("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.podca
 
 //Admin routes
 app.get("/admin/invites", adminOnly, controllers.admin.invites);
+app.post("/admin/send-invite", adminOnly, controllers.admin.post_send_invite);
 
 /**
  * Listen.

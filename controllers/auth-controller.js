@@ -35,24 +35,38 @@ exports.logout = function(req, res) {
     res.redirect('/');
 };
 
-exports.signup = function(req, res) {
-	res.render("auth/signup", { title: "Signup", error: null });
+exports.join = function(req, res) {
+	res.render("auth/join", { title: "Join", inviteCode: req.query.inviteCode, emailAddress: req.query.emailAddress, name: req.query.name, error: false });
 };
 
-exports.post_signup = function(req, res) {
+exports.post_join = function(req, res) {
 	var Users = orm.model("User");
+	var Invites = orm.model("Invite");
 	
-	bcrypt.hash(req.body.signupPassword, null, null, function(err, hash) {
-		Users.create({
-			name: req.body.signupName,
-			emailAddress: req.body.signupEmail,
-			password: hash
-		}).success(function(user) {
-			req.session.user = user;
-			res.redirect("/");
-		}).error(function(errors) {
-			res.render("auth/signup", { title: "Signup", error: errors });
-		});
+	Invites.find({
+		where: {	
+			dateActivated: null,
+			createdUserId: null,
+			inviteCode: req.body.signupInviteCode
+		}
+	}).success(function(invite) {
+		if(invite) {
+			bcrypt.hash(req.body.signupPassword, null, null, function(err, hash) {
+				Users.create({
+					name: req.body.signupName,
+					emailAddress: req.body.signupEmail,
+					password: hash
+				}).success(function(user) {
+					req.session.user = user;
+					invite.dateActivated = new Date();
+					invite.createdUserId = user.id;
+					invite.save();
+					res.redirect("/");
+				}).error(function(errors) {
+					res.render("auth/join", { title: "Join", error: errors });
+				});
+			});
+		}
 	});
 };
 
@@ -69,7 +83,7 @@ exports.post_requestInvite = function(req, res) {
 		inviteCode: uuid.v4(),
 		dateRequested: new Date()
 	}).success(function(invite) {
-		res.render("/auth/request-invite", { title: "Request Invite", error: null, sent: true });
+		res.render("auth/request-invite", { title: "Request Invite", error: null, sent: true });
 	}).error(function(errors) {
 		res.render("auth/request-invite", { title: "Request Invite", error: errors, sent: false });
 	});
@@ -98,7 +112,7 @@ exports.post_forgot = function(req, res) {
 				    to: user.emailAddress,
 				    subject: "Castr Password Reset",
 				    forceEmbeddedImages: true,
-				    html: "<img src='http://" + global.baseUrl + "/images/logo.png' /><p>To reset your password <a href='http://" + req.headers.host + "/reset?resetCode=" + guid + "&emailAddress=" + user.emailAddress + "'>click here</a>!</p>"
+				    html: "<p>To reset your password <a href='http://" + req.headers.host + "/reset?resetCode=" + guid + "&emailAddress=" + user.emailAddress + "'>click here</a>!</p>"
 				});
 				res.render("auth/forgot", { title: "Forgot Password", sent: true });
 			});

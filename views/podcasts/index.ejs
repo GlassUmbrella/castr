@@ -1,5 +1,6 @@
 <% include ../partials/header %>
 <% include ../partials/menu %>
+
 <script>
 	function PodcastsIndexViewModel() {
 		self.podcasts = <%-JSON.stringify(podcasts) %>;
@@ -44,7 +45,7 @@
 		return self;
 	}
 	
-	$(document).ready(function() {
+	$(function() {
 		var podcastsIndexViewModel = new PodcastsIndexViewModel();
 		
 		for (var i = 0; i < podcastsIndexViewModel.podcasts; i++) {
@@ -63,6 +64,7 @@
 		}
 	});
 </script>
+
 <h3>My Podcasts</h3>
 <hr />
 <div class="row">
@@ -109,7 +111,7 @@
 			<!-- /ko -->
 			<!-- ko if: episodes().length == 0 -->
 				<tbody>
-					<td colspan="4">You haven't recorded any episodes</td>
+					<td colspan="4">You haven&#39;t recorded any episodes</td>
 				</tbody>
 			<!-- /ko -->
 		</table>
