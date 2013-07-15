@@ -1,44 +1,44 @@
 <% include ../partials/header %>
-<div class="container">
-	<div class="panel">
-		<div class="panel-heading">Create a new podcast</div>
-		<p>Ready to start recording?</p>
-		<form method="post" action="/podcasts/create" class="form-horizontal">
-			<div class="row">
-			    <label class="col col-lg-2 control-label" for="title">Title</label>
-			    <div class="col col-lg-6">
-				    <input type="text" id="title" name="title" placeholder="Your podcast's title">
-			    </div>
+<% include ../partials/menu %>
+<script>
+$(document).ready(function() {
+	$('input[type=file]').bootstrapFileInput();
+});
+</script>
+<h3>Create a new podcast</h3>
+<hr>
+<form method="post" action="/podcasts/create" class="form-horizontal">
+	<fieldset>
+		<div class="control-group huge">
+			<label class="control-label" for="title">Title</label>
+			<div class="controls">
+				<input type="text" name="title" id="title" placeholder="Podcast title" class="span6" />
 			</div>
-			<div class="row">
-			    <label class="col col-lg-2 control-label" for="url">Domain</label>
-				<div class="col col-lg-6">
-					<div class="input-group">
-					    <input type="text" style="text-align:right" id="url" name="url">
-					    <span class="input-group-addon">.castr.net</span>
-					</div>
-				</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="url">Domain</label>
+			<div class="controls">
+				<input type="text" name="url" id="url" style="text-align:right" />
+				<span class="input-group-addon">.castr.net</span>
 			</div>
-			<div class="row">
-				<label class="col col-lg-2 control-label" for="description">Description</label>
-				<div class="col col-lg-6">
-					<textarea id="description" name="description" placeholder="A short description of your podcast"></textarea>
-				</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="title">Description</label>
+			<div class="controls">
+				<textarea name="title" id="title" placeholder="A short description of your podcast" class="span6" rows="5"></textarea>
 			</div>
-			<div class="row">
-				<label class="col col-lg-2 control-label" for="description">Cover Art</label>
-				<div class="col col-lg-6">
-					<input type="file" id="cover">
-					<p class="help-block">Upload a large image for your cover. Ideally 1024x1024 or larger.</p>
-				</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="signupName">Cover Art</label>
+			<div class="controls">
+				<input type="file" id="cover" title="Browse for Cover Art">
 			</div>
-			<div class="row">
-				<div class="col col-offset-2 col-lg-6 controls">
-					<button type="submit" class="btn btn-primary">Create</button>
-					<a href="/" class="btn btn-link">Cancel</a>
-				</div>
-			</div>
-		</form>
-	</div>
-</div>
+		</div>
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">Create</button>
+			<a href="/" class="btn btn-link">Cancel</a>
+		</div>
+	</fieldset>
+</form>
+
 <% include ../partials/footer %>
