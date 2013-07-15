@@ -57,7 +57,7 @@ exports.post_signup = function(req, res) {
 };
 
 exports.requestInvite = function(req, res) {
-	res.render("auth/requestInvite", { title: "Request Invite", error: null, sent: false });
+	res.render("auth/request-invite", { title: "Request Invite", error: null, sent: false });
 };
 
 exports.post_requestInvite = function(req, res) {
@@ -69,9 +69,9 @@ exports.post_requestInvite = function(req, res) {
 		inviteCode: uuid.v4(),
 		dateRequested: new Date()
 	}).success(function(invite) {
-		res.render("/auth/requestInvite", { title: "Request Invite", error: null, sent: true });
+		res.render("/auth/request-invite", { title: "Request Invite", error: null, sent: true });
 	}).error(function(errors) {
-		res.render("auth/requestInvite", { title: "Request Invite", error: errors, sent: false });
+		res.render("auth/request-invite", { title: "Request Invite", error: errors, sent: false });
 	});
 };
 
