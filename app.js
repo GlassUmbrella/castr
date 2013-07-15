@@ -121,7 +121,7 @@ function anonymousOnly(req, res, next) {
 function adminOnly(req, res, next) {
 	if(req.session.user == null || req.session.user.isAdmin == false) {
 		//403 or 404
-		return res.redirect("/dashboard");
+		return res.status(401);
 	}
 	next();
 }
