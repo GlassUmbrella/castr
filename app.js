@@ -84,13 +84,13 @@ if("development" == app.settings.env) {
 		src: __dirname + "/public",
 		compress: false
 	}));
-} else { // "development" == app.settings.env
+} else {
 	databaseUser = config.mysql.live;
 	global.baseUrl = "castr.net";
 	
 	app.use(less({
-		debug: false,
 		src: __dirname + "/public",
+		once: true,
 		compress: true
 	}));
 }
