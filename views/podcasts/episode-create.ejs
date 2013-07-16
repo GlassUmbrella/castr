@@ -3,7 +3,7 @@
 
 <script>
 $(function() {
-	$('input[type=file]').bootstrapFileInput();
+	$("input[type=file]").bootstrapFileInput();
 });
 </script>
 
@@ -24,9 +24,9 @@ if (!episode) {
 	<% } %>
 </ul>
 <% if (isNew) { %>
-<h3>
-	Create a new episode of <%= podcast.title %>
-</h3>
+	<h3>
+		Create a new episode of <%= podcast.title %>
+	</h3>
 <% } %>
 <hr>
 <div class="panel">
@@ -77,7 +77,7 @@ if (!episode) {
 						Create episode draft
 					</button>
 				<% } else { %>
-					<button type="submit" class="btn btn-info <%=isPremium ? "" : "disabled" %>">
+					<button type="submit" id="publishButton" class="btn btn-info <%=isPremium ? "" : "disabled" %>">
 						<i class="fui-export"></i>
 						Publish episode
 					</button>
@@ -85,6 +85,7 @@ if (!episode) {
 						<i class="fui-check"></i>
 						Save draft
 					</button>
+					<input type="hidden" name="publishAction" id="publishAction" value="false" />
 				<% } %>
 				<a href="<%= "/podcasts/{0}".format(podcast.id) %>" class="btn">
 					<i class="fui-cross"></i>

@@ -88,6 +88,7 @@ exports.episode = function(req, res) {
 
 exports.post_episode = function(req, res) {
 	var Episode = orm.model("Episode");
+	var Podcast = orm.model("Podcast");
 	var episodeId = req.params.episodeId;
 
 	Episode.find({ where: { id: episodeId } })
@@ -96,6 +97,9 @@ exports.post_episode = function(req, res) {
 		episode.description = req.body.description;
 		episode.notes = req.body.notes;
 		episode.save().success(function() {
+			// if req.body.publishAction == "true"
+			// then publish!
+
 			res.render("podcasts/episode-create", { 
 				title: "Edit episode",
 				episode: episode, 
