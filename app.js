@@ -171,6 +171,8 @@ app.post("/forgot", anonymousOnly, controllers.auth.post_forgot);
 app.get("/reset:resetCode?:emailAddress?", anonymousOnly, controllers.auth.reset);
 app.post("/reset", anonymousOnly, controllers.auth.post_reset);
 
+app.get("/profile", requiresAuth, controllers.auth.profile);
+
 app.get("/api", api.default.home);
 app.get("/api/podcasts", requiresAuth, api.podcasts.list);
 app.get("/api/podcasts/:podcastId/episodes", requiresAuth, api.podcasts.episodes);

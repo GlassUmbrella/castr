@@ -195,3 +195,8 @@ exports.post_reset = function(req, res) {
 		}
 	});
 };
+
+exports.profile = function(req, res) {
+	res.render("auth/profile", { title: "Profile" });
+};
+
