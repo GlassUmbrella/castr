@@ -1,14 +1,34 @@
 <% include ../public/partials/header %>
 
-<form method="post" action="/forgot" class="form-signin">
-	<h2 class="form-signin-heading">Forgot password</h2>
-	
-	<% if(!sent) { %>
-		<input type="text" class="input-block-level" name="emailAddress" id="emailAddress"  placeholder="Email address" />
-		<button class="btn btn-large btn-primary" type="submit">Reset</button>
-	<% } else { %>
-		<p>Sent!</p>
-	<% } %>
-</form>
+<div class="span6 offset3">
+	<h3>Forgot password</h3>
+	<hr>
+
+	<form method="post">
+		<fieldset>
+			<% if(sent) { %>
+				<div class="alert alert-success">
+					<button type="button" class="close fui-cross" data-dismiss="alert"></button>
+			    	Instructions of how to reset your password have been sent to your email address.
+			    </div>
+			<% } %>
+
+			<div class="control-group huge">
+				<input type="text" class="span6" name="emailAddress" id="emailAddress" placeholder="Email address" />
+			</div>
+
+			<div class="control-group huge">
+				<button class="btn btn-huge btn-primary btn-block" type="submit">Reset</button>
+			</div>
+
+			<hr>
+
+			<div class="controls-row">
+				<a class="btn btn-small btn-secondary" href="/login">Remembered your password?</a>
+				<a class="btn btn-small btn-secondary" href="/request-invite">Need an account?</a>
+			</div>
+		</fieldset>	
+	</form>
+</div>
 
 <% include ../partials/footer %>

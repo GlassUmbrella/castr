@@ -1,42 +1,46 @@
 <% include ../public/partials/header %>
 
-<h3>Register a new account</h3>
-<hr>
-<form method="post" class="form-horizontal">
-	<fieldset>
-		<% if(error) { %>
-			<div class="alert alert-error">
-				<button type="button" class="close fui-cross" data-dismiss="alert"></button>
-		    	<%= error %>
-		    </div>
-		<% } %>
+<div class="span6 offset3">
+	<h3>Register a new account</h3>
+	<hr>
 
-		<div class="control-group huge">
-			<label class="control-label" for="signupName">Your name</label>
-			<div class="controls">
-				<input type="text" name="signupName" id="signupName" placeholder="Name" class="span6" value="<%= name || '' %>" />
+	<form method="post">
+		<fieldset>
+			<% if(error) { %>
+				<div class="alert alert-error">
+					<button type="button" class="close fui-cross" data-dismiss="alert"></button>
+			    	<%= error %>
+			    </div>
+			<% } %>
+
+			<div class="control-group huge">
+				<input type="text" class="span6" name="signupName" id="signupName" placeholder="Your name" value="<%= name || '' %>" />
 			</div>
-		</div>
 
-		<div class="control-group huge">
-			<label class="control-label" for="signupEmail">Email address</label>
-			<div class="controls">
-				<input type="text" name="signupEmail" id="signupEmail" placeholder="Email address" class="span6" value="<%= emailAddress || '' %>" />
+			<div class="control-group huge">
+				<input type="email" class="span6" name="signupEmail" id="signupEmail" placeholder="Email address" value="<%= emailAddress || '' %>" />
 			</div>
-		</div>
 
-		<div class="control-group huge">
-			<label class="control-label" for="signupPassword">Password</label>
-			<div class="controls">
+			<div class="control-group huge">
 				<input type="password" class="span6" name="signupPassword" id="signupPassword" placeholder="Password" />
 			</div>
-		</div>
 
-		<div class="form-actions">
-			<input type="hidden" name="signupInviteCode" id="signupInviteCode" value="<%= inviteCode || '' %>" />
-			<button class="btn btn-large btn-primary" type="submit">Sign up</button>
-		</div>
-	</fieldset>
-</form>
+			<div class="control-group huge">
+				<input type="text" class="span6" name="signupInviteCode" id="signupInviteCode" placeholder="Invite code" value="<%= inviteCode || '' %>" />
+			</div>
+
+			<div class="control-group">
+				<button class="btn btn-huge btn-primary btn-block" type="submit">Sign up</button>
+			</div>
+
+			<hr>
+
+			<div class="controls-row">
+				<a class="btn btn-small btn-secondary" href="/request-invite">Need an invite code?</a>
+				<a class="btn btn-small btn-secondary" href="/login">Already got an account?</a>
+			</div>
+		</fieldset>
+	</form>
+</div>
 
 <% include ../partials/footer %>

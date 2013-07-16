@@ -1,10 +1,10 @@
 <% include ../public/partials/header %>
 
-<h3>Login</h3>
-<hr>
+<div class="span6 offset3">
+	<h3>Login</h3>
+	<hr>
 
-<div class="login span6 offset3">
-	<form method="post" action="/login" class="form-horizontal">
+	<form method="post">
 		<fieldset>
 			<% if(message) { %>
 			<div class="alert alert-error">
@@ -14,12 +14,11 @@
 			<% } %>
 
 			<div class="control-group huge">
-				<input type="text" class="login-field span6" name="loginEmail" id="loginEmail" placeholder="Email address" />
+				<input type="text" class="span6" name="loginEmail" id="loginEmail" placeholder="Email address" />
 			</div>
 
 			<div class="control-group huge">
-				<input type="password" class="login-field span6" name="loginPassword" id="loginPassword" placeholder="Password" />
-				<!-- <label class="login-field-icon fui-lock" for="login-pass"></label> -->
+				<input type="password" class="span6" name="loginPassword" id="loginPassword" placeholder="Password" />
 			</div>
 
 			<div class="control-group">

@@ -1,6 +1,9 @@
+body {
+  padding: 20px 0 40px;
+}
 .form-actions {
-    border-radius: 6px;
-    background-color: #f3f4f5;
-    padding: 13px 20px;
-    border: none;
+  border-radius: 6px;
+  background-color: #f3f4f5;
+  padding: 13px 20px;
+  border-top: none !important;
 }

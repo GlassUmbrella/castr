@@ -1,41 +1,45 @@
 <% include ../public/partials/header %>
 
-<h3>Request an invite</h3>
-<hr>
-<form method="post" class="form-horizontal">
-	<fieldset>
-		<% if(error) { %>
-			<div class="alert alert-error">
-				<button type="button" class="close fui-cross" data-dismiss="alert"></button>
-		    	<%= error %>
-		    </div>
-		<% } %>
-		
-		<% if(sent) { %>
-			<div class="alert alert-success">
-				You&#39;re in the queue.
-		    </div>
-		<% } else { %>
+<div class="span6 offset3">
+	<h3>Request an invite</h3>
+	<hr>
+
+	<form method="post">
+		<fieldset>
+			<% if(error) { %>
+				<div class="alert alert-error">
+					<button type="button" class="close fui-cross" data-dismiss="alert"></button>
+			    	<%= error %>
+			    </div>
+			<% } %>
+			
+			<% if(sent) { %>
+				<div class="alert alert-success">
+					<button type="button" class="close fui-cross" data-dismiss="alert"></button>
+					You're in the queue.
+			    </div>
+			<% } %>
+
 			<div class="control-group huge">
-				<label class="control-label" for="signupName">Your name</label>
-				<div class="controls">
-					<input type="text" name="signupName" id="signupName" placeholder="Name" class="span6" />
-				</div>
+				<input type="text" class="span6" name="signupName" id="signupName" placeholder="Your name" />
 			</div>
-	
+
 			<div class="control-group huge">
-				<label class="control-label" for="signupEmail">Email address</label>
-				<div class="controls">
-					<input type="text" name="signupEmail" id="signupEmail" placeholder="Email address" class="span6" />
-				</div>
+				<input type="email" class="span6" name="signupEmail" id="signupEmail" placeholder="Email address" />
 			</div>
-	
-			<div class="form-actions">
-				<button class="btn btn-large btn-primary" type="submit">Request</button>
+
+			<div class="control-group huge">
+				<button class="btn btn-huge btn-primary btn-block" type="submit">Request invite</button>
 			</div>
-		<% } %>
-		
-	</fieldset>
-</form>
+
+			<hr>
+
+			<div class="controls-row">
+				<a class="btn btn-small btn-secondary" href="/login">Already got an account?</a>
+				<a class="btn btn-small btn-secondary" href="/join">Already got an invite?</a>
+			</div>
+		</fieldset>
+	</form>
+</div>
 
 <% include ../partials/footer %>

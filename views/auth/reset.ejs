@@ -1,14 +1,43 @@
 <% include ../public/partials/header %>
 
-<form method="post" action="/reset" class="form-signin">
-	<h2 class="form-signin-heading">Reset password</h2>
-	<% if(error) { %>
-		<p>Error!</p>
-	<% } %>
-	<input type="text" class="input-block-level" name="emailAddress" id="emailAddress" placeholder="Email address" value="<%= emailAddress || '' %>" />
-	<input type="hidden" class="input-block-level" name="resetCode" id="resetCode" placeholder="Reset code" value="<%= resetCode || '' %>" />
-	<input type="password" class="input-block-level" name="newPassword" id="newPassword" placeholder="New password" />
-	<button class="btn btn-large btn-primary" type="submit">Reset</button>
-</form>
+<div class="span6 offset3">
+	<h3>Reset password</h3>
+	<hr>
+
+	<form method="post">
+		<fieldset>
+			<% if(error) { %>
+				<div class="alert alert-error">
+					<button type="button" class="close fui-cross" data-dismiss="alert"></button>
+			    	<%= error %>
+			    </div>
+			<% } %>
+
+			<div class="control-group huge">
+				<div class="controls">
+					<input type="text" name="emailAddress" id="emailAddress" placeholder="Email address" class="span6" value="<%= emailAddress || '' %>" />
+				</div>
+			</div>
+
+			<div class="control-group huge">
+				<div class="controls">
+					<input type="text" name="newPassword" id="newPassword" placeholder="New password" class="span6" />
+				</div>
+			</div>
+
+			<div class="control-group">
+				<input type="hidden" name="resetCode" id="resetCode" value="<%= resetCode || '' %>" />
+				<button class="btn btn-huge btn-primary btn-block" type="submit">Reset</button>
+			</div>
+
+			<hr>
+
+			<div class="controls-row">
+				<a class="btn btn-small btn-secondary" href="/login">Remembered your password?</a>
+				<a class="btn btn-small btn-secondary" href="/request-invite">Need an account?</a>
+			</div>
+		</fieldset>
+	</form>
+</div>
 
 <% include ../partials/footer %>
