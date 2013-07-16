@@ -181,8 +181,12 @@ app.get("/podcasts/create", requiresAuth, controllers.podcasts.create);
 app.post("/podcasts/create", requiresAuth, controllers.podcasts.post_create);
 app.get("/podcasts/:podcastId", requiresAuth, controllers.podcasts.index);
 
-app.get("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.podcasts.episode_create);
-app.post("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.podcasts.post_episode_create);
+app.get("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.podcasts.episodeCreate);
+app.post("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.podcasts.post_episodeCreate);
+
+app.get("/podcasts/:podcastId/episodes/:episodeId", requiresAuth, controllers.podcasts.episode);
+app.post("/podcasts/:podcastId/episodes/:episodeId", requiresAuth, controllers.podcasts.post_episode);
+
 
 //Admin routes
 app.get("/admin/invites", adminOnly, controllers.admin.invites);

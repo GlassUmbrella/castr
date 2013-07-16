@@ -23,7 +23,7 @@ module.exports = {
 		},
 		audioLocation: {
 			type: Seq.STRING,
-            allowNull: false
+            allowNull: true
 		},
 		notes: {
 			type: Seq.TEXT,

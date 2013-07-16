@@ -63,12 +63,55 @@ exports.post_create = function(req, res) {
  * Episodes 
  */
 
-exports.episode_create = function(req, res) {
+exports.episode = function(req, res) {
+	var Episode = orm.model("Episode");
+	var Podcast = orm.model("Podcast");
+
+	Episode.find({ 
+		where: { 
+			id: req.params.episodeId 
+		}, 
+		include: [Podcast]
+	}).success(function(episode) {
+		if (episode) {
+			res.render("podcasts/episode-create", { 
+				title: "Edit episode",
+				episode: episode, 
+				podcast: episode.podcast,
+				isPremium: true 
+			});
+		} else {
+			res.status(404);
+		}
+	});
+}
+
+exports.post_episode = function(req, res) {
+	var Episode = orm.model("Episode");
+	var episodeId = req.params.episodeId;
+
+	Episode.find({ where: { id: episodeId } })
+	.success(function(episode) {
+		episode.title = req.body.title;
+		episode.description = req.body.description;
+		episode.notes = req.body.notes;
+		episode.save().success(function() {
+			res.render("podcasts/episode-create", { 
+				title: "Edit episode",
+				episode: episode, 
+				podcast: episode.podcast,
+				isPremium: true 
+			});
+		})
+	});
+}
+
+exports.episodeCreate = function(req, res) {
 	var Podcast = orm.model("Podcast");
 
 	Podcast.find({ where: { id: req.params.podcastId } })
 	.success(function(podcast) {
-		if(podcast) {
+		if (podcast) {
 			res.render("podcasts/episode-create", { 
 					title: "Create a new episode", 
 					podcast: podcast 
@@ -79,7 +122,7 @@ exports.episode_create = function(req, res) {
 	});
 }
 
-exports.post_episode_create = function(req, res) {
+exports.post_episodeCreate = function(req, res) {
 	var Podcast = orm.model("Podcast");
 	var podcastId = req.params.podcastId;
 	
@@ -91,12 +134,10 @@ exports.post_episode_create = function(req, res) {
 			title: req.body.title,
 			description: req.body.description,
 			notes: req.body.notes,
-			audioLocation: "",
 			isPublished: false
 		}).success(function(episode) {
 			episode.setPodcast(podcast);
+			res.redirect("/podcasts/" + podcastId + "/episodes/" + episode.id);
 		});
-	
-		res.redirect("/podcasts/" + podcastId + "/episodes/" + req.body.episodeNumber);
 	});
 };
