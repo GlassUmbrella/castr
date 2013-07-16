@@ -122,7 +122,9 @@ exports.post_episode = function(req, res) {
 				});
 			})
 		} else {
-			res.redirect("/podcasts/{0}/episodes/{1}/?action=saved".format(podcastId, episodeId));
+			episode.save().success(function() {
+				res.redirect("/podcasts/{0}/episodes/{1}/?action=saved".format(podcastId, episodeId));
+			});
 		}
 	});
 }
