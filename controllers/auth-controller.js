@@ -119,10 +119,18 @@ exports.post_requestInvite = function(req, res) {
 					inviteCode: uuid.v4(),
 					dateRequested: new Date()
 				}).success(function(invite) {
-					res.render("auth/request-invite", { title: "Request Invite", error: null, sent: true });
+					res.render("auth/request-invite", { 
+						title: "Request Invite", 
+						error: null, 
+						sent: true 
+					});
 				});
 			} else {
-				res.render("auth/request-invite", { title: "Request Invite", error: "You're already in the queue (or already got an account).", sent: false });
+				res.render("auth/request-invite", { 
+					title: "Request Invite", 
+					error: "You're already in the invite queue. Hang on tight, we're sending out invites as quick as we can..", 
+					sent: false 
+				});
 			}
 		});
 	} else {
