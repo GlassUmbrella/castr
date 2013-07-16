@@ -1,35 +1,32 @@
 {
-  "name": "Castr",
-  "description": "Castr lets you show your podcast to the world. Record and upload your podcast with our unique app, and publish to the world.",
-  "version": "0.0.1",
-  "contributors": [ 
-    {
-      "name": "Eddie Lee",
-      "email": "eddie@castr.net"
-    },
-    {
-      "name": "Weiran Zhang",
-      "email": "weiran@castr.net"
-    }
-  ],
-  "scripts": {
-    "start": "node app.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/eddielee6/castr.git"
-  },
-  "dependencies": {
-    "express": "3.2.5",
-    "ejs": "0.8.4",
-    "less-middleware": "0.1.11",
-    "bcrypt-nodejs": "0.0.3",
-    "sequelize-mysql": "1.6.0",
-    "socket.io": "0.9.14",
-  	"nodemailer": "0.4.4",
-  	"node-uuid": "1.4.0",
-  	"azure": "0.7.10",
-    "markdown": "0.4.0"
-  },
-  "private": "true"
+	"name": "Castr",
+	"description": "Give yourself a voice. Create a podcast and share it with your friends, the community, or the world.",
+	"version": "0.0.1",
+	"author": "Glass Umbrella",
+	"contributors": [ 
+		{
+			"name": "Eddie Lee",
+			"email": "eddie@glassumbrella.co"
+		},
+		{
+			"name": "Weiran Zhang",
+			"email": "weiran@glassumbrella.co"
+		}
+	],
+	"private": "true",
+	"scripts": {
+		"start": "node app.js"
+	},
+	"dependencies": {
+		"express": "3.2.5",
+		"ejs": "0.8.4",
+		"less-middleware": "0.1.11",
+		"bcrypt-nodejs": "0.0.3",
+		"sequelize-mysql": "1.6.0",
+		"socket.io": "0.9.14",
+		"nodemailer": "0.4.4",
+		"node-uuid": "1.4.0",
+		"azure": "0.7.10",
+		"markdown": "0.4.0"
+	}
 }
