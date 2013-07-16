@@ -8,7 +8,7 @@ exports.login = function(req, res) {
 
 exports.post_login = function(req, res) {
 	var Users = orm.model("User");
-	var invalidCredentialsMessage = "The username or password you entered is incorrect.";
+	var invalidCredentialsMessage = "The email address or password you entered is incorrect.";
 	
 	Users.find({
 		where: {	
@@ -81,24 +81,36 @@ exports.requestInvite = function(req, res) {
 exports.post_requestInvite = function(req, res) {
 	var Invites = orm.model("Invite");
 	
-	Invites.create({
-		name: req.body.signupName,
-		emailAddress: req.body.signupEmail,
-		inviteCode: uuid.v4(),
-		dateRequested: new Date()
-	}).success(function(invite) {
-		res.render("auth/request-invite", { title: "Request Invite", error: null, sent: true });
-	}).error(function(errors) {
-		res.render("auth/request-invite", { title: "Request Invite", error: errors, sent: false });
-	});
+	if(req.body.signupName && req.body.signupEmail) {
+		Invites.find({
+			where: {	
+				emailAddress: req.body.signupEmail
+			}
+		}).success(function(invite) {
+			if(!invite) {
+				Invites.create({
+					name: req.body.signupName,
+					emailAddress: req.body.signupEmail,
+					inviteCode: uuid.v4(),
+					dateRequested: new Date()
+				}).success(function(invite) {
+					res.render("auth/request-invite", { title: "Request Invite", error: null, sent: true });
+				});
+			} else {
+				res.render("auth/request-invite", { title: "Request Invite", error: "You're already in the queue (or already got an account).", sent: false });
+			}
+		});
+	} else {
+		res.render("auth/request-invite", { title: "Request Invite", error: "We need your name and email address.", sent: false });
+	}
 };
 
 exports.forgot = function(req, res) {
-	res.render("auth/forgot", { title: "Forgot Password", sent: false });
+	res.render("auth/forgot", { title: "Forgot Password", sent: false, error: false });
 };
 
 exports.post_forgot = function(req, res) {
-	var Users = orm.model("Users");
+	var Users = orm.model("User");
 
 	Users.find({
 		where: {
@@ -118,10 +130,10 @@ exports.post_forgot = function(req, res) {
 				    forceEmbeddedImages: true,
 				    html: "<p>To reset your password <a href='http://" + req.headers.host + "/reset?resetCode=" + guid + "&emailAddress=" + user.emailAddress + "'>click here</a>!</p>"
 				});
-				res.render("auth/forgot", { title: "Forgot Password", sent: true });
+				res.render("auth/forgot", { title: "Forgot Password", sent: true, error: false });
 			});
 		} else {
-			res.render("auth/forgot", { title: "Forgot Password", sent: false });
+			res.render("auth/forgot", { title: "Forgot Password", sent: false, error: true });
 		}
 	});
 };
@@ -131,7 +143,7 @@ exports.reset = function(req, res) {
 };
 
 exports.post_reset = function(req, res) {
-	var Users = orm.model("Users");
+	var Users = orm.model("User");
 
 	Users.find({
 		where: {
@@ -139,17 +151,13 @@ exports.post_reset = function(req, res) {
 			emailAddress: req.body.emailAddress
 		}
 	}).success(function(user) {
-		console.log("got user");
 		var now = Math.round(new Date().getTime() / 1000);
 		if(user && user.resetRequestTime > (now - (24 * 3600))) {
-			console.log("within correct time");
 			bcrypt.hash(req.body.newPassword, null, null, function(err, hash) {
-				console.log("hashed password");
 				user.password = hash;
 				user.resetCode = null;
 				user.resetRequestTime = null;
 				user.save().success(function() {
-					console.log("saved");
 					req.session.user = user;
 					res.redirect("/");
 				});

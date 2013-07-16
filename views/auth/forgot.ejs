@@ -13,6 +13,13 @@
 			    </div>
 			<% } %>
 
+			<% if(error) { %>
+				<div class="alert alert-error">
+					<button type="button" class="close fui-cross" data-dismiss="alert"></button>
+			    	The email address you entered was not found in our system.
+			    </div>
+			<% } %>
+
 			<div class="control-group huge">
 				<input type="text" class="span6" name="emailAddress" id="emailAddress" placeholder="Email address" />
 			</div>
