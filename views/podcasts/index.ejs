@@ -8,7 +8,7 @@
 		self.selectedPodcastId = ko.observable(0);
 
 		self.selectedPodcast = function() {
-			for(var i = 0; i < self.podcasts.length; i++) {
+			for (var i = 0; i < self.podcasts.length; i++) {
 				var podcast = self.podcasts[i];
 				if (podcast.id == self.selectedPodcastId()) {
 					return podcast;
@@ -58,7 +58,9 @@
 		if (selectedPodcastId > 0) {
 			podcastsIndexViewModel.selectPodcastId(selectedPodcastId);
 		} else {
-			podcastsIndexViewModel.selectPodcastId(podcastsIndexViewModel.podcasts[0].id);
+			if (podcastsIndexViewModel.podcasts.length > 0) {
+				podcastsIndexViewModel.selectPodcastId(podcastsIndexViewModel.podcasts[0].id);
+			}
 		}
 
 		ko.applyBindings(podcastsIndexViewModel);
@@ -66,74 +68,85 @@
 </script>
 
 <h3>My Podcasts</h3>
-<hr />
+<hr>
 <div class="row">
 	<div class="span3">
 		<ul class="nav nav-list nav-list-vivid">
-	        <li class="nav-header">Podcasts</li>
-	        <!-- ko foreach: podcasts -->
-            <li data-bind="attr: { class: selectedPodcastId() == id ? 'active' : '' }">
-            	<a href="#" data-bind="click: selectPodcast">
-            		<span data-bind="text: title"></span>
-                	<span class="nav-counter" data-bind="text: episodes.length"></span>
-              	</a>
-            </li>
+	        <!-- ko if: podcasts.length > 0 -->
+		        <li class="nav-header">Podcasts</li>
+		        <!-- ko foreach: podcasts -->
+		            <li data-bind="attr: { class: selectedPodcastId() == id ? 'active' : '' }">
+		            	<a href="#" data-bind="click: selectPodcast">
+		            		<span data-bind="text: title"></span>
+		                	<span class="nav-counter" data-bind="text: episodes.length"></span>
+		              	</a>
+		            </li>
+	            <!-- /ko -->
             <!-- /ko -->
             <li class="nav-header">Create</li>
             <li>
-				<a class="" href="/podcasts/create"><span class="fui-plus"></span> Create new podcast</a>	
+				<a href="/podcasts/create">
+					<span class="fui-plus"></span> Create new podcast
+				</a>	
 			</li>
-            </ul>
 		</ul>
 	</div>
 	<div class="span7">
-		<table class="table table-bordered">
-			<thead>
-				<tr>
-					<th class="span1">Episode</th>
-					<th>Title</th>
-					<th>Published Date</th>
-				</tr>
-			</thead>
-			<!-- ko if: episodes().length > 0 -->
-			<tbody data-bind="foreach: episodes">
-				<tr>
-				<!-- ko if: episodeNumber > 0 -->
-					<td><span class="label label-large label-primary" data-bind="text: '#' + episodeNumber"></span></td>
+		<!-- ko if: podcasts.length > 0 -->
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th class="span1">Episode</th>
+						<th>Title</th>
+						<th>Published Date</th>
+					</tr>
+				</thead>
+				<!-- ko if: episodes().length > 0 -->
+					<tbody data-bind="foreach: episodes">
+						<tr>
+						<!-- ko if: episodeNumber > 0 -->
+							<td><span class="label label-large label-primary" data-bind="text: '#' + episodeNumber"></span></td>
+						<!-- /ko -->
+						<!-- ko if: !episodeNumber -->
+							<td><span class="label label-large label-secondary">Draft</span></td>
+						<!-- /ko -->
+							<td><a data-bind="text: title, attr: { href: '/podcasts/' + PodcastId + '/episodes/' + id }"></a></td>
+							<td><span data-bind="text: publishDate"></span></td>
+						</tr>
+					</tbody>
 				<!-- /ko -->
-				<!-- ko if: !episodeNumber -->
-					<td><span class="label label-large label-secondary">Draft</span></td>
+				<!-- ko if: episodes().length == 0 -->
+					<tbody>
+						<td colspan="4">You haven&#39;t recorded any episodes</td>
+					</tbody>
 				<!-- /ko -->
-					<td><a data-bind="text: title, attr: { href: '/podcasts/' + PodcastId + '/episodes/' + id }"></a></td>
-					<td><span data-bind="text: publishDate"></span></td>
-				</tr>
-			</tbody>
-			<!-- /ko -->
-			<!-- ko if: episodes().length == 0 -->
-				<tbody>
-					<td colspan="4">You haven&#39;t recorded any episodes</td>
-				</tbody>
-			<!-- /ko -->
-		</table>
+			</table>
+		<!-- /ko -->
+		<!-- ko if: podcasts.length == 0 -->
+			<p>You don't have any podcasts.</p>
+			<p><a href="/podcasts/create" class="btn btn-large btn-primary">Create My First Podcast</a></p>
+		<!-- /ko -->
 	</div>
 
-	<div class="span2">
-		<div class="iconbar pull-right">
-            <ul>
-	            <li>
-	            	<a href="" class="fui-plus" data-bind="attr: { href: '/podcasts/{0}/episodes/create'.format(selectedPodcast().id) }"></a>
-	            </li>
-	            <li><a data-bind="attr: { href: selectedPodcastUrl() }" class="fui-upload"></a></li>
-	            <li><a href="#fakelink" class="fui-chat"></a></li>
-	            <li><a href="#fakelink" class="fui-mail">
-		                <span class="iconbar-unread">1</span></a></li>
-	            <li>
-	                <a href="#fakelink" class="fui-gear">
-	                </a>
-	            </li>
-            </ul>
-        </div>
-    </div>
+	<!-- ko if: podcasts.length > 0 -->
+		<div class="span2">
+			<div class="iconbar pull-right">
+	            <ul>
+		            <li>
+		            	<a href="" class="fui-plus" data-bind="attr: { href: '/podcasts/{0}/episodes/create'.format(selectedPodcast().id) }"></a>
+		            </li>
+		            <li><a data-bind="attr: { href: selectedPodcastUrl() }" class="fui-upload"></a></li>
+		            <li><a href="#fakelink" class="fui-chat"></a></li>
+		            <li><a href="#fakelink" class="fui-mail">
+			                <span class="iconbar-unread">1</span></a></li>
+		            <li>
+		                <a href="#fakelink" class="fui-gear">
+		                </a>
+		            </li>
+	            </ul>
+	        </div>
+	    </div>
+	<!-- /ko -->
 </div>
 
 <% include ../partials/footer %>
