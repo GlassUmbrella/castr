@@ -24,14 +24,8 @@ exports.post_send_invite = function(req, res) {
 			invite.save();
 			
 			var mailer = require("../lib/mailer");
-			mailer.sendMail({
-				from: "Castr Team <team@castr.net>",
-			    to: invite.emailAddress,
-			    subject: "Castr Beta Invite",
-			    forceEmbeddedImages: true,
-			    html: "<h1>You have received a Castr beta invite code!</h1><p>" + invite.inviteCode + "</p> <p><a href='http://" + req.headers.host + "/join?inviteCode=" + invite.inviteCode + "&emailAddress=" + invite.emailAddress + "&name=" + invite.name + "'>Click here to join!</a></p>"
-			});
-			
+			var inviteURL = "http://" + req.headers.host + "/join?inviteCode=" + invite.inviteCode + "&emailAddress=" + invite.emailAddress + "&name=" + invite.name;
+			mailer.sendInviteCode(invite.emailAddress, "http://" + req.headers.host, invite.name, inviteURL);			
 			res.json(true);
 			
 		} else {

@@ -19,3 +19,9 @@ if(!String.prototype.endsWith) {
 		return this.slice(-input.length) == input;
 	};
 }
+
+if(!String.prototype.replaceAll) {
+	String.prototype.replaceAll = function (find, replace) {
+	    return this.replace(new RegExp(find, 'g'), replace);
+	};
+}
