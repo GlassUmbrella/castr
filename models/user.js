@@ -29,6 +29,10 @@ module.exports = {
 		isAdmin: {
 			type: Seq.BOOLEAN,
 			defaultValue: false
+		},
+		isPremium: {
+			type: Seq.BOOLEAN,
+			defaultValue: true
 		}
 	},
     relations:{

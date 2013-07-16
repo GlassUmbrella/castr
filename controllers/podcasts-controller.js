@@ -67,6 +67,15 @@ exports.episode = function(req, res) {
 	var Episode = orm.model("Episode");
 	var Podcast = orm.model("Podcast");
 
+	var message = "";
+	if (req.query.action == "saved") {
+		message = "Episode draft updated.";
+	} else if (req.query.action == "created") {
+		message = "Episode draft created.";
+	} else if (req.query.action == "published") {
+		message = "Episode published!";
+	}
+
 	Episode.find({ 
 		where: { 
 			id: req.params.episodeId 
@@ -78,7 +87,8 @@ exports.episode = function(req, res) {
 				title: "Edit episode",
 				episode: episode, 
 				podcast: episode.podcast,
-				isPremium: true 
+				isNew: false,
+				message: message
 			});
 		} else {
 			res.status(404);
@@ -90,23 +100,30 @@ exports.post_episode = function(req, res) {
 	var Episode = orm.model("Episode");
 	var Podcast = orm.model("Podcast");
 	var episodeId = req.params.episodeId;
+	var podcastId = req.params.podcastId;
 
 	Episode.find({ where: { id: episodeId } })
 	.success(function(episode) {
 		episode.title = req.body.title;
 		episode.description = req.body.description;
 		episode.notes = req.body.notes;
-		episode.save().success(function() {
-			// if req.body.publishAction == "true"
-			// then publish!
 
-			res.render("podcasts/episode-create", { 
-				title: "Edit episode",
-				episode: episode, 
-				podcast: episode.podcast,
-				isPremium: true 
-			});
-		})
+		if (req.body.publishAction == "true") {
+			episode.isPublished = true;
+			episode.publishDate = new Date();
+			// get next episode number
+			Podcast.find({ where: { id: podcastId } })
+			.success(function(podcast) {
+				episode.episodeNumber = ++podcast.currentEpisodeNumber;
+				episode.save().success(function() {
+					podcast.save().success(function() {
+						res.redirect("/podcasts/{0}/episodes/{1}/?action=published".format(podcastId, episodeId));
+					});
+				});
+			})
+		} else {
+			res.redirect("/podcasts/{0}/episodes/{1}/?action=saved".format(podcastId, episodeId));
+		}
 	});
 }
 
@@ -118,7 +135,10 @@ exports.episodeCreate = function(req, res) {
 		if (podcast) {
 			res.render("podcasts/episode-create", { 
 					title: "Create a new episode", 
-					podcast: podcast 
+					podcast: podcast,
+					episode: { },
+					isNew: true,
+					message: ""
 				});
 		} else {
 			res.status(404);
@@ -141,7 +161,7 @@ exports.post_episodeCreate = function(req, res) {
 			isPublished: false
 		}).success(function(episode) {
 			episode.setPodcast(podcast);
-			res.redirect("/podcasts/" + podcastId + "/episodes/" + episode.id);
+			res.redirect("/podcasts/{0}/episodes/{1}/?action=created".format(podcast.id, episode.id));
 		});
 	});
 };

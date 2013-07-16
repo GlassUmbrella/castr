@@ -105,13 +105,21 @@
 					<tbody data-bind="foreach: episodes">
 						<tr>
 						<!-- ko if: episodeNumber > 0 -->
-							<td><span class="label label-large label-primary" data-bind="text: '#' + episodeNumber"></span></td>
+							<td>
+								<span class="label label-large label-primary" data-bind="text: '#' + episodeNumber"></span>
+							</td>
 						<!-- /ko -->
 						<!-- ko if: !episodeNumber -->
-							<td><span class="label label-large label-secondary">Draft</span></td>
+							<td>
+								<span class="label label-large label-secondary">Draft</span>
+							</td>
 						<!-- /ko -->
-							<td><a data-bind="text: title, attr: { href: '/podcasts/' + PodcastId + '/episodes/' + id }"></a></td>
-							<td><span data-bind="text: publishDate"></span></td>
+							<td>
+								<a data-bind="text: title, attr: { href: '/podcasts/' + PodcastId + '/episodes/' + id }"></a>
+							</td>
+							<td>
+								<span data-bind="text: publishDate"></span>
+							</td>
 						</tr>
 					</tbody>
 				<!-- /ko -->

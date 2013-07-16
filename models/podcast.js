@@ -28,6 +28,10 @@ module.exports = {
 		iTunesUrl: {
 			type: Seq.STRING,
 			allowNull: true
+		},
+		currentEpisodeNumber: {
+			type: Seq.INTEGER,
+			defaultValue: 0
 		}
 	},
     relations: {

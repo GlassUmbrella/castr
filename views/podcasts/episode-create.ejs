@@ -4,21 +4,25 @@
 <script>
 $(function() {
 	$("input[type=file]").bootstrapFileInput();
+	$("#publishButton").click(function() {
+		$("#publishAction").val("true");
+	});
 });
 </script>
 
 <%
-var isNew = true;
-if (!episode) {
-	episode = {};
-} else {
-	isNew = false;
-}
+var isPremium = session.user.isPremium;
+
+var titleValue = episode.id ? episode.title : "";
+var descriptionValue = episode.id ? episode.description : "";
+var notesValue = episode.id ? episode.notes : "";
 %>
 
 <ul class="breadcrumb">
 	<li><a href="/podcasts">My Podcasts</a></li>
-	<li class="<%=(isNew ? "active" : "") %>"><a href="/podcasts/<%= podcast.id %>"><%= podcast.title %></a></li>
+	<li class="<%= (isNew ? "active" : "") %>">
+		<a href="/podcasts/<%= podcast.id %>"><%= podcast.title %></a>
+	</li>
 	<% if (!isNew) { %>
 		<li class="active"><%= episode.title %></li>
 	<% } %>
@@ -32,24 +36,30 @@ if (!episode) {
 <div class="panel">
 	<form method="post" class="form-horizontal">
 		<fieldset>
+			<% if (message && message.length > 0) { %>
+				<div class="alert alert-info">
+					<button type="button" class="close fui-cross" data-dismiss="alert"></button>	
+		            <p><%= message %></p>
+	          	</div>
+			<% } %>
 			<div class="control-group huge">
 			    <label class="control-label" for="title">Episode title</label>
 			    <div class="controls">
-				    <input type="text" id="title" name="title" placeholder="Your episode title" class="span6" value="<%=episode.title%>">
+				    <input type="text" id="title" name="title" placeholder="Your episode title" class="span6" value="<%=titleValue%>">
 			    </div>
 		    </div>
 
 			<div class="control-group">
 				<label class="control-label" for="description">Description</label>
 				<div class="controls">
-					<textarea id="description" name="description" placeholder="A short description of your episode" rows="5" class="input-block-level"><%=episode.description%></textarea>
+					<textarea id="description" name="description" placeholder="A short description of your episode" rows="5" class="input-block-level"><%=descriptionValue%></textarea>
 				</div>
 			</div>
 
 			<div class="control-group">
 				<label class="control-label" for="notes">Show notes</label>
 				<div class="controls">
-					<textarea id="notes" name="notes" placeholder="Include links to things you talk about" rows="7" class="input-block-level"><%=episode.notes%></textarea>
+					<textarea id="notes" name="notes" placeholder="Include links to things you talk about" rows="7" class="input-block-level"><%=notesValue%></textarea>
 				</div>
 			</div>
 
@@ -71,30 +81,40 @@ if (!episode) {
 
 
 			<div class="form-actions">
-				<% if (isNew) { %>
-					<button type="submit" class="btn btn-primary btn-wide" disabled>
-						<i class="fui-plus"></i>
-						Create episode draft
-					</button>
+				<% if (!episode.isPublished) { %>
+					<% if (isNew) { %>
+						<button type="submit" class="btn btn-primary btn-wide">
+							<i class="fui-plus"></i>
+							Create episode draft
+						</button>
+					<% } else { %>
+						<button type="submit" id="publishButton" class="btn btn-info <%=isPremium ? "" : "disabled" %>">
+							<i class="fui-export"></i>
+							Publish episode
+						</button>
+						<button type="submit" class="btn btn-primary">
+							<i class="fui-check"></i>
+							Save draft
+						</button>
+						<input type="hidden" name="publishAction" id="publishAction" value="false" />
+					<% } %>
+					<a href="<%= "/podcasts/{0}".format(podcast.id) %>" class="btn">
+						<i class="fui-cross"></i>
+						Discard changes
+					</a>
 				<% } else { %>
-					<button type="submit" id="publishButton" class="btn btn-info <%=isPremium ? "" : "disabled" %>">
-						<i class="fui-export"></i>
-						Publish episode
-					</button>
-					<button type="submit" class="btn btn-primary">
+					<button type="submit" id="publishButton" class="btn btn-info">
 						<i class="fui-check"></i>
-						Save draft
+						Save episode
 					</button>
-					<input type="hidden" name="publishAction" id="publishAction" value="false" />
 				<% } %>
-				<a href="<%= "/podcasts/{0}".format(podcast.id) %>" class="btn">
-					<i class="fui-cross"></i>
-					Discard changes
-				</a>
-				<a href="<%= "/podcasts/{0}".format(podcast.id) %>" class="btn btn-danger pull-right">
-					<i class="fui-trash"></i>
-					Delete episode
-				</a>
+
+				<% if (!isNew) { %>
+					<a href="<%= "/podcasts/{0}".format(podcast.id) %>" class="btn btn-danger pull-right">
+						<i class="fui-trash"></i>
+						Delete episode
+					</a>
+				<% } %>
 			</div>
 		</fieldset>
 	</form>
