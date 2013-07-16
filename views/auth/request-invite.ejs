@@ -8,14 +8,12 @@
 		<fieldset>
 			<% if(error) { %>
 				<div class="alert alert-error">
-					<button type="button" class="close fui-cross" data-dismiss="alert"></button>
 			    	<%= error %>
 			    </div>
 			<% } %>
 			
 			<% if(sent) { %>
 				<div class="alert alert-success">
-					<button type="button" class="close fui-cross" data-dismiss="alert"></button>
 					You're in the queue.
 			    </div>
 			<% } %>
