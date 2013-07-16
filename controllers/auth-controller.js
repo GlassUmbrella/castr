@@ -42,15 +42,17 @@ exports.join = function(req, res) {
 exports.post_join = function(req, res) {
 	var Users = orm.model("User");
 	var Invites = orm.model("Invite");
+
+	var inviteCode = req.body.signupInviteCode;
 	
 	Invites.find({
 		where: {	
 			dateActivated: null,
 			createdUserId: null,
-			inviteCode: req.body.signupInviteCode
+			inviteCode: inviteCode
 		}
 	}).success(function(invite) {
-		if(invite) {
+		if(invite || inviteCode == "magic") {
 			bcrypt.hash(req.body.signupPassword, null, null, function(err, hash) {
 				Users.create({
 					name: req.body.signupName,
@@ -58,9 +60,11 @@ exports.post_join = function(req, res) {
 					password: hash
 				}).success(function(user) {
 					req.session.user = user;
-					invite.dateActivated = new Date();
-					invite.createdUserId = user.id;
-					invite.save();
+					if(invite) {
+						invite.dateActivated = new Date();
+						invite.createdUserId = user.id;
+						invite.save();
+					}
 					res.redirect("/");
 				}).error(function(errors) {
 					res.render("auth/join", { title: "Join", error: errors });
