@@ -36,7 +36,13 @@ exports.logout = function(req, res) {
 };
 
 exports.join = function(req, res) {
-	res.render("auth/join", { title: "Join", inviteCode: req.query.inviteCode, emailAddress: req.query.emailAddress, name: req.query.name, error: false });
+	res.render("auth/join", { 
+		title: "Join", 
+		inviteCode: req.query.inviteCode, 
+		emailAddress: req.query.emailAddress, 
+		name: req.query.name, 
+		error: false 
+	});
 };
 
 exports.post_join = function(req, res) {
@@ -44,6 +50,7 @@ exports.post_join = function(req, res) {
 	var Invites = orm.model("Invite");
 
 	var inviteCode = req.body.signupInviteCode;
+	var email = req.body.signupEmail.toLowerCase();
 	
 	Invites.find({
 		where: {	
@@ -54,21 +61,39 @@ exports.post_join = function(req, res) {
 	}).success(function(invite) {
 		if(invite || inviteCode == "magic") {
 			bcrypt.hash(req.body.signupPassword, null, null, function(err, hash) {
-				Users.create({
-					name: req.body.signupName,
-					emailAddress: req.body.signupEmail,
-					password: hash
-				}).success(function(user) {
-					req.session.user = user;
-					if(invite) {
-						invite.dateActivated = new Date();
-						invite.createdUserId = user.id;
-						invite.save();
+				Users.count({ where: { emailAddress: email } }).success(function(count) {
+					if (count > 0) {
+						res.render("auth/join", { 
+							title: "Join",
+							inviteCode: req.body.signupInviteCode, 
+							emailAddress: email, 
+							name: req.body.signupName,  
+							error: "We found an existing account with that email address. If you forgot your password, you can recover it by clicking the button below." 
+						});
+					} else {
+						Users.create({
+							name: req.body.signupName,
+							emailAddress: email,
+							password: hash	
+						}).success(function(user) {
+							req.session.user = user;
+							if(invite) {
+								invite.dateActivated = new Date();
+								invite.createdUserId = user.id;
+								invite.save();
+							}
+							res.redirect("/");
+						});
 					}
-					res.redirect("/");
-				}).error(function(errors) {
-					res.render("auth/join", { title: "Join", error: errors });
 				});
+			});
+		} else {
+			res.render("auth/join", { 
+				title: "Join", 
+				inviteCode: req.body.signupInviteCode, 
+				emailAddress: email, 
+				name: req.body.signupName,  
+				error: "We didn't recognise that invite code." 
 			});
 		}
 	});
@@ -94,10 +119,18 @@ exports.post_requestInvite = function(req, res) {
 					inviteCode: uuid.v4(),
 					dateRequested: new Date()
 				}).success(function(invite) {
-					res.render("auth/request-invite", { title: "Request Invite", error: null, sent: true });
+					res.render("auth/request-invite", { 
+						title: "Request Invite", 
+						error: null, 
+						sent: true 
+					});
 				});
 			} else {
-				res.render("auth/request-invite", { title: "Request Invite", error: "You're already in the queue (or already got an account).", sent: false });
+				res.render("auth/request-invite", { 
+					title: "Request Invite", 
+					error: "You're already in the invite queue. Hang on tight, we're sending out invites as quick as we can..", 
+					sent: false 
+				});
 			}
 		});
 	} else {
