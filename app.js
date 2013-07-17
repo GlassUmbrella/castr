@@ -14,6 +14,8 @@ var express = require("express")
   , shared = require("./public/js/castr/shared.js")
   ,	config = require("./config");
 
+require("log-timestamp");
+
 var controllers = {
 	error: require("./controllers/error-controller"),
 	auth: require("./controllers/auth-controller"),
