@@ -61,7 +61,7 @@ app.use(express.cookieSession({
 	cookie: { domain: cookieDomain }
 }));
 
-app.use(cookieSessions("8FD0A82D-7ADE-433A-8CE1-F1020B545D36"));
+app.use(cookieSessions("8FD0A82D-7ADE-433A-8CE1-F1020B545D36", cookieDomain));
 
 // Middleware
 app.use(function(req, res, next) {
