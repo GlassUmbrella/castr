@@ -1,30 +1,73 @@
 <% include ../partials/header %>
 <% include ../partials/menu %>
 
-<h3>Dashboard</h3>
-<hr>
+<div class="row">
 
-<div class="span6 offset3">
-	<section>
-		<h4>Podcast episode four</h4>
-		<p>Keffiyeh squid small batch meh. Organic vegan single-origin coffee sustainable keytar Austin, thundercats actually retro gluten-free Godard polaroid four loko. Organic polaroid Portland, pour-over pug Neutra synth chambray fashion axe VHS cliche fingerstache gastropub fixie tattooed. Salvia pug fixie master cleanse before they sold out +1, cornhole tofu shabby chic. 3 wolf moon you probably haven't heard of them Marfa, blog brunch occupy pug gastropub cliche. IPhone freegan yr semiotics craft beer Cosby sweater, viral leggings Schlitz gentrify narwhal flannel YOLO vegan banh mi. Aesthetic salvia banjo, vinyl direct trade single-origin coffee Terry Richardson chillwave wolf sriracha.</p>
-		<small>24th March 2013</small>
-	</section>
+	<div class="feed span9">
 
-	<section>
-		<h4>Podcast episode three</h4>
-		<p>Leggings letterpress Carles Portland, Marfa bespoke McSweeney's tousled freegan intelligentsia. Wayfarers gluten-free literally, Carles forage fanny pack locavore kogi typewriter four loko hella skateboard. Readymade next level dreamcatcher, food truck before they sold out squid street art photo booth cray 3 wolf moon. Fanny pack gastropub sriracha, stumptown plaid meggings Pinterest. Umami bitters pitchfork, McSweeney's Williamsburg brunch next level. Readymade bitters occupy bicycle rights, whatever umami 3 wolf moon. Next level Portland YOLO hella, Wes Anderson swag disrupt leggings wolf pop-up brunch skateboard flexitarian pickled.</p>
-	</section>
+		<ul class="media-list">
 
-	<section>
-		<h4>Podcast episode two</h4>
-		<p>Bespoke Austin plaid try-hard intelligentsia, butcher ethnic. Gluten-free flexitarian plaid iPhone, mixtape scenester retro meh letterpress put a bird on it 3 wolf moon cray art party cornhole post-ironic. Leggings chillwave literally scenester Echo Park. Stumptown locavore authentic, hashtag quinoa cray tousled meh post-ironic church-key. Craft beer next level narwhal, Odd Future seitan art party mixtape lomo quinoa Echo Park leggings gentrify pug. Kale chips ethical organic PBR, roof party Echo Park single-origin coffee cornhole 90's authentic yr skateboard. Shoreditch craft beer yr tousled squid jean shorts, shabby chic ennui.</p>
-	</section>
+			<% 
+				for (var i = 0; i < episodes.length; i++) { 
+					var episode = episodes[i]; 
+			%>
 
-	<section>
-		<h4>Podcast episode one</h4>
-		<p>Lomo helvetica next level, bicycle rights skateboard beard Cosby sweater letterpress Pinterest pour-over forage. Stumptown PBR helvetica umami Godard. Bespoke intelligentsia fap, Bushwick Cosby sweater fashion axe tofu. Umami Austin letterpress, pickled salvia keffiyeh pug. Cray cred Pinterest pop-up Schlitz, hashtag Carles. Salvia Truffaut hella single-origin coffee artisan, Brooklyn four loko Tonx vinyl twee ennui retro. Forage synth master cleanse Vice YOLO, gentrify organic polaroid Schlitz.</p>
-	</section>
+				<li class="media well">
+					<a class="pull-left" href="#">
+					  	<img class="media-object" src="http://placehold.it/64x64">
+					</a>
+					<div class="media-body">
+						<h4 class="media-heading">
+							<span class="label label-episode label-inverse">#<%=episode.episodeNumber%></span> 
+							<%=episode.title%>
+						</h4>
+
+						<div class="meta">
+							<span class="label label-large label-primary">
+								<i class="fui-user"></i>
+								<%=episode.podcastTitle%>
+							</span>
+							<span class="label label-large label-info">
+								<i class="fui-calendar"></i>
+								<%=episode.publishDate%>
+							</span>
+						</div>
+
+						<hr>
+						
+						<div>
+							<%-markdown.toHTML(episode.description)%>
+						</div>
+					</div>
+				</li>
+
+			<% } %>
+		</ul>
+
+	</div>
+
+	<div class="span3">
+		<ul class="nav nav-list">
+		<li class="nav-header">My Podcasts</li>
+
+			<% 
+				for (var i = 0; i < podcasts.length; i++) { 
+					var podcast = podcasts[i]; 
+			%>
+
+				<li>
+					<a href="<%="/podcasts/{0}".format(podcast.id)%>">
+						<%=podcast.title%>
+						<span class="nav-counter">19</span>
+					</a>
+				</li>
+
+			<% } %>
+			<li class="divider"></li>
+			<li class="nav-header">Following</li>
+		</ul>
+	</div>
+
 </div>
 
 <% include ../partials/footer %>

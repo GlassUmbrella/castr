@@ -1,6 +1,6 @@
-var orm		= require("../lib/model");
-var bcrypt	= require("bcrypt-nodejs");
-var uuid	= require("node-uuid");
+var orm	= require("../lib/model");
+var bcrypt = require("bcrypt-nodejs");
+var uuid = require("node-uuid");
 
 exports.login = function(req, res) {
 	res.render("auth/login", { title: "Login", message: null });
