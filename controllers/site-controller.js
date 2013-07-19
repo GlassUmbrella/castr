@@ -4,6 +4,7 @@ exports.index = function(req, res) {
 	var Episode = orm.model("Episode");
 	var Podcast = orm.model("Podcast");
 	var markdown = require("markdown").markdown;
+	var moment = require("moment");
 
 	var podcastDomain = req.subdomain;
 	if(podcastDomain) {
@@ -23,7 +24,8 @@ exports.index = function(req, res) {
 						title: podcast.title, 
 						podcast: podcast,
 						episodes: episodes,
-						markdown: markdown // markdown parser
+						markdown: markdown, // markdown parser
+						moment: moment
 					});
 				});
 			} else {

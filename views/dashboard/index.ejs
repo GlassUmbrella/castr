@@ -35,10 +35,10 @@
 								<%=episode.podcastTitle%>
 							</a>
 
-							<span class="btn btn-small btn-info">
+							<a href="<%=episodeUrl%>" class="btn btn-small btn-info">
 								<i class="fui-calendar"></i>
 								<%=timeSinceEpisode%>
-							</span>
+							</a>
 						</div>
 
 						<hr>
@@ -57,22 +57,29 @@
 	<div class="span3">
 		<ul class="nav nav-list">
 		<li class="nav-header">My Podcasts</li>
-
 			<% 
 				for (var i = 0; i < podcasts.length; i++) { 
 					var podcast = podcasts[i]; 
+					var podcastUrl = "http://{0}.{1}".format(episode.podcastUrl, host);
 			%>
-
 				<li>
 					<a href="<%="/podcasts/{0}".format(podcast.id)%>">
 						<%=podcast.title%>
-						<span class="nav-counter">19</span>
 					</a>
 				</li>
-
 			<% } %>
 			<li class="divider"></li>
 			<li class="nav-header">Following</li>
+			<% 
+				for (var i = 0; i < following.length; i++) { 
+					var podcastFollowing = following[i]; 
+			%>
+				<li>
+					<a href="<%=podcastUrl%>">
+						<%=podcastFollowing.podcast.title%>
+					</a>
+				</li>
+			<% } %>
 		</ul>
 	</div>
 

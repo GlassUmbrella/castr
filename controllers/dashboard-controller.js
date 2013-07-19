@@ -4,15 +4,19 @@ exports.index = function(req, res) {
 	var Podcast = orm.model("Podcast");
 	var Episode = orm.model("Episode");
 	var Follower = orm.model("Follower");
+	var userId = req.session.user.id;
 
-	var query = queryBuilder(req.session.user.id, 1, 10);
+	var query = feedQuery(userId, 1, 10);
 
 	orm.sequelizeInstance().query(query)
 	.success(function(rows) {
-		Podcast.findAll({ where: { ownerUserId: req.session.user.id }})
+		Podcast.findAll({ where: { ownerUserId: userId }})
 		.success(function(podcasts) {
-			Follower.findAll({ where: { UserId: req.session.user.id }})
-			.success(function(following) {
+			// orm.sequelizeInstance().query(followingQuery(userId))
+			Follower.findAll({ 
+				where: { UserId: userId }, 
+				include: [Podcast] 
+			}).success(function(following) {
 				res.render("dashboard/index", { 
 					title: "Dashboard",
 					episodes: rows,
@@ -35,7 +39,7 @@ exports.splash = function(req, res) {
 	}
 }
 
-function queryBuilder(userId, pageNumber, pageSize) {
+function feedQuery(userId, pageNumber, pageSize) {
 	if (!pageNumber) pageNumber = 1;
 	if (!pageSize) pageSize = 10;
 
@@ -50,3 +54,12 @@ function queryBuilder(userId, pageNumber, pageSize) {
 
 	return query;
 }
+
+// function followingQuery(userId) {
+// 	var query = "select Followers.PodcastId, Podcasts.title as podcastTitle, Podcasts.url as podcastUrl, count(Episodes.id) as episodeCount from Followers \
+// 				inner join Podcasts on Followers.PodcastId = Podcasts.id \
+// 				inner join Episodes on Followers.PodcastId = Episodes.PodcastId \
+// 				where Followers.UserId = 1 and Episodes.isPublished".format(userId);
+
+// 	return query;
+// }
