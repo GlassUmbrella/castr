@@ -1,7 +1,47 @@
 <% include ../partials/header %>
 <% include ../partials/menu %>
 
-<h3>Profile</h3>
-<hr>
+<div class="span6 offset3">
+	<h3>Your details</h3>
+	<hr>
+
+	<form method="post">
+		<fieldset>
+			<% if(updated) { %>
+				<div class="alert alert-success">
+			    	Your details have been updated.
+			    </div>
+			<% } %>
+
+			<% if(error) { %>
+				<div class="alert alert-error">
+			    	An error occured. But don't worry, it was logged and we'll fix it.
+			    </div>
+			<% } %>
+
+			<div class="control-group huge">
+				<input type="text" class="span6" name="editName" id="editName" placeholder="Your name" value="<%= name %>" />
+			</div>
+
+			<div class="control-group huge">
+				<input type="email" class="span6" name="editEmail" id="editEmail" placeholder="Email address" value="<%= email %>" />
+			</div>
+
+			<div class="control-group huge">
+				<input type="password" class="span6" name="editPassword" id="editPassword" placeholder="Password" />
+			</div>
+
+			<div class="control-group">
+				<button class="btn btn-huge btn-primary btn-block" type="submit">Update</button>
+			</div>
+
+			<hr>
+
+			<div class="controls-row">
+				<a class="btn btn-mini btn-secondary" href="#" onclick="alert('Well you can\'t...')">I want to close my account</a>
+			</div>
+		</fieldset>
+	</form>
+</div>
 
 <% include ../partials/footer %>

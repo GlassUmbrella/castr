@@ -199,6 +199,33 @@ exports.post_reset = function(req, res) {
 };
 
 exports.profile = function(req, res) {
-	res.render("auth/profile", { title: "Profile" });
+	var user = req.session.user;
+	res.render("auth/profile", { title: "Your details", updated: false, error: false, name: user.name, email: user.emailAddress });
 };
 
+exports.post_profile = function(req, res) {
+	var Users = orm.model("User");
+
+	Users.find({
+		where: {
+			id: req.session.user.id
+		}
+	}).success(function(user) {
+		user.name = req.body.editName;
+		user.emailAddress = req.body.editEmail;
+		if(req.body.editPassword != null && req.body.editPassword != '') {
+			bcrypt.hash(req.body.editPassword, null, null, function(err, hash) {
+				user.password = hash;
+				user.save().success(function() {
+					req.session.user = user;
+					res.render("auth/profile", { title: "Your details", updated: true, error: false, name: user.name, email: user.emailAddress });
+				});
+			});
+		} else {
+			user.save().success(function() {
+				req.session.user = user;
+				res.render("auth/profile", { title: "Your details", updated: true, error: false, name: user.name, email: user.emailAddress });
+			});
+		}
+	});
+};
