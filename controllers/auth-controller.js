@@ -119,6 +119,8 @@ exports.post_requestInvite = function(req, res) {
 					inviteCode: uuid.v4(),
 					dateRequested: new Date()
 				}).success(function(invite) {
+					var mailer = require("../lib/mailer");
+					mailer.sendInQueue(invite.emailAddress, "http://" + req.headers.host, invite.name);
 					res.render("auth/request-invite", { 
 						title: "Request Invite", 
 						error: null, 
