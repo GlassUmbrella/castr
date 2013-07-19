@@ -18,7 +18,9 @@ exports.index = function(req, res) {
 					episodes: rows,
 					podcasts: podcasts,
 					following: following,
-					markdown: require("markdown").markdown
+					host: req.headers.host,
+					markdown: require("markdown").markdown,
+					moment: require("moment")
 				});
 			});
 		});

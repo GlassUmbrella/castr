@@ -10,26 +10,34 @@
 			<% 
 				for (var i = 0; i < episodes.length; i++) { 
 					var episode = episodes[i]; 
+					var podcastUrl = "http://{0}.{1}".format(episode.podcastUrl, host);
+					var episodeUrl = "{0}/episodes/{1}".format(podcastUrl, episode.episodeNumber);
+					var timeSinceEpisode = moment(episode.publishDate).fromNow();
 			%>
 
 				<li class="media well">
-					<a class="pull-left" href="#">
+					<a class="pull-left" href="<%=podcastUrl%>">
 					  	<img class="media-object" src="http://placehold.it/64x64">
 					</a>
 					<div class="media-body">
 						<h4 class="media-heading">
-							<span class="label label-episode label-inverse">#<%=episode.episodeNumber%></span> 
-							<%=episode.title%>
+							<span class="label label-episode label-inverse">
+								#<%=episode.episodeNumber%>
+							</span> 
+							<a href="<%=episodeUrl%>">
+								<%=episode.title%>
+							</a>
 						</h4>
 
 						<div class="meta">
-							<span class="label label-large label-primary">
+							<a href="<%=podcastUrl%>" class="btn btn-small btn-primary">
 								<i class="fui-user"></i>
 								<%=episode.podcastTitle%>
-							</span>
-							<span class="label label-large label-info">
+							</a>
+
+							<span class="btn btn-small btn-info">
 								<i class="fui-calendar"></i>
-								<%=episode.publishDate%>
+								<%=timeSinceEpisode%>
 							</span>
 						</div>
 
