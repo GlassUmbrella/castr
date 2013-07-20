@@ -121,19 +121,45 @@
 			</li>
 		</ul>
 	</div>
-	<div class="span7">
+	<div class="span9">
 		<!-- ko if: podcasts.length > 0 -->
-			<ul class="nav nav-pills">
-				<li data-bind="attr: { class: selectedEpisodeType() == 'All' ? 'active' : '' }">
-				    <a href="#" data-bind="click: changeEpisodeType.bind($data, 'All')">All Episodes</a>
-				</li>
-				<li data-bind="attr: { class: selectedEpisodeType() == 'Published' ? 'active' : '' }">
-				    <a href="#" data-bind="click: changeEpisodeType.bind($data, 'Published')">Published Episodes</a>
-				</li>
-				<li data-bind="attr: { class: selectedEpisodeType() == 'Draft' ? 'active' : '' }">
-				    <a href="#" data-bind="click: changeEpisodeType.bind($data, 'Draft')">Draft Episodes</a>
-				</li>
-			</ul>
+			<div class="row">
+				<div class="span9">
+					<ul class="nav nav-pills pull-left">
+						<li data-bind="attr: { class: selectedEpisodeType() == 'All' ? 'active' : '' }">
+						    <a href="#" data-bind="click: changeEpisodeType.bind($data, 'All')">All</a>
+						</li>
+						<li data-bind="attr: { class: selectedEpisodeType() == 'Published' ? 'active' : '' }">
+						    <a href="#" data-bind="click: changeEpisodeType.bind($data, 'Published')">Published</a>
+						</li>
+						<li data-bind="attr: { class: selectedEpisodeType() == 'Draft' ? 'active' : '' }">
+						    <a href="#" data-bind="click: changeEpisodeType.bind($data, 'Draft')">Draft</a>
+						</li>
+					</ul>
+
+					<ul class="nav nav-pills pull-right">
+						<li>
+						    <a href="#" data-bind="attr: { href: '/podcasts/{0}/episodes/create'.format(selectedPodcast().id) }">
+						    	<span class="fui-plus"></span>
+						    	Episode
+						    </a>
+						</li>
+						<li>
+						    <a href="#" data-bind="attr: { href: selectedPodcastUrl() }">
+						    	<span class="fui-upload"></span>
+						    	View
+						    </a>
+						</li>
+						<li>
+						    <a href="#" data-bind="attr: { href: '/podcasts/{0}/settings'.format(selectedPodcast().id) }">
+						    	<span class="fui-gear"></span>
+						    	Settings
+						    </a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
 			<table class="table table-bordered">
 				<thead>
 					<tr>
@@ -166,7 +192,7 @@
 				<!-- /ko -->
 				<!-- ko if: visibleEpisodes().length == 0 -->
 					<tbody>
-						<td colspan="4">You haven&#39;t recorded any episodes</td>
+						<td colspan="4">No episodes found.</td>
 					</tbody>
 				<!-- /ko -->
 			</table>
@@ -176,26 +202,6 @@
 			<p><a href="/podcasts/create" class="btn btn-large btn-primary">Create My First Podcast</a></p>
 		<!-- /ko -->
 	</div>
-
-	<!-- ko if: podcasts.length > 0 -->
-		<div class="span2">
-			<div class="iconbar pull-right">
-	            <ul>
-		            <li>
-		            	<a href="" class="fui-plus" data-bind="attr: { href: '/podcasts/{0}/episodes/create'.format(selectedPodcast().id) }"></a>
-		            </li>
-		            <li><a data-bind="attr: { href: selectedPodcastUrl() }" class="fui-upload"></a></li>
-		            <li><a href="#fakelink" class="fui-chat"></a></li>
-		            <li><a href="#fakelink" class="fui-mail">
-			                <span class="iconbar-unread">1</span></a></li>
-		            <li>
-		                <a href="#fakelink" class="fui-gear">
-		                </a>
-		            </li>
-	            </ul>
-	        </div>
-	    </div>
-	<!-- /ko -->
 </div>
 
 <% include ../partials/footer %>
