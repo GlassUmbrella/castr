@@ -20,6 +20,27 @@
 
 		self.episodes = ko.observable([]);
 
+		self.visibleEpisodes = ko.observable([]);
+
+		self.filteredEpisodes = function() {
+			var type = self.selectedEpisodeType();
+			var episodesArray = [];
+
+			if (type == "All") {
+				episodesArray = self.episodes();
+			} else if (type == "Published") {
+				episodesArray = self.episodes().filter(function (element, index, array) {
+					return element.isPublished;
+				});
+			} else if (type == "Draft") {
+				episodesArray = self.episodes().filter(function (element, index, array) {
+					return !element.isPublished;
+				});
+			}
+
+			self.visibleEpisodes(episodesArray);
+		}
+
 		self.selectPodcast = function() {
 			var podcastId = this.id;
 			selectedPodcastId(podcastId);
@@ -35,6 +56,7 @@
 			var podcastId = self.selectedPodcastId();
 			$.getJSON("/api/podcasts/{0}/episodes".format(podcastId), function(data) {
 				self.episodes(data.result);
+				self.filteredEpisodes();
 				history.pushState(null, "", "/podcasts/{0}".format(podcastId));
 			});
 		}
@@ -45,6 +67,11 @@
 		}
 
 		self.selectedEpisodeType = ko.observable("All"); // All, Published, Draft
+
+		self.changeEpisodeType = function(type) {
+			self.selectedEpisodeType(type);
+			self.filteredEpisodes();
+		}
 
 		return self;
 	}
@@ -97,14 +124,14 @@
 	<div class="span7">
 		<!-- ko if: podcasts.length > 0 -->
 			<ul class="nav nav-pills">
-				<li class="active">
-				    <a href="#">All Episodes</a>
+				<li data-bind="attr: { class: selectedEpisodeType() == 'All' ? 'active' : '' }">
+				    <a href="#" data-bind="click: changeEpisodeType.bind($data, 'All')">All Episodes</a>
 				</li>
-				<li>
-				    <a href="#">Published Episodes</a>
+				<li data-bind="attr: { class: selectedEpisodeType() == 'Published' ? 'active' : '' }">
+				    <a href="#" data-bind="click: changeEpisodeType.bind($data, 'Published')">Published Episodes</a>
 				</li>
-				<li>
-				    <a href="#">Draft Episodes</a>
+				<li data-bind="attr: { class: selectedEpisodeType() == 'Draft' ? 'active' : '' }">
+				    <a href="#" data-bind="click: changeEpisodeType.bind($data, 'Draft')">Draft Episodes</a>
 				</li>
 			</ul>
 			<table class="table table-bordered">
@@ -115,8 +142,8 @@
 						<th>Published Date</th>
 					</tr>
 				</thead>
-				<!-- ko if: episodes().length > 0 -->
-					<tbody data-bind="foreach: episodes">
+				<!-- ko if: visibleEpisodes().length > 0 -->
+					<tbody data-bind="foreach: visibleEpisodes">
 						<tr>
 						<!-- ko if: episodeNumber > 0 -->
 							<td>
@@ -132,12 +159,12 @@
 								<a data-bind="text: title, attr: { href: '/podcasts/' + PodcastId + '/episodes/' + id }"></a>
 							</td>
 							<td>
-								<span data-bind="text: publishDate"></span>
+								<span data-bind="text: publishDate ? moment(publishDate).fromNow() : ''"></span>
 							</td>
 						</tr>
 					</tbody>
 				<!-- /ko -->
-				<!-- ko if: episodes().length == 0 -->
+				<!-- ko if: visibleEpisodes().length == 0 -->
 					<tbody>
 						<td colspan="4">You haven&#39;t recorded any episodes</td>
 					</tbody>
