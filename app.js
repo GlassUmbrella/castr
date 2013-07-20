@@ -30,7 +30,8 @@ var controllers = {
 var api = {
 	default: require("./api/default"),
 	users: require("./api/users"),
-	podcasts: require("./api/podcasts")
+	podcasts: require("./api/podcasts"),
+	follow: require("./api/follow"),
 };
 
 
@@ -196,6 +197,10 @@ app.get("/api", api.default.home);
 app.get("/api/podcasts", requiresAuth, api.podcasts.list);
 app.get("/api/podcasts/:podcastId/episodes", requiresAuth, api.podcasts.episodes);
 app.get("/api/podcasts/isUrlUnique", requiresAuth, api.podcasts.isUrlUnique);
+
+app.get("/api/podcasts/:podcastId/follow", requiresAuth, api.follow.follow);
+app.get("/api/podcasts/:podcastId/unfollow", requiresAuth, api.follow.unfollow);
+app.get("/api/podcasts/:podcastId/isFollowing", requiresAuth, api.follow.isFollowing);
 
 app.get("/podcasts", requiresAuth, controllers.podcasts.index);
 app.get("/podcasts/create", requiresAuth, controllers.podcasts.create);
