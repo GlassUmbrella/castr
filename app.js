@@ -4,6 +4,8 @@
 
 var express = require("express")
   , http = require("http")
+  , https = require("https")
+  , fs = require("fs")
   , path = require("path")
   , less = require("less-middleware")
   , orm = require("./lib/model")
@@ -221,6 +223,13 @@ app.post("/admin/send-invite", adminOnly, controllers.admin.post_send_invite);
 /**
  * Listen.
  */
+
+// var sslkey = fs.readFileSync('ssl-key.pem');
+// var sslcert = fs.readFileSync('ssl-cert.pem')
+// var options = {
+//     key: sslkey,
+//     cert: sslcert
+// };
  
 http.createServer(app).listen(app.get("port"), function() {
 	console.log("Node.js server listening on port " + app.get("port"));

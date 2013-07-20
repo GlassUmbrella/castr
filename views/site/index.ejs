@@ -1,5 +1,27 @@
 <% include /partials/header %>
-<p><a href="<%="/api/podcasts/{0}/follow".format(podcast.id)%>" class="btn btn-primary">Follow</a></p>
+<script>
+var podcastId = <%=podcast.id%>;
+var baseUrl = "<%=baseUrl%>";
+
+$(function() {
+	$.getJSON("http://{0}/api/podcasts/{1}/isFollowing".format(baseUrl, podcastId), function(data) {
+		if (data.result) {
+			$("#followButton").val("Unfollow");
+		} else {
+			$("#followButton").val("Follow");
+		}
+	});
+
+	$("#followButton").click(function() {
+		$.getJSON("http://{0}/api/podcasts/{1}/follow".format(baseUrl, podcastId), function(data) {
+			if (data.result) {
+				$("#followButton").val("Unfollow");
+			}
+		});
+	});
+});
+</script>
+<p><button class="btn btn-primary" id="followButton">Follow</button></p>
 <div class="episodes">
 	<div class="row">	
 <% 

@@ -3,7 +3,14 @@
 
 <script>
 $(function() {
-	$("input[type=file]").bootstrapFileInput();
+	$("#audioFileUpload").click(function() {
+       filepicker.setKey("AOGP1MTHUQJmnAelu6Yj6z");
+		filepicker.pickAndStore({ mimetype:"audio/mp3" }, { location:"S3"}, 
+			function(InkBlobs) {
+   				alert(JSON.stringify(InkBlobs));
+			});
+	});
+
 	$("#publishButton").click(function() {
 		$("#publishAction").val("true");
 	});
@@ -67,8 +74,8 @@ var notesValue = episode.id ? episode.notes : "";
 					<label class="control-label" for="description">Audio file</label>
 					<div class="controls">
 						<% if (isPremium) { %>
-							<input type="file" id="cover" title="Upload your episode MP3 file" class="btn-inverse">
-							<span class="help-block">MP3 encoded audio file of your podcast. Maximum file size is 50MB.</span>
+							<button id="audioFileUpload" class="btn btn-inverse">Upload your episode MP3 file</button>
+							<span class="help-block">MP3 encoded audio file of your podcast. Maximum file size is 200MB.</span>
 						<% } else { %>
 							<div class="alert alert-info">
 					            <p>Use our iOS app to record, upload, and publish this episode. Premium accounts can upload your own MP3 file. <a href="/whypremium">Why do we do this?</a></p>
