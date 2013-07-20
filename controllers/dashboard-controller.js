@@ -21,10 +21,7 @@ exports.index = function(req, res) {
 					title: "Dashboard",
 					episodes: rows,
 					podcasts: podcasts,
-					following: following,
-					host: req.headers.host,
-					markdown: require("markdown").markdown,
-					moment: require("moment")
+					following: following
 				});
 			});
 		});

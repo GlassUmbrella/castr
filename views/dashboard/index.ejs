@@ -1,6 +1,65 @@
 <% include ../partials/header %>
 <% include ../partials/menu %>
 
+<script>
+	var nowPlayingViewModel = {
+		episodeId: ko.observable(),
+		podcastId: ko.observable(),
+		episodeTitle: ko.observable(),
+		podcastTitle: ko.observable(),
+		episodeNumber: ko.observable()
+	};
+
+	$(function() {
+		var a = audiojs.createAll();
+
+		var audio = a[0];
+
+	  	$(".playButton").click(function(e) {
+	  		e.preventDefault();
+
+	  		var episode = $("#episode-{0}".format($(this).attr("data-episode")));
+	  		$("li.now-playing").each(function(index, element) {
+	  			$(element).removeClass("now-playing");
+	  		});
+	  		$(episode).addClass("now-playing");
+
+			nowPlayingViewModel.episodeId($(episode).attr("data-episode"));
+			nowPlayingViewModel.podcastId($(episode).attr("data-podcast"));
+			nowPlayingViewModel.episodeTitle($(episode).attr("data-episode-title"));
+			nowPlayingViewModel.podcastTitle($(episode).attr("data-podcast-title"));
+			nowPlayingViewModel.episodeNumber($(episode).attr("data-episode-number"));
+
+	  		var audioLocation = $(episode).attr("data-audio-location");
+	  		audio.load(audioLocation);
+	  		audio.play();
+		});
+
+		$("audio").bind("canplay", function() {
+			// todo: get the episode played time and set it
+			// this.currentTime = 29;
+		});
+	});
+
+	$(function() {
+		ko.applyBindings(nowPlayingViewModel);
+	});
+</script>
+
+<div class="row">
+	<div class="span12">
+		<div class="well">
+			<p>
+				<b>Now Playing</b>: 
+				#<span class="" data-bind="text: episodeNumber">1</span> 
+				<span data-bind="text: episodeTitle"></span> - 
+				<span data-bind="text: podcastTitle"></span>
+			</p>
+			<audio preload="none"></audio>
+		</div>
+	</div>
+</div>
+
 <div class="row">
 
 	<div class="feed span9">
@@ -10,12 +69,12 @@
 			<% 
 				for (var i = 0; i < episodes.length; i++) { 
 					var episode = episodes[i]; 
-					var podcastUrl = "http://{0}.{1}".format(episode.podcastUrl, host);
+					var podcastUrl = "http://{0}.{1}".format(episode.podcastUrl, baseUrl);
 					var episodeUrl = "{0}/episodes/{1}".format(podcastUrl, episode.episodeNumber);
 					var timeSinceEpisode = moment(episode.publishDate).fromNow();
 			%>
 
-				<li class="media well">
+				<li id="<%="episode-{0}".format(episode.id)%>" class="media well" data-episode="<%=episode.id%>" data-podcast="<%=episode.PodcastId%>" data-audio-location="<%=episode.audioLocation%>" data-podcast-title="<%=episode.podcastTitle%>" data-episode-title="<%=episode.title%>" data-episode-number="<%=episode.episodeNumber%>">
 					<a class="pull-left" href="<%=podcastUrl%>">
 					  	<img class="media-object" src="http://placehold.it/64x64">
 					</a>
@@ -30,15 +89,22 @@
 						</h4>
 
 						<div class="meta">
-							<a href="<%=podcastUrl%>" class="btn btn-small btn-primary">
+							<a href="#" class="btn btn-small btn-primary playButton" data-episode="<%=episode.id%>">
+								<i class="fui-play"></i>
+								Play
+							</a>
+
+							<a href="<%=podcastUrl%>" class="btn btn-small btn-info">
 								<i class="fui-user"></i>
 								<%=episode.podcastTitle%>
 							</a>
 
-							<a href="<%=episodeUrl%>" class="btn btn-small btn-info">
+							<a href="<%=episodeUrl%>" class="btn btn-small">
 								<i class="fui-calendar"></i>
 								<%=timeSinceEpisode%>
 							</a>
+
+
 						</div>
 
 						<hr>
@@ -56,19 +122,6 @@
 
 	<div class="span3">
 		<ul class="nav nav-list">
-		<li class="nav-header">My Podcasts</li>
-			<% 
-				for (var i = 0; i < podcasts.length; i++) { 
-					var podcast = podcasts[i]; 
-					var podcastUrl = "http://{0}.{1}".format(podcast.url, host);
-			%>
-				<li>
-					<a href="<%="/podcasts/{0}".format(podcast.id)%>">
-						<%=podcast.title%>
-					</a>
-				</li>
-			<% } %>
-			<li class="divider"></li>
 			<li class="nav-header">Following</li>
 			<% 
 				for (var i = 0; i < following.length; i++) { 
