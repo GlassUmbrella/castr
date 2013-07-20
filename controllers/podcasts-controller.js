@@ -36,33 +36,41 @@ exports.post_create = function(req, res) {
 	
 	// check podcast is unique
 	var url = req.body.url.toLowerCase();
-	
-	validation.podcasts.isUrlUnique(url, function(result) {
-		if(!result) {
-			console.log("Url isn't unique!");
-		}
 
-		// check user hasnt reached their podcast limit
-		var user = req.session.user;
-		validation.users.hasReachedPodcastCountLimit(user.id, function(result) {
-			if(!result) {
-				console.log("Max podcasts reached!");
+	if(validation.podcasts.isUrlAllowed(url)) {
+		validation.podcasts.isUrlUnique(url, function(result) {
+			if(result) {
+				// check user hasnt reached their podcast limit
+				var user = req.session.user;
+				validation.users.hasReachedPodcastCountLimit(user.id, function(result) {
+					if(!result) {
+						console.log("Max podcasts reached!");
+					}
+			
+					// create the podcast
+					var Podcast = orm.model("Podcast");
+					Podcast.create({
+						title: req.body.title,
+						description: req.body.description,
+						coverLocation: "",
+						url: url,
+						ownerUserId: user.id
+					}).success(function(podcast) {
+						podcast.setUsers([user]);
+						res.redirect("/podcasts/{0}".format(podcast.id));
+					});
+				});
+			} else {
+				//Already taken
+				console.log("already taken");
+				res.redirect("/podcasts");
 			}
-	
-			// create the podcast
-			var Podcast = orm.model("Podcast");
-			Podcast.create({
-				title: req.body.title,
-				description: req.body.description,
-				coverLocation: "",
-				url: url,
-				ownerUserId: user.id
-			}).success(function(podcast) {
-				podcast.setUsers([user]);
-				res.redirect("/podcasts/{0}".format(podcast.id));
-			});
 		});
-	});
+	} else {
+		//Banned word
+		console.log("banned word");
+		res.redirect("/podcasts");
+	}
 }
 
 /**
