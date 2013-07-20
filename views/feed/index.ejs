@@ -11,28 +11,57 @@
 	};
 
 	$(function() {
-		var a = audiojs.createAll();
+		var a = audiojs.createAll({
+			playPause: function() {
+
+			},
+			updatePlayhead: function(percent) {
+				var time = this.duration * percent;
+				if (time % 10 == 0) { // every 10 seconds
+
+				}
+			}
+		});
 
 		var audio = a[0];
 
-	  	$(".playButton").click(function(e) {
+	  	$(".play-button").click(function(e) {
 	  		e.preventDefault();
 
 	  		var episode = $("#episode-{0}".format($(this).attr("data-episode")));
-	  		$("li.now-playing").each(function(index, element) {
-	  			$(element).removeClass("now-playing");
-	  		});
-	  		$(episode).addClass("now-playing");
 
-			nowPlayingViewModel.episodeId($(episode).attr("data-episode"));
-			nowPlayingViewModel.podcastId($(episode).attr("data-podcast"));
-			nowPlayingViewModel.episodeTitle($(episode).attr("data-episode-title"));
-			nowPlayingViewModel.podcastTitle($(episode).attr("data-podcast-title"));
-			nowPlayingViewModel.episodeNumber($(episode).attr("data-episode-number"));
+	  		if (episode.hasClass("now-playing")) {
+	  			if (audio.playing) {
+	  				audio.pause();
+			  		$(this).children(".play-button-icon").attr("class", "play-button-icon fui-play");
+			  		$(this).children(".play-button-text").text("Play");	
+	  			} else {
+		  			audio.play();
+	  				$(this).children(".play-button-icon").attr("class", "play-button-icon fui-pause");
+			  		$(this).children(".play-button-text").text("Pause");
+	  			}
+	  		} else {
+		  		$(".play-button-icon").attr("class", "play-button-icon fui-play");
+		  		$(".play-button-text").text("Play");
 
-	  		var audioLocation = $(episode).attr("data-audio-location");
-	  		audio.load(audioLocation);
-	  		audio.play();
+		  		$(this).children(".play-button-icon").attr("class", "play-button-icon fui-pause");
+		  		$(this).children(".play-button-text").text("Pause");
+
+		  		$("li.now-playing").each(function(index, element) {
+		  			$(element).removeClass("now-playing");
+		  		});
+		  		$(episode).addClass("now-playing");
+
+				nowPlayingViewModel.episodeId($(episode).attr("data-episode"));
+				nowPlayingViewModel.podcastId($(episode).attr("data-podcast"));
+				nowPlayingViewModel.episodeTitle($(episode).attr("data-episode-title"));
+				nowPlayingViewModel.podcastTitle($(episode).attr("data-podcast-title"));
+				nowPlayingViewModel.episodeNumber($(episode).attr("data-episode-number"));
+
+		  		var audioLocation = $(episode).attr("data-audio-location");
+		  		audio.load(audioLocation);
+		  		audio.play();
+		  	}
 		});
 
 		$("audio").bind("canplay", function() {
@@ -45,6 +74,8 @@
 		ko.applyBindings(nowPlayingViewModel);
 	});
 </script>
+
+<p id="prog"></p>
 
 <div class="row">
 	<div class="span12">
@@ -89,9 +120,10 @@
 						</h4>
 
 						<div class="meta">
-							<a href="#" class="btn btn-small btn-primary playButton" data-episode="<%=episode.id%>">
-								<i class="fui-play"></i>
-								Play
+
+							<a href="#" class="btn btn-small btn-primary play-button btn-wide" data-episode="<%=episode.id%>">
+								<i class="fui-play play-button-icon"></i>
+								<span class="play-button-text">Play</span>
 							</a>
 
 							<a href="<%=podcastUrl%>" class="btn btn-small btn-info">
@@ -103,7 +135,6 @@
 								<i class="fui-calendar"></i>
 								<%=timeSinceEpisode%>
 							</a>
-
 
 						</div>
 
