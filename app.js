@@ -18,7 +18,6 @@ var express = require("express")
 require("log-timestamp");
 
 var controllers = {
-	error: require("./controllers/error-controller"),
 	auth: require("./controllers/auth-controller"),
 	feed: require("./controllers/feed-controller"),
 	podcasts: require("./controllers/podcasts-controller"),
@@ -48,6 +47,8 @@ var app = express();
 app.set("port", process.env.PORT || 3000);
 app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
+
+app.enable("verbose errors");
 
 // Handle form data
 app.use(express.bodyParser());
@@ -103,12 +104,6 @@ app.use(function(req, res, next) {
 app.use(app.router);
 app.use(express.favicon(__dirname + "/public/images/favicon.ico"));
 
-
-// Error handling
-//app.use(controllers.error.handle500); //Custom error handlers
-app.use(express.errorHandler()); //Default catch-all error handler
-
-
 // Email
 mailer.init(config.mailer);
 
@@ -120,6 +115,23 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.logger(app.settings.env));
 orm.setup("./models", databaseUser.database, databaseUser.username, databaseUser.password, { host: databaseUser.host }); 
+
+
+// Error handling
+app.use(function(req, res, next) {
+	res.status(404);
+	res.render("error/404", {
+		title: "Page not found"
+	});
+	return;
+});
+
+app.use(function(err, req, res, next){
+	res.status(err.status || 500);
+	res.render("error/500", {
+		title: "Something went wrong"
+	});
+});
 
 
 /**
@@ -142,8 +154,11 @@ function anonymousOnly(req, res, next) {
 
 function adminOnly(req, res, next) {
 	if(req.session.user == null || req.session.user.isAdmin == false) {
-		//403 or 404
-		return res.status(401);
+		res.status(401);
+		res.render("error/401", {
+			title: "Unauthorized"
+		});
+		return;
 	}
 	next();
 }
