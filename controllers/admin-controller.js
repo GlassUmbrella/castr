@@ -7,6 +7,7 @@ exports.invites = function(req, res) {
 	Invites.findAll().success(function(invites) {
 		res.render("admin/invites", { 
 			title: "Invites",
+			activeTab: "invites",
 			invites: invites,
 			moment: moment
 		});
@@ -20,6 +21,7 @@ exports.about = function(req, res) {
 	fs.stat("app.js", function(err, stats) {
 		res.render("admin/about", { 
 			title: "About",
+			activeTab: "about",
 			published: stats.mtime,
 			moment: moment
 		});
@@ -33,6 +35,7 @@ exports.users = function(req, res) {
 	Users.findAll().success(function(users) {
 		res.render("admin/users", { 
 			title: "Users",
+			activeTab: "users",
 			users: users,
 			moment: moment
 		});

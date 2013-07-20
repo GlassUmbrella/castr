@@ -11,7 +11,9 @@ exports.index = function(req, res) {
 	Podcast.findAll({ where: { ownerUserId: user.id } })
 	.success(function(podcasts) {
 		res.render("podcasts/index", { 
-			title: "My podcasts", podcasts: podcasts, 
+			title: "My podcasts",
+			activeTab: "podcasts",
+			podcasts: podcasts, 
 			selectedPodcastId : selectedPodcastId 
 		});
 	});
@@ -22,7 +24,11 @@ exports.index = function(req, res) {
  */
 
 exports.create = function(req, res) {
-	res.render("podcasts/create", { title: "Create your new podcast", error: null });
+	res.render("podcasts/create", {
+		title: "Create your new podcast",
+		activeTab: "podcasts",
+		error: null
+	});
 }
 
 exports.post_create = function(req, res) {
@@ -85,6 +91,7 @@ exports.episode = function(req, res) {
 		if (episode) {
 			res.render("podcasts/episode-create", { 
 				title: "Edit episode",
+				activeTab: "podcasts",
 				episode: episode, 
 				podcast: episode.podcast,
 				isNew: false,
@@ -137,6 +144,7 @@ exports.episodeCreate = function(req, res) {
 		if (podcast) {
 			res.render("podcasts/episode-create", { 
 					title: "Create a new episode", 
+					activeTab: "podcasts",
 					podcast: podcast,
 					episode: { },
 					isNew: true,

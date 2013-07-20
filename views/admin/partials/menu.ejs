@@ -1,26 +1,3 @@
-<script>
-$(function() {
-	setMenuActiveItem();
-});
-
-function setMenuActiveItem() {
-	var currentPath = window.location.pathname;
-	var activeClassName = "active";
-
-	if(currentPath.beginsWith("/admin/invites")) {
-		$("#invites-menu-item").addClass(activeClassName);
-	}
-
-	if(currentPath.beginsWith("/admin/users")) {
-		$("#users-menu-item").addClass(activeClassName);
-	}
-
-	if(currentPath.beginsWith("/admin/about")) {
-		$("#about-menu-item").addClass(activeClassName);
-	}
-}
-</script>
-
 <div class="navbar navbar-inverse">
   	<div class="navbar-inner">
 	    <div class="container">
@@ -29,13 +6,13 @@ function setMenuActiveItem() {
       			<span class="brand">Castr</span>
       		</a>
       		<ul class="nav">
-				<li id="invites-menu-item">
+				<li <% if(activeTab == "invites") { %> class="active" <% } %>>
 					<a href="/admin/invites">Invites</a>
 				</li>
-				<li id="users-menu-item">
+				<li <% if(activeTab == "users") { %> class="active" <% } %>>
 					<a href="/admin/users">Users</a>
 				</li>
-				<li id="about-menu-item">
+				<li <% if(activeTab == "about") { %> class="active" <% } %>>
 					<a href="/admin/about">About</a>
 				</li>
 	        </ul>

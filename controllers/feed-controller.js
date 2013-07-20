@@ -19,6 +19,7 @@ exports.index = function(req, res) {
 			}).success(function(following) {
 				res.render("feed/index", { 
 					title: "Feed",
+					activeTab: "feed",
 					episodes: rows,
 					podcasts: podcasts,
 					following: following
