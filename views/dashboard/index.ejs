@@ -60,7 +60,7 @@
 			<% 
 				for (var i = 0; i < podcasts.length; i++) { 
 					var podcast = podcasts[i]; 
-					var podcastUrl = "http://{0}.{1}".format(episode.podcastUrl, host);
+					var podcastUrl = "http://{0}.{1}".format(podcast.url, host);
 			%>
 				<li>
 					<a href="<%="/podcasts/{0}".format(podcast.id)%>">
