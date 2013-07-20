@@ -7,22 +7,17 @@
 		podcastId: ko.observable(),
 		episodeTitle: ko.observable(),
 		podcastTitle: ko.observable(),
-		episodeNumber: ko.observable()
+		episodeNumber: ko.observable(),
+		progressUrl: function() {
+			var progressUrl = "/api/podcasts/{0}/episodes/{1}/progress".format(this.podcastId(), this.episodeId());
+			return progressUrl;
+		}
 	};
 
 	$(function() {
-		var a = audiojs.createAll({
-			playPause: function() {
+		var a = audiojs.createAll();
 
-			},
-			updatePlayhead: function(percent) {
-				var time = this.duration * percent;
-				if (time % 10 == 0) { // every 10 seconds
-
-				}
-			}
-		});
-
+		var lastSentTime = 0; // tracks last sent time
 		var audio = a[0];
 
 	  	$(".play-button").click(function(e) {
@@ -65,8 +60,25 @@
 		});
 
 		$("audio").bind("canplay", function() {
-			// todo: get the episode played time and set it
-			// this.currentTime = 29;
+			// start at progress offset
+			var self = this;
+			$.getJSON(nowPlayingViewModel.progressUrl(), function(data) {
+				if (data.result) {
+					var time = data.result;
+					var percent = time / self.duration;
+					audio.skipTo(percent);
+				}
+			})
+		});
+
+		$("audio").bind("timeupdate", function(e) {
+			// update progress
+			var time = Math.floor(this.currentTime);
+			if (time > 0 && time % 3 == 0 && time != lastSentTime) { // every 10 seconds
+				console.log("time: " + time);
+				lastSentTime = time;
+				$.post(nowPlayingViewModel.progressUrl(), { time: time });
+			}
 		});
 	});
 

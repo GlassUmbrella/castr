@@ -38,7 +38,8 @@ module.exports = {
     relations:{
     	hasMany: [ 
        		{ name: "Podcast" },
-       		{ name: "Follower" } 
+       		{ name: "Follower" }, 
+       		{ name: "Progress" }
     	]
     },
     options: {}

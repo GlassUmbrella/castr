@@ -31,6 +31,7 @@ var api = {
 	default: require("./api/default"),
 	users: require("./api/users"),
 	podcasts: require("./api/podcasts"),
+	progress: require("./api/progress"),
 	follow: require("./api/follow"),
 };
 
@@ -202,6 +203,9 @@ app.get("/api/podcasts/isUrlUnique", requiresAuth, api.podcasts.isUrlUnique);
 app.get("/api/podcasts/:podcastId/follow", requiresAuth, api.follow.follow);
 app.get("/api/podcasts/:podcastId/unfollow", requiresAuth, api.follow.unfollow);
 app.get("/api/podcasts/:podcastId/isFollowing", requiresAuth, api.follow.isFollowing);
+
+app.get("/api/podcasts/:podcastId/episodes/:episodeId/progress", requiresAuth, api.progress.progress);
+app.post("/api/podcasts/:podcastId/episodes/:episodeId/progress", requiresAuth, api.progress.setProgress);
 
 app.get("/podcasts", requiresAuth, controllers.podcasts.index);
 app.get("/podcasts/create", requiresAuth, controllers.podcasts.create);
