@@ -11,7 +11,6 @@ var express = require("express")
   , cookieSessions = require("./lib/cookie-sessions")
   , validation = require("./lib/validation")
   , moment = require("moment")
-  , azure = require("./lib/azure")
   , shared = require("./public/js/castr/shared.js")
   ,	config = require("./config");
 
@@ -118,12 +117,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.logger(app.settings.env));
 orm.setup("./models", databaseUser.database, databaseUser.username, databaseUser.password, { host: databaseUser.host }); 
 
-
-/**
- * Azure.
- */
-
-azure.setup(config.azure.account, config.azure.primaryAccessKey);
 
 /**
  * Routes.
