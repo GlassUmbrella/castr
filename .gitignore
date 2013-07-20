@@ -19,3 +19,8 @@ node_modules
 
 # cache files
 public/css/style.css
+
+# ssl certs
+ssl-cert.pem
+ssl-key.pem
+certrequest.csr
