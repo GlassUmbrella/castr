@@ -71,7 +71,6 @@ app.use(function(req, res, next) {
 
 // Routing
 app.use(app.router);
-app.use(express.static(path.join(__dirname, "public")));
 app.use(express.favicon(__dirname + "/public/images/favicon.ico"));
 
 // Error handling
@@ -100,11 +99,15 @@ if("development" == app.settings.env) {
 	global.baseUrl = "castr.net";
 	
 	app.use(less({
+		force: true,
 		src: __dirname + "/public",
 		once: true,
 		compress: true
 	}));
 }
+
+// static middleware
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.logger(app.settings.env));
 orm.setup("./models", databaseUser.database, databaseUser.username, databaseUser.password, { host: databaseUser.host }); 
