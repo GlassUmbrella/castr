@@ -10,7 +10,7 @@ module.exports = {
             allowNull: false
 		},
 		description: {
-			type: Seq.STRING,
+			type: Seq.TEXT,
 			allowNull: false
 		},
 		coverLocation: {
