@@ -20,25 +20,22 @@ function setMenuActiveItem() {
 <div class="navbar">
   	<div class="navbar-inner">
 	    <div class="container">
-		    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-01" value="Castr"></button>
-		    	<a href="/">
-	      			<span class="brand">Castr</span>
+		    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-01"></button>
+		    	<a href="/" class="brand">
+	      			Castr
 	      		</a>
+	      	<div class="nav-collapse collapse" id="nav-collapse-01">
 	      		<% if (session.user) { %>
-			        <ul class="nav">
-						<li id="dashboard-menu-item">
-							<a href="/dashboard">
-								Dashboard
-								<span class="navbar-unread"></span>
-							</a>
-						</li>
+					<ul class="nav">
+							<li id="dashboard-menu-item">
+								<a href="/dashboard">
+									Dashboard
+								</a>
+							</li>
 						<li id="podcasts-menu-item">
 							<a href="/podcasts">My Podcasts</a>
 						</li>
-			        </ul>
-				<% } %>
-	      	<div class="nav-collapse collapse" id="nav-collapse-01">
-	      		<% if (session.user) { %>
+					</ul>
 					<ul class="nav pull-right">
 						<li class="dropdown">
 				            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
