@@ -12,7 +12,6 @@ var express = require("express")
   , mailer = require("./lib/mailer")
   , cookieSessions = require("./lib/cookie-sessions")
   , validation = require("./lib/validation")
-  , moment = require("moment")
   , shared = require("./public/js/castr/shared.js")
   ,	config = require("./config");
 
@@ -94,6 +93,8 @@ if("development" == app.settings.env) {
 app.use(function(req, res, next) {
 	res.locals.session = req.session;
 	res.locals.baseUrl = global.baseUrl;
+	res.locals.moment = require("moment");
+	res.locals.markdown = require("markdown").markdown;
 	next();
 });
 
