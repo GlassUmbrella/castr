@@ -7,8 +7,8 @@ function setMenuActiveItem() {
 	var currentPath = window.location.pathname;
 	var activeClassName = "active";
 
-	if(currentPath.beginsWith("/dashboard")) {
-		$("#dashboard-menu-item").addClass(activeClassName);
+	if(currentPath.beginsWith("/feed")) {
+		$("#feed-menu-item").addClass(activeClassName);
 	}
 
 	if(currentPath.beginsWith("/podcasts")) {
@@ -27,9 +27,9 @@ function setMenuActiveItem() {
 	      	<div class="nav-collapse collapse" id="nav-collapse-01">
 	      		<% if (session.user) { %>
 					<ul class="nav">
-							<li id="dashboard-menu-item">
-								<a href="/dashboard">
-									Dashboard
+							<li id="feed-menu-item">
+								<a href="/feed">
+									Feed
 								</a>
 							</li>
 						<li id="podcasts-menu-item">

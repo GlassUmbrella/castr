@@ -17,8 +17,8 @@ exports.index = function(req, res) {
 				where: { UserId: userId }, 
 				include: [Podcast] 
 			}).success(function(following) {
-				res.render("dashboard/index", { 
-					title: "Dashboard",
+				res.render("feed/index", { 
+					title: "Feed",
 					episodes: rows,
 					podcasts: podcasts,
 					following: following
@@ -30,7 +30,7 @@ exports.index = function(req, res) {
 
 exports.splash = function(req, res) {
 	if(req.session.user) {
-		res.redirect("/dashboard");
+		res.redirect("/feed");
 	} else {
 		res.render("splash");
 	}

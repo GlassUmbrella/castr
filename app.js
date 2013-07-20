@@ -20,7 +20,7 @@ require("log-timestamp");
 var controllers = {
 	error: require("./controllers/error-controller"),
 	auth: require("./controllers/auth-controller"),
-	dashboard: require("./controllers/dashboard-controller"),
+	feed: require("./controllers/feed-controller"),
 	podcasts: require("./controllers/podcasts-controller"),
 	site: require("./controllers/site-controller"),
 	public: require("./controllers/public-controller"),
@@ -134,7 +134,7 @@ function requiresAuth(req, res, next) {
 
 function anonymousOnly(req, res, next) {
 	if(req.session.user != null) {
-		return res.redirect("/dashboard");
+		return res.redirect("/feed");
 	}
 	next();
 }
@@ -174,7 +174,7 @@ app.get("/episodes/:episodeNumber", requiresSubdomain, controllers.site.episode)
 
 app.get("/", controllers.public.home);
 
-app.get("/dashboard", requiresAuth, controllers.dashboard.index);
+app.get("/feed", requiresAuth, controllers.feed.index);
 
 app.get("/request-invite", anonymousOnly, controllers.auth.requestInvite);
 app.post("/request-invite", anonymousOnly, controllers.auth.post_requestInvite);
