@@ -14,6 +14,10 @@ function setMenuActiveItem() {
 	if(currentPath.beginsWith("/admin/users")) {
 		$("#users-menu-item").addClass(activeClassName);
 	}
+
+	if(currentPath.beginsWith("/admin/about")) {
+		$("#about-menu-item").addClass(activeClassName);
+	}
 }
 </script>
 
@@ -30,6 +34,9 @@ function setMenuActiveItem() {
 				</li>
 				<li id="users-menu-item">
 					<a href="/admin/users">Users</a>
+				</li>
+				<li id="about-menu-item">
+					<a href="/admin/about">About</a>
 				</li>
 	        </ul>
 	      	<div class="nav-collapse collapse" id="nav-collapse-01">

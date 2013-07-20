@@ -13,6 +13,19 @@ exports.invites = function(req, res) {
 	});
 };
 
+exports.about = function(req, res) {
+	var fs = require("fs");
+	var moment = require("moment");
+	
+	fs.stat("app.js", function(err, stats) {
+		res.render("admin/about", { 
+			title: "About",
+			published: stats.mtime,
+			moment: moment
+		});
+	});
+};
+
 exports.users = function(req, res) {
 	var Users = orm.model("User");
 	var moment = require("moment");
