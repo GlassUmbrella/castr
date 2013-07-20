@@ -117,8 +117,13 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.logger(app.settings.env));
 orm.setup("./models", databaseUser.database, databaseUser.username, databaseUser.password, { host: databaseUser.host }); 
-// azure.setup(config.azure.account, config.azure.accessKey);
 
+
+/**
+ * Azure.
+ */
+
+azure.setup(config.azure.account, config.azure.primaryAccessKey);
 
 /**
  * Routes.
