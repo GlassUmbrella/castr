@@ -10,6 +10,7 @@ var express = require("express")
   , mailer = require("./lib/mailer")
   , cookieSessions = require("./lib/cookie-sessions")
   , validation = require("./lib/validation")
+  , moment = require("moment")
   , azure = require("./lib/azure")
   , shared = require("./public/js/castr/shared.js")
   ,	config = require("./config");
@@ -63,25 +64,6 @@ app.use(express.cookieSession({
 
 app.use(cookieSessions("8FD0A82D-7ADE-433A-8CE1-F1020B545D36", cookieDomain));
 
-// Middleware
-app.use(function(req, res, next) {
-	res.locals.session = req.session;
-	next();
-});
-
-// Routing
-app.use(app.router);
-app.use(express.favicon(__dirname + "/public/images/favicon.ico"));
-
-// Error handling
-//app.use(controllers.error.handle500); //Custom error handlers
-app.use(express.errorHandler()); //Default catch-all error handler
-
-// Email
-mailer.init(config.mailer);
-
-console.log("Environment: " + app.settings.env);
-
 // Dev configuration
 var databaseUser = {};
 if("development" == app.settings.env) {
@@ -105,6 +87,29 @@ if("development" == app.settings.env) {
 		compress: true
 	}));
 }
+
+// Local vars
+app.use(function(req, res, next) {
+	res.locals.session = req.session;
+	res.locals.baseUrl = global.baseUrl;
+	next();
+});
+
+// Routing
+app.use(app.router);
+app.use(express.favicon(__dirname + "/public/images/favicon.ico"));
+
+
+// Error handling
+//app.use(controllers.error.handle500); //Custom error handlers
+app.use(express.errorHandler()); //Default catch-all error handler
+
+
+// Email
+mailer.init(config.mailer);
+
+console.log("Environment: " + app.settings.env);
+
 
 // static middleware
 app.use(express.static(path.join(__dirname, "public")));

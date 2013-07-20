@@ -2,6 +2,8 @@
 <% include ../partials/menu %>
 
 <script>
+	var baseUrl = "<%=baseUrl%>";
+
 	function PodcastsIndexViewModel() {
 		self.podcasts = <%-JSON.stringify(podcasts) %>;
 
@@ -39,7 +41,13 @@
 
 		self.selectedPodcastUrl = function() {
 			var podcast = self.selectedPodcast();
-			return "http://{0}.castr.net".format(podcast.url);
+			return "http://{0}.{1}".format(podcast.url, baseUrl);
+		}
+
+		self.selectedEpisodeType = ko.observable("All"); // All, Published, Draft
+
+		self.selectEpisodeType = function() {
+
 		}
 
 		return self;
@@ -92,6 +100,17 @@
 	</div>
 	<div class="span7">
 		<!-- ko if: podcasts.length > 0 -->
+			<ul class="nav nav-pills">
+				<li class="active">
+				    <a href="#">All Episodes</a>
+				</li>
+				<li>
+				    <a href="#">Published Episodes</a>
+				</li>
+				<li>
+				    <a href="#">Draft Episodes</a>
+				</li>
+			</ul>
 			<table class="table table-bordered">
 				<thead>
 					<tr>
