@@ -1,0 +1,52 @@
+<% include ../partials/header %>
+<% include partials/menu %>
+
+<h3>Users</h3>
+<hr>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Email address</th>
+			<th>Is Premium</th>
+			<th>Is Admin</th>
+			<th>Is Active</th>
+			<th>Joined</th>
+		</tr>
+	</thead>
+	<%if (users.length > 0) { %>
+		<tbody>
+			<% users.forEach(function(user){ %>
+			<tr>
+				<td><%= user.name %></td>
+				<td><%= user.emailAddress %></td>
+				<td>
+					<% if(user.isPremium) { %>
+						<span class="fui-check"></span>
+					<% } else { %>
+						<span class="fui-cross"></span>
+					<% } %>
+				</td>
+				<td>
+					<% if(user.isAdmin) { %>
+						<span class="fui-check"></span>
+					<% } else { %>
+						<span class="fui-cross"></span>
+					<% } %>
+				</td>
+				<td>
+					<span class="fui-check"></span>
+				</td>
+				<td><%= moment(user.createdAt).format("DD/MM/YYYY HH:mm") %></td>
+			</tr>
+			<% }); %>
+		</tbody>
+	<% } else { %>
+		<tbody>
+			<td colspan="6">No users</td>
+		</tbody>
+	<% } %>
+</table>
+
+<% include ../partials/footer %>

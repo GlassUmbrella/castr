@@ -202,6 +202,7 @@ app.post("/podcasts/:podcastId/episodes/:episodeId", requiresAuth, controllers.p
 
 
 //Admin routes
+app.get("/admin/users", adminOnly, controllers.admin.users);
 app.get("/admin/invites", adminOnly, controllers.admin.invites);
 app.post("/admin/send-invite", adminOnly, controllers.admin.post_send_invite);
 

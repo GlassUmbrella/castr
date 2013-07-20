@@ -46,7 +46,9 @@ function setMenuActiveItem() {
 					        </a>
 				            <ul class="dropdown-menu">
 					            <li><a href="/profile">Profile</a></li>
-					            <li class="divider"></li>
+					            <% if (session.user.isAdmin) { %>
+					            	<li><a href="/admin/invites">Admin</a></li>
+					            <% } %>
 								<li><a href="/logout">Logout</a></li>
 				            </ul>
 						</li>

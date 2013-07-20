@@ -1,4 +1,5 @@
 <% include ../partials/header %>
+<% include partials/menu %>
 
 <script>
 	function sendInvite(id) {
@@ -8,15 +9,18 @@
 	}
 </script>
 
-<table class="table table-bordered">
+<h3>Invites</h3>
+<hr>
+
+<table class="table table-striped">
 	<thead>
 		<tr>
 			<th>Name</th>
 			<th>Email address</th>
-			<th>Invite code</th>
 			<th>Requested</th>
 			<th>Last sent</th>
 			<th>Activated</th>
+			<th></th>
 			<th></th>
 		</tr>
 	</thead>
@@ -26,27 +30,31 @@
 			<tr>
 				<td><%= invite.name %></td>
 				<td><%= invite.emailAddress %></td>
-				<td><%= invite.inviteCode %></td>
-				<td><%= invite.dateRequested %></td>
+				<td><%= moment(invite.dateRequested).format("DD/MM/YYYY HH:mm") %></td>
 				<td>
 					<% if(invite.dateSent != null) { %>
-						<%= invite.dateSent %>
+						<%= moment(invite.dateSent).format("DD/MM/YYYY HH:mm") %>
 					<% } else { %>
 						<span class="fui-cross"></span>
 					<% } %>
 				</td>
 				<td>
 					<% if(invite.dateActivated != null) { %>
-						<%= invite.dateActivated %>
+						<%= moment(invite.dateActivated).format("DD/MM/YYYY HH:mm") %>
 					<% } else { %>
 						<span class="fui-cross"></span>
 					<% } %>
 				</td>
 				<td>
+					<a href="javascript:void(0);" class="fui-info" rel="tooltip" title="Invite code: <%= invite.inviteCode %>"></a>
+				</td>
+				<td>
 					<% if(invite.createdUserId != null) { %>
 						<span class="fui-user"></span>
 					<% } else { %>
-						<a href="javascript:sendInvite(<%= invite.id %>)"><span class="fui-mail"></span></a>
+						<a href="javascript:sendInvite(<%= invite.id %>)" rel="tooltip" data-toggle="tooltip" data-tooltip-style="light" title="Send invite">
+							<span class="fui-mail"></span>
+						</a>
 					<% } %>
 				</td>
 			</tr>
@@ -54,7 +62,7 @@
 		</tbody>
 	<% } else { %>
 		<tbody>
-			<td colspan="4">No invites</td>
+			<td colspan="7">No invites</td>
 		</tbody>
 	<% } %>
 </table>

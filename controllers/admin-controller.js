@@ -2,11 +2,26 @@ var orm	= require("../lib/model");
 
 exports.invites = function(req, res) {
 	var Invites = orm.model("Invite");
+	var moment = require("moment");
 	
 	Invites.findAll().success(function(invites) {
 		res.render("admin/invites", { 
-			title: "Sent Invites",
-			invites: invites
+			title: "Invites",
+			invites: invites,
+			moment: moment
+		});
+	});
+};
+
+exports.users = function(req, res) {
+	var Users = orm.model("User");
+	var moment = require("moment");
+	
+	Users.findAll().success(function(users) {
+		res.render("admin/users", { 
+			title: "Users",
+			users: users,
+			moment: moment
 		});
 	});
 };
