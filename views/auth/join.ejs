@@ -13,19 +13,19 @@
 			<% } %>
 
 			<div class="control-group huge">
-				<input type="text" class="span6" name="signupName" id="signupName" placeholder="Your name" value="<%= name || '' %>" autofocus />
+				<input type="text" class="span6" name="signupName" id="signupName" placeholder="Your name" value="<%= name || '' %>" autofocus autocomplete="off" />
 			</div>
 
 			<div class="control-group huge">
-				<input type="email" class="span6" name="signupEmail" id="signupEmail" placeholder="Email address" value="<%= emailAddress || '' %>" />
+				<input type="email" class="span6" name="signupEmail" id="signupEmail" placeholder="Email address" value="<%= emailAddress || '' %>" autocomplete="off" />
 			</div>
 
 			<div class="control-group huge">
-				<input type="password" class="span6" name="signupPassword" id="signupPassword" placeholder="Password" />
+				<input type="password" class="span6" name="signupPassword" id="signupPassword" placeholder="Password" autocomplete="off" />
 			</div>
 
 			<div class="control-group huge">
-				<input type="text" class="span6" name="signupInviteCode" id="signupInviteCode" placeholder="Invite code" value="<%= inviteCode || '' %>" />
+				<input type="text" class="span6" name="signupInviteCode" id="signupInviteCode" placeholder="Invite code" value="<%= inviteCode || '' %>" autocomplete="off" />
 			</div>
 
 			<div class="control-group">
