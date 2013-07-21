@@ -43,10 +43,10 @@ function feedQuery(userId, pageNumber, pageSize) {
 
 	var start = (pageNumber - 1) * pageSize;
 
-	var query = "select episodes.*, podcasts.title as podcastTitle, podcasts.coverLocation as podcastCoverLocation, podcasts.url as podcastUrl from episodes \
-				inner join `podcasts` on episodes.`PodcastId` = podcasts.id \
-				where podcasts.id in  (select PodcastId from Followers where Followers.UserId = {0}) \
-				and episodes.isPublished \
+	var query = "select Episodes.*, Podcasts.title as podcastTitle, Podcasts.coverLocation as podcastCoverLocation, Podcasts.url as podcastUrl from Episodes \
+				inner join Podcasts on Episodes.PodcastId = Podcasts.id \
+				where Podcasts.id in (select PodcastId from Followers where Followers.UserId = {0}) \
+				and Episodes.isPublished \
 				order by publishDate desc \
 				limit {1}, {2}".format(userId, start, pageSize);
 
