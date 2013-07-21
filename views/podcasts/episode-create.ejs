@@ -2,13 +2,29 @@
 <% include ../partials/menu %>
 
 <script>
+
 $(function() {
-	$("#audioFileUpload").click(function() {
-       filepicker.setKey("AOGP1MTHUQJmnAelu6Yj6z");
-		filepicker.pickAndStore({ mimetype:"audio/mp3" }, { location:"S3"}, 
-			function(InkBlobs) {
-   				alert(JSON.stringify(InkBlobs));
-			});
+	$("#audioFileUpload").click(function(e) {
+		e.preventDefault();
+       	filepicker.setKey("AOGP1MTHUQJmnAelu6Yj6z");
+
+       	var pickerOptions = {
+			// mimetype: "audio/*",
+			// extensions: [".mp3", ".mp4", ".aac"],
+			maxSize: 104857600 // 100MB 
+		};
+       	var storeOptions = { 
+			location: "S3",
+			path: "/audio/",
+			access: "public"
+		};
+
+		filepicker.pickAndStore(pickerOptions, storeOptions, function (InkBlobs) {
+	    	$.post("/api/file", InkBlobs[0], function(data) {
+	    		console.log("FileId: " + data.result);
+	    		$("#file-id").val(data.result);
+	    	});
+	  	});
 	});
 
 	$("#publishButton").click(function() {
@@ -23,6 +39,7 @@ var isPremium = session.user.isPremium;
 var titleValue = episode.id ? episode.title : "";
 var descriptionValue = episode.id ? episode.description : "";
 var notesValue = episode.id ? episode.notes : "";
+var fileIdValue = episode.FileId ? episode.FileId : "";
 %>
 
 <ul class="breadcrumb">
@@ -74,6 +91,7 @@ var notesValue = episode.id ? episode.notes : "";
 					<label class="control-label" for="description">Audio file</label>
 					<div class="controls">
 						<% if (isPremium) { %>
+							<input type="hidden" name="fileId" id="file-id" value=<%=fileIdValue%> />
 							<button id="audioFileUpload" class="btn btn-inverse">Upload your episode MP3 file</button>
 							<span class="help-block">MP3 encoded audio file of your podcast. Maximum file size is 200MB.</span>
 						<% } else { %>

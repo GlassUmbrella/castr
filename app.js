@@ -32,6 +32,7 @@ var api = {
 	podcasts: require("./api/podcasts"),
 	progress: require("./api/progress"),
 	follow: require("./api/follow"),
+	file: require("./api/file")
 };
 
 
@@ -126,12 +127,14 @@ app.use(function(req, res, next) {
 	return;
 });
 
-app.use(function(err, req, res, next){
-	res.status(err.status || 500);
-	res.render("error/500", {
-		title: "Something went wrong"
+if("development" != app.settings.env) {
+	app.use(function(err, req, res, next){
+		res.status(err.status || 500);
+		res.render("error/500", {
+			title: "Something went wrong"
+		});
 	});
-});
+}
 
 
 /**
@@ -186,6 +189,24 @@ app.get("/itunes", requiresSubdomain, controllers.site.itunes);
 app.get("/contact", requiresSubdomain, controllers.site.contact);
 app.get("/episodes/:episodeNumber", requiresSubdomain, controllers.site.episode);
 
+// API routes
+
+app.get("/api", api.default.home);
+app.get("/api/podcasts", requiresAuth, api.podcasts.list);
+app.get("/api/podcasts/:podcastId/episodes", requiresAuth, api.podcasts.episodes);
+app.get("/api/podcasts/isUrlUnique", requiresAuth, api.podcasts.isUrlUnique);
+
+app.get("/api/podcasts/:podcastId/follow", requiresAuth, api.follow.follow);
+app.get("/api/podcasts/:podcastId/unfollow", requiresAuth, api.follow.unfollow);
+app.get("/api/podcasts/:podcastId/isFollowing", requiresAuth, api.follow.isFollowing);
+
+app.get("/api/podcasts/:podcastId/episodes/:episodeId/progress", requiresAuth, api.progress.progress);
+app.post("/api/podcasts/:podcastId/episodes/:episodeId/progress", requiresAuth, api.progress.post_progress);
+
+app.get("/api/file/:fileId", requiresAuth, api.file.file);
+app.post("/api/file", requiresAuth, api.file.post_file);
+
+
 // Main app routes
 
 app.get("/", controllers.public.home);
@@ -209,18 +230,6 @@ app.post("/reset", anonymousOnly, controllers.auth.post_reset);
 
 app.get("/profile", requiresAuth, controllers.auth.profile);
 app.post("/profile", requiresAuth, controllers.auth.post_profile);
-
-app.get("/api", api.default.home);
-app.get("/api/podcasts", requiresAuth, api.podcasts.list);
-app.get("/api/podcasts/:podcastId/episodes", requiresAuth, api.podcasts.episodes);
-app.get("/api/podcasts/isUrlUnique", requiresAuth, api.podcasts.isUrlUnique);
-
-app.get("/api/podcasts/:podcastId/follow", requiresAuth, api.follow.follow);
-app.get("/api/podcasts/:podcastId/unfollow", requiresAuth, api.follow.unfollow);
-app.get("/api/podcasts/:podcastId/isFollowing", requiresAuth, api.follow.isFollowing);
-
-app.get("/api/podcasts/:podcastId/episodes/:episodeId/progress", requiresAuth, api.progress.progress);
-app.post("/api/podcasts/:podcastId/episodes/:episodeId/progress", requiresAuth, api.progress.setProgress);
 
 app.get("/podcasts", requiresAuth, controllers.podcasts.index);
 app.get("/podcasts/create", requiresAuth, controllers.podcasts.create);
