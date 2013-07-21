@@ -26,13 +26,13 @@
 			var type = self.selectedEpisodeType();
 			var episodesArray = [];
 
-			if (type == "All") {
+			if (type == "all") {
 				episodesArray = self.episodes();
-			} else if (type == "Published") {
+			} else if (type == "published") {
 				episodesArray = self.episodes().filter(function (element, index, array) {
 					return element.isPublished;
 				});
-			} else if (type == "Draft") {
+			} else if (type == "draft") {
 				episodesArray = self.episodes().filter(function (element, index, array) {
 					return !element.isPublished;
 				});
@@ -66,7 +66,7 @@
 			return "http://{0}.{1}".format(podcast.url, baseUrl);
 		}
 
-		self.selectedEpisodeType = ko.observable("All"); // All, Published, Draft
+		self.selectedEpisodeType = ko.observable("all"); // all, published, draft
 
 		self.changeEpisodeType = function(type) {
 			self.selectedEpisodeType(type);
