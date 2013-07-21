@@ -169,7 +169,7 @@
 			<% 
 				for (var i = 0; i < following.length; i++) { 
 					var podcastFollowing = following[i]; 
-					var podcastUrl = "http://{0}.{1}".format(podcastFollowing.url, baseUrl);
+					var podcastUrl = "http://{0}.{1}".format(podcastFollowing.podcast.url, baseUrl);
 			%>
 				<li>
 					<a href="<%=podcastUrl%>">
