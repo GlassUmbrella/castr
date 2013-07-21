@@ -21,10 +21,6 @@ module.exports = {
 			type: Seq.INTEGER,
             allowNull: true
 		},
-		audioLocation: {
-			type: Seq.STRING,
-            allowNull: true
-		},
 		notes: {
 			type: Seq.TEXT,
 			allowNull: true
