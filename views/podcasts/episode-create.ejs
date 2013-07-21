@@ -9,7 +9,7 @@ $(function() {
        	filepicker.setKey("AOGP1MTHUQJmnAelu6Yj6z");
 
        	var pickerOptions = {
-			// mimetype: "audio/*",
+			mimetype: "audio/*",
 			// extensions: [".mp3", ".mp4", ".aac"],
 			maxSize: 104857600 // 100MB 
 		};
@@ -41,13 +41,9 @@ $(function() {
 					url: "/api/file/{0}".format(fileId),
 					type: "DELETE",
 					success: function(data) {
-						if (data.result) {
-							$("#file-id").val("");
-			    			$("#file-exists").hide();
-			    			$("#file-missing").show();	
-				    	} else {
-				    		alert("There was a problem deleting the audio.");
-				    	}
+						$("#file-id").val("");
+		    			$("#file-exists").hide();
+		    			$("#file-missing").show();
 					}
 				});
 			}
