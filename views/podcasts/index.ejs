@@ -99,17 +99,16 @@
 </script>
 
 <div class="row">
+	<!-- ko if: podcasts.length > 0 -->
 	<div class="span3">
 		<ul class="nav nav-list">
-	        <!-- ko if: podcasts.length > 0 -->
-		        <li class="nav-header">Podcasts</li>
-		        <!-- ko foreach: podcasts -->
-		            <li data-bind="attr: { class: selectedPodcastId() == id ? 'active' : '' }">
-		            	<a href="#" data-bind="click: selectPodcast">
-		            		<span data-bind="text: title"></span>
-		              	</a>
-		            </li>
-	            <!-- /ko -->
+	        <li class="nav-header">Podcasts</li>
+	        <!-- ko foreach: podcasts -->
+	            <li data-bind="attr: { class: selectedPodcastId() == id ? 'active' : '' }">
+	            	<a href="#" data-bind="click: selectPodcast">
+	            		<span data-bind="text: title"></span>
+	              	</a>
+	            </li>
             <!-- /ko -->
             <li>
 				<a href="/podcasts/create">
@@ -118,6 +117,15 @@
 			</li>
 		</ul>
 	</div>
+	<!-- /ko -->
+
+	<!-- ko if: podcasts.length == 0 -->
+	<div class="span12" style="text-align: center;">
+		<p>You don't have any podcasts.</p>
+		<p><a href="/podcasts/create" class="btn btn-large btn-primary">Create My First Podcast</a></p>
+	</div>
+	<!-- /ko -->
+
 	<div class="span9">
 		<!-- ko if: podcasts.length > 0 -->
 			<div class="row">
@@ -150,16 +158,24 @@
 					</ul>
 				</div>
 			</div>
+
+			<!-- ko if: episodes().length == 0 -->
+			<div class="span9" style="text-align: center;">
+				<p>No episodes found.</p>
+				<a class="btn btn-primary" href="#" data-bind="attr: { href: '/podcasts/{0}/episodes/create'.format(selectedPodcast().id) }"><i class="fui-plus"></i>Add first episode</a>
+			</div>
+			<!-- /ko -->
 			
+			<!-- ko if: episodes().length > 0 -->
 			<div class="row">
 				<div class="btn-toolbar span9">
 					<div class="btn-group pull-left">
 						<a class="btn btn-primary" href="#" data-bind="attr: { href: '/podcasts/{0}/episodes/create'.format(selectedPodcast().id) }"><i class="fui-plus"></i>New episode</a>
 					</div>
 					<div class="btn-group pull-right">
-						<a href="#" data-bind="click: changeEpisodeType.bind($data, 'All'), attr: { class: selectedEpisodeType() == 'All' ? 'btn btn-secondary active' : 'btn btn-secondary' }">All</a>
-						<a href="#" data-bind="click: changeEpisodeType.bind($data, 'Published'), attr: { class: selectedEpisodeType() == 'Published' ? 'btn btn-secondary active' : 'btn btn-secondary' }">Published</a>
-						<a href="#" data-bind="click: changeEpisodeType.bind($data, 'Draft'), attr: { class: selectedEpisodeType() == 'Draft' ? 'btn btn-secondary active' : 'btn btn-secondary' }">Draft</a>
+						<a href="#" data-bind="click: changeEpisodeType.bind($data, 'all'), attr: { class: selectedEpisodeType() == 'all' ? 'btn btn-secondary active' : 'btn btn-secondary' }">All</a>
+						<a href="#" data-bind="click: changeEpisodeType.bind($data, 'published'), attr: { class: selectedEpisodeType() == 'published' ? 'btn btn-secondary active' : 'btn btn-secondary' }">Published</a>
+						<a href="#" data-bind="click: changeEpisodeType.bind($data, 'draft'), attr: { class: selectedEpisodeType() == 'draft' ? 'btn btn-secondary active' : 'btn btn-secondary' }">Draft</a>
 					</div>
 				</div>
 			</div>
@@ -173,35 +189,34 @@
 					</tr>
 				</thead>
 				<!-- ko if: visibleEpisodes().length > 0 -->
-					<tbody data-bind="foreach: visibleEpisodes">
-						<tr>
-							<td>
-							<!-- ko if: episodeNumber > 0 -->
-								<span class="label label-inverse" data-bind="text: '#' + episodeNumber"></span>
-							<!-- /ko -->
-							<!-- ko if: !episodeNumber -->
-								<span class="label label-secondary">Draft</span>
-							<!-- /ko -->
-							</td>
-							<td>
-								<a data-bind="text: title, attr: { href: '/podcasts/' + PodcastId + '/episodes/' + id }"></a>
-							</td>
-							<td>
-								<span data-bind="text: publishDate ? moment(publishDate).fromNow() : 'Never'"></span>
-							</td>
-						</tr>
-					</tbody>
+				<tbody data-bind="foreach: visibleEpisodes">
+					<tr>
+						<td>
+						<!-- ko if: episodeNumber > 0 -->
+							<span class="label label-inverse" data-bind="text: '#' + episodeNumber"></span>
+						<!-- /ko -->
+						<!-- ko if: !episodeNumber -->
+							<span class="label label-secondary">Draft</span>
+						<!-- /ko -->
+						</td>
+						<td>
+							<a data-bind="text: title, attr: { href: '/podcasts/' + PodcastId + '/episodes/' + id }"></a>
+						</td>
+						<td>
+							<span data-bind="text: publishDate ? moment(publishDate).fromNow() : 'Never'"></span>
+						</td>
+					</tr>
+				</tbody>
 				<!-- /ko -->
 				<!-- ko if: visibleEpisodes().length == 0 -->
 					<tbody>
-						<td colspan="3">No episodes found.</td>
+						<tr>
+							<td colspan="3">No <span data-bind="text: selectedEpisodeType()"></span> episodes found.</td>
+						</tr>
 					</tbody>
 				<!-- /ko -->
 			</table>
-		<!-- /ko -->
-		<!-- ko if: podcasts.length == 0 -->
-			<p>You don't have any podcasts.</p>
-			<p><a href="/podcasts/create" class="btn btn-large btn-primary">Create My First Podcast</a></p>
+			<!-- /ko -->
 		<!-- /ko -->
 	</div>
 </div>
