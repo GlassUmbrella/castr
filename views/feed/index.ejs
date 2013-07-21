@@ -74,7 +74,7 @@
 		$("audio").bind("timeupdate", function(e) {
 			// update progress
 			var time = Math.floor(this.currentTime);
-			if (time > 0 && time % 3 == 0 && time != lastSentTime) { // every 10 seconds
+			if (time > 10 && time % 3 == 0 && time != lastSentTime) { // every 3s after first 10s
 				console.log("time: " + time);
 				lastSentTime = time;
 				$.post(nowPlayingViewModel.progressUrl(), { time: time });
@@ -117,7 +117,7 @@
 					var timeSinceEpisode = moment(episode.publishDate).fromNow();
 			%>
 
-				<li id="<%="episode-{0}".format(episode.id)%>" class="media well" data-episode="<%=episode.id%>" data-podcast="<%=episode.PodcastId%>" data-audio-location="<%=episode.audioLocation%>" data-podcast-title="<%=episode.podcastTitle%>" data-episode-title="<%=episode.title%>" data-episode-number="<%=episode.episodeNumber%>">
+				<li id="<%="episode-{0}".format(episode.id)%>" class="media well" data-episode="<%=episode.id%>" data-podcast="<%=episode.PodcastId%>" data-audio-location="<%=episode.audioUrl%>" data-podcast-title="<%=episode.podcastTitle%>" data-episode-title="<%=episode.title%>" data-episode-number="<%=episode.episodeNumber%>">
 					<a class="pull-left" href="<%=podcastUrl%>">
 					  	<img class="media-object" src="http://placehold.it/64x64">
 					</a>

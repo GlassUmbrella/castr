@@ -43,8 +43,9 @@ function feedQuery(userId, pageNumber, pageSize) {
 
 	var start = (pageNumber - 1) * pageSize;
 
-	var query = "select Episodes.*, Podcasts.title as podcastTitle, Podcasts.coverLocation as podcastCoverLocation, Podcasts.url as podcastUrl from Episodes \
+	var query = "select Episodes.*, Podcasts.title as podcastTitle, Podcasts.coverLocation as podcastCoverLocation, `Files`.url as audioUrl from Episodes \
 				inner join Podcasts on Episodes.PodcastId = Podcasts.id \
+				inner join `Files` on Episodes.FileId = `Files`.id \
 				where Podcasts.id in (select PodcastId from Followers where Followers.UserId = {0}) \
 				and Episodes.isPublished \
 				order by publishDate desc \
