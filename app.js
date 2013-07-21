@@ -205,7 +205,7 @@ app.post("/api/podcasts/:podcastId/episodes/:episodeId/progress", requiresAuth, 
 
 app.get("/api/file/:fileId", requiresAuth, api.file.file);
 app.post("/api/file", requiresAuth, api.file.post_file);
-
+app.delete("/api/file/:fileId", requiresAuth, api.file.delete_file);
 
 // Main app routes
 
