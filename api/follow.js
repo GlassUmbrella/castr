@@ -22,7 +22,7 @@ exports.follow = function(req, res) {
 
 	console.log("Follow...");
 
-	Follower.findOrCreate({ UserId: userId }, {	PodcastId: podcastId })
+	Follower.findOrCreate({ UserId: userId, PodcastId: podcastId })
 	.success(function (follower, created) {
 		res.json({ result: true });
 	});
