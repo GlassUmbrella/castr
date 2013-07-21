@@ -1,6 +1,6 @@
 var orm	= require("../lib/model");
 
-exports.post_progress = function(req, res) {
+exports.progress = function(req, res) {
 	var Progress = orm.model("Progress");
 	var userId = req.session.user.id;
 	var episodeId = req.params.episodeId;
@@ -14,7 +14,7 @@ exports.post_progress = function(req, res) {
 	});
 }
 
-exports.progress = function(req, res) {
+exports.post_progress = function(req, res) {
 	var Progress = orm.model("Progress");
 	var userId = req.session.user.id;
 	var episodeId = req.params.episodeId;
