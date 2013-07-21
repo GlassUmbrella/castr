@@ -1,7 +1,7 @@
 <% include ../partials/header %>
 <% include ../partials/menu %>
 
-<div class="span6 offset3">
+<div class="span10 offset1">
 	<h3>Your details</h3>
 	<hr>
 
@@ -19,27 +19,33 @@
 			    </div>
 			<% } %>
 
-			<div class="control-group huge">
-				<input type="text" class="span6" name="editName" id="editName" placeholder="Your name" value="<%= name %>" autocomplete="off" />
-			</div>
-
-			<div class="control-group huge">
-				<input type="email" class="span6" name="editEmail" id="editEmail" placeholder="Email address" value="<%= email %>" autocomplete="off" />
-			</div>
-
-			<div class="control-group huge">
-				<input type="password" class="span6" name="editPassword" id="editPassword" placeholder="Password" autocomplete="off" />
+			<div class="control-group">	
+				<label class="control-label" for="editName">Your name</label>
+				<div class="controls">
+					<input type="text" class="span3" name="editName" id="editName" placeholder="Your name" value="<%= name %>" autocomplete="off" />
+				</div>
 			</div>
 
 			<div class="control-group">
-				<button class="btn btn-huge btn-primary btn-block" type="submit">Update</button>
+				<label class="control-label" for="editEmail">Email address</label>
+				<div class="controls">
+					<input type="email" class="span5" name="editEmail" id="editEmail" placeholder="Email address" value="<%= email %>" autocomplete="off" />
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label" for="editPassword">New Password</label>
+				<div class="controls">
+					<input type="password" class="span5" name="editPassword" id="editPassword" placeholder="New password" autocomplete="off" />
+				</div>
 			</div>
 
 			<hr>
 
-			<div class="controls-row">
-				<a class="btn btn-mini btn-secondary" href="#" onclick="alert('Well you can\'t...')">I want to close my account</a>
+			<div class="control-group">
+				<button class="btn btn-primary" type="submit">Update details</button>
 			</div>
+
 		</fieldset>
 	</form>
 </div>
