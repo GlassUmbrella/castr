@@ -4,7 +4,7 @@
 <script>
 
 $(function() {
-	$("#audioFileUpload").click(function(e) {
+	$(".file-upload-button").click(function(e) {
 		e.preventDefault();
        	filepicker.setKey("AOGP1MTHUQJmnAelu6Yj6z");
 
@@ -23,6 +23,8 @@ $(function() {
 	    	$.post("/api/file", InkBlobs[0], function(data) {
 	    		console.log("FileId: " + data.result);
 	    		$("#file-id").val(data.result);
+	    		$("#file-exists").show();
+	    		$("#file-missing").hide();
 	    	});
 	  	});
 	});
@@ -87,22 +89,33 @@ var fileIdValue = episode.FileId ? episode.FileId : "";
 				</div>
 			</div>
 
-				<div class="control-group">
-					<label class="control-label" for="description">Audio file</label>
-					<div class="controls">
-						<% if (isPremium) { %>
-							<input type="hidden" name="fileId" id="file-id" value=<%=fileIdValue%> />
-							<button id="audioFileUpload" class="btn btn-inverse">Upload your episode MP3 file</button>
-							<span class="help-block">MP3 encoded audio file of your podcast. Maximum file size is 200MB.</span>
-						<% } else { %>
-							<div class="alert alert-info">
-					            <p>Use our iOS app to record, upload, and publish this episode. Premium accounts can upload your own MP3 file. <a href="/whypremium">Why do we do this?</a></p>
-					            <a href="/app" class="btn btn-info btn-small">Get the app</a>
-					            <a href="/upgrade" class="btn btn-small">Upgrade to premium</a>
-				          	</div>
-						<% } %>	
-					</div>
+			<%
+				var fileExists = fileIdValue > 0;
+				var displayNone = "display:none;";
+			%>
+
+			<div class="control-group">
+				<label class="control-label" for="description">Audio file</label>
+				<div class="controls">
+					<% if (isPremium) { %>
+						<input type="hidden" name="fileId" id="file-id" value="<%=fileIdValue%>" />
+						<div id="file-exists" style="<%=fileExists ? "" : displayNone%>">
+							<button class="btn btn-warning file-upload-button"><i class="fui-upload"></i>Replace your audio file</button>
+							<button class="btn btn-danger"><i class="fui-cross"></i>Delete audio</button>
+						</div>
+						<div id="file-missing" style="<%=fileExists ? displayNone : ""%>">
+							<button class="btn btn-primary file-upload-button"><i class="fui-upload"></i>Upload your audio file</button>
+						</div>
+						<span class="help-block">MP3 encoded audio file of your podcast. Maximum file size is 200MB.</span>
+					<% } else { %>
+						<div class="alert alert-info">
+				            <p>Use our iOS app to record, upload, and publish this episode. Premium accounts can upload your own MP3 file. <a href="/whypremium">Why do we do this?</a></p>
+				            <a href="/app" class="btn btn-info btn-small">Get the app</a>
+				            <a href="/upgrade" class="btn btn-small">Upgrade to premium</a>
+			          	</div>
+					<% } %>	
 				</div>
+			</div>
 
 
 			<div class="form-actions">
