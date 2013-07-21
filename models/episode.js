@@ -31,12 +31,11 @@ module.exports = {
 		}
 	},
     relations: {
-    	belongsTo: [
-	   		{ name: "Podcast" },
-	   		{ name: "File", as: "Audio" }
-		],
 		hasMany: [
        		{ name: "Progress" }
+       	],
+       	belongsTo: [
+       		{ name: "Podcast" }
        	]
     },
     options: {}

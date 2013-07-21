@@ -13,10 +13,6 @@ module.exports = {
 			type: Seq.TEXT,
 			allowNull: false
 		},
-		coverLocation: {
-			type: Seq.STRING,
-			allowNull: false
-		},
 		url: {
 			type: Seq.STRING,
 			allowNull: false
