@@ -27,7 +27,9 @@ exports.create = function(req, res) {
 	res.render("podcasts/create", {
 		title: "Create your new podcast",
 		activeTab: "podcasts",
-		error: null
+		hasReachedPodcastCountLimit: false,
+		urlIsTaken: false,
+		urlIsBanned: false
 	});
 }
 
@@ -44,7 +46,14 @@ exports.post_create = function(req, res) {
 				var user = req.session.user;
 				validation.users.hasReachedPodcastCountLimit(user.id, function(result) {
 					if(!result) {
-						console.log("Max podcasts reached!");
+						res.render("podcasts/create", {
+							title: "Create your new podcast",
+							activeTab: "podcasts",
+							hasReachedPodcastCountLimit: true,
+							urlIsTaken: false,
+							urlIsBanned: false
+						});
+						return;
 					}
 			
 					// create the podcast
@@ -61,15 +70,23 @@ exports.post_create = function(req, res) {
 					});
 				});
 			} else {
-				//Already taken
-				console.log("already taken");
-				res.redirect("/podcasts");
+				res.render("podcasts/create", {
+					title: "Create your new podcast",
+					activeTab: "podcasts",
+					hasReachedPodcastCountLimit: false,
+					urlIsTaken: true,
+					urlIsBanned: false
+				});
 			}
 		});
 	} else {
-		//Banned word
-		console.log("banned word");
-		res.redirect("/podcasts");
+		res.render("podcasts/create", {
+			title: "Create your new podcast",
+			activeTab: "podcasts",
+			hasReachedPodcastCountLimit: false,
+			urlIsTaken: false,
+			urlIsBanned: true
+		});
 	}
 }
 

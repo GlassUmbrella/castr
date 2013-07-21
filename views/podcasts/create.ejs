@@ -8,8 +8,19 @@ $(function() {
 </script>
 <h3>Create a new podcast</h3>
 <hr>
-<form method="post" action="/podcasts/create" class="form-horizontal">
+<form method="post" class="form-horizontal">
 	<fieldset>
+		<% if(hasReachedPodcastCountLimit) { %>
+			<div class="alert alert-error">
+		    	Looks like you've reach your podcast limit, <a href="#">archive an old podcast</a> or <a href="#">buy more space</a>.
+		    </div>
+		<% } %>
+		<% if(urlIsTaken || urlIsBanned) { %>
+			<div class="alert alert-error">
+		    	Looks like that URL is taken, please try again.
+		    </div>
+		<% } %>
+
 		<div class="control-group huge">
 			<label class="control-label" for="title">Title</label>
 			<div class="controls">
