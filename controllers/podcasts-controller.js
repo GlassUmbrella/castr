@@ -45,7 +45,7 @@ exports.post_create = function(req, res) {
 				// check user hasnt reached their podcast limit
 				var user = req.session.user;
 				validation.users.hasReachedPodcastCountLimit(user.id, function(result) {
-					if(!result) {
+					if(result) {
 						res.render("podcasts/create", {
 							title: "Create your new podcast",
 							activeTab: "podcasts",
