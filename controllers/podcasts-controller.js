@@ -140,7 +140,7 @@ exports.post_episode = function(req, res) {
 		episode.description = req.body.description;
 		episode.notes = req.body.notes;
 		var fileId = req.body.fileId == "" ? null : req.body.fileId;
-		episode.FileId = fileId;
+		episode.AudioFileId = fileId;
 
 		if (req.body.publishAction == "true") {
 			episode.isPublished = true;

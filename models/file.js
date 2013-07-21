@@ -26,6 +26,12 @@ module.exports = {
 			allowNull: false
 		}
 	},
-    relations: {},
+    relations: {
+    	hasOne: [
+    		{ name: "Podcast", foreignKey: "OriginalPosterFileId" },
+    		{ name: "Podcast", foreignKey: "SmallPosterFileId" },
+    		{ name: "Podcast", foreignKey: "LargePosterFileId" },
+    		{ name: "Episode", foreignKey: "AudioFileId" }
+    	]},
     options: {}
 }
