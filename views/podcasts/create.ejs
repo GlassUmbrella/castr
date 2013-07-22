@@ -41,32 +41,35 @@ $(function() {
 			align: "faces"
 		};
 
-		filepicker.pickAndStore(pickerOptions, storeOptions, function (InkBlobs) {
+		filepicker.pickAndStore(pickerOptions, storeOptions, function(InkBlobs) {
+			$("#submit-button").prop("disabled", true);
+			$(".file-upload-button").prop("disabled", true);
+
 			var originalPosterBlob = InkBlobs[0];
-			filepicker.convert(originalPosterBlob, smallConversionOptions, storeOptions, function(SmallInkBlobs) {
-				var smallPosterBlob = SmallInkBlobs[0];
-				filepicker.convert(originalPosterBlob, largeConversionOptions, storeOptions, function(LargeInkBlobs) {
-					var largePosterBlob = LargeInkBlobs[0];
+			console.log("original:" + JSON.stringify(originalPosterBlob));
+			filepicker.convert(originalPosterBlob, smallConversionOptions, storeOptions, function(smallPosterBlob) {
+				console.log("small:" + JSON.stringify(smallPosterBlob));
+				filepicker.convert(originalPosterBlob, largeConversionOptions, storeOptions, function(largePosterBlob) {
+					console.log("large:" + JSON.stringify(largePosterBlob));
 
 			    	$.post("/api/file", originalPosterBlob, function(data) {
 			    		console.log("original-poster-file-id: " + data.result);
 			    		$("#original-poster-file-id").val(data.result);
-			    		$("#poster-exists").show();
-			    		$("#poster-missing").hide();
-			    	});
 
-			    	$.post("/api/file", smallPosterBlob, function(data) {
-			    		console.log("small-poster-file-id: " + data.result);
-			    		$("#small-poster-file-id").val(data.result);
-			    		$("#poster-exists").show();
-			    		$("#poster-missing").hide();
-			    	});
+			    		$.post("/api/file", smallPosterBlob, function(data) {
+				    		console.log("small-poster-file-id: " + data.result);
+				    		$("#small-poster-file-id").val(data.result);
 
-			    	$.post("/api/file", largePosterBlob, function(data) {
-			    		console.log("large-poster-file-id: " + data.result);
-			    		$("#large-poster-file-id").val(data.result);
-			    		$("#poster-exists").show();
-			    		$("#poster-missing").hide();
+					    	$.post("/api/file", largePosterBlob, function(data) {
+					    		console.log("large-poster-file-id: " + data.result);
+					    		$("#large-poster-file-id").val(data.result);
+
+    							$("#poster-exists").show();
+					    		$("#poster-missing").hide();
+			    				$("#submit-button").prop("disabled", false);
+								$(".file-upload-button").prop("disabled", false);
+					    	});
+				    	});
 			    	});
 				});
 			});
@@ -126,17 +129,17 @@ $(function() {
 			<div class="controls">
 				<input type="hidden" name="originalPosterFileId" id="original-poster-file-id" value="<%=originalPosterFileIdValue%>" />
 				<input type="hidden" name="smallPosterFileId" id="small-poster-file-id" value="<%=smallPosterFileIdValue%>" />
-				<input type="hidden" name="largePosterFileIdValue" id="large-poster-file-id" value="<%=largePosterFileIdValue%>" />
-				<div id="file-exists" style="<%=posterExists ? "" : displayNone%>">
+				<input type="hidden" name="largePosterFileId" id="large-poster-file-id" value="<%=largePosterFileIdValue%>" />
+				<div id="poster-exists" style="<%=posterExists ? "" : displayNone%>">
 					<button class="btn btn-warning file-upload-button"><i class="fui-upload"></i>Replace your cover poster</button>
 				</div>
-				<div id="file-missing" style="<%=posterExists ? displayNone : ""%>">
+				<div id="poster-missing" style="<%=posterExists ? displayNone : ""%>">
 					<button class="btn btn-primary file-upload-button"><i class="fui-upload"></i>Upload cover poster</button>
 				</div>
 			</div>
 		</div>
 		<div class="form-actions">
-			<button type="submit" class="btn btn-primary">Create</button>
+			<button type="submit" class="btn btn-primary" id="submit-button">Create</button>
 			<a href="/" class="btn btn-link">Cancel</a>
 		</div>
 	</fieldset>
