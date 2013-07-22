@@ -55,6 +55,10 @@ exports.post_create = function(req, res) {
 						});
 						return;
 					}
+
+					var originalPosterFileId = req.body.originalPosterFileId > 0 ? req.body.originalPosterFileId : null;
+					var smallPosterFileId = req.body.smallPosterFileId > 0 ? req.body.smallPosterFileId : null;
+					var largePosterFileId = req.body.largePosterFileId > 0 ? req.body.largePosterFileId : null;
 			
 					// create the podcast
 					var Podcast = orm.model("Podcast");
@@ -63,7 +67,10 @@ exports.post_create = function(req, res) {
 						description: req.body.description,
 						coverLocation: "",
 						url: url,
-						ownerUserId: user.id
+						ownerUserId: user.id,
+						OriginalPosterFileId: originalPosterFileId,
+						SmallPosterFileId: smallPosterFileId,
+						LargePosterFileId: largePosterFileId
 					}).success(function(podcast) {
 						podcast.setUsers([user]);
 						res.redirect("/podcasts/{0}".format(podcast.id));

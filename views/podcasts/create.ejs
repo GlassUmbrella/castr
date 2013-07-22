@@ -1,9 +1,85 @@
 <% include ../partials/header %>
 <% include ../partials/menu %>
 
+<script>
+
+$(function() {
+	$(".file-upload-button").click(function(e) {
+		e.preventDefault();
+       	filepicker.setKey("AOGP1MTHUQJmnAelu6Yj6z");
+
+       	var pickerOptions = {
+			mimetype: "image/*",
+			// extensions: [".mp3", ".mp4", ".aac"],
+			maxSize: 5242880 // 5MB 
+		};
+
+       	var storeOptions = { 
+			location: "S3",
+			path: "/covers/",
+			access: "public"
+		};
+
+		var smallSize = 128;
+		var largeSize = 512;
+
+		var smallConversionOptions = {
+			format: "jpg",
+			quality: 75,
+			width: smallSize,
+			height: smallSize,
+			fit: "crop",
+			align: "faces"
+		};
+
+		var largeConversionOptions = {
+			format: "jpg",
+			quality: 75,
+			width: largeSize,
+			height: largeSize,
+			fit: "crop",
+			align: "faces"
+		};
+
+		filepicker.pickAndStore(pickerOptions, storeOptions, function (InkBlobs) {
+			var originalPosterBlob = InkBlobs[0];
+			filepicker.convert(originalPosterBlob, smallConversionOptions, storeOptions, function(SmallInkBlobs) {
+				var smallPosterBlob = SmallInkBlobs[0];
+				filepicker.convert(originalPosterBlob, largeConversionOptions, storeOptions, function(LargeInkBlobs) {
+					var largePosterBlob = LargeInkBlobs[0];
+
+			    	$.post("/api/file", originalPosterBlob, function(data) {
+			    		console.log("original-poster-file-id: " + data.result);
+			    		$("#original-poster-file-id").val(data.result);
+			    		$("#poster-exists").show();
+			    		$("#poster-missing").hide();
+			    	});
+
+			    	$.post("/api/file", smallPosterBlob, function(data) {
+			    		console.log("small-poster-file-id: " + data.result);
+			    		$("#small-poster-file-id").val(data.result);
+			    		$("#poster-exists").show();
+			    		$("#poster-missing").hide();
+			    	});
+
+			    	$.post("/api/file", largePosterBlob, function(data) {
+			    		console.log("large-poster-file-id: " + data.result);
+			    		$("#large-poster-file-id").val(data.result);
+			    		$("#poster-exists").show();
+			    		$("#poster-missing").hide();
+			    	});
+				});
+			});
+		});
+
+	});
+});
+
+</script>
+
 <h3>Create a new podcast</h3>
 <hr>
-<form method="post" class="form-horizontal">
+<form method="post" class="form-horizontal" enctype="multipart/form-data">
 	<fieldset>
 		<% if(hasReachedPodcastCountLimit) { %>
 			<div class="alert alert-error">
@@ -37,10 +113,26 @@
 				<textarea name="description" id="description" placeholder="A short description of your podcast" class="span6" rows="5"></textarea>
 			</div>
 		</div>
+		<%
+			// todo: hook up podcast editing
+			var posterExists = false;
+			var originalPosterFileIdValue = null;
+			var smallPosterFileIdValue = null;
+			var largePosterFileIdValue = null;
+			var displayNone = "display:none";
+		%>
 		<div class="control-group">
 			<label class="control-label" for="cover">Cover Art</label>
 			<div class="controls">
-				<input type="file" id="cover" title="Browse for Cover Art">
+				<input type="hidden" name="originalPosterFileId" id="original-poster-file-id" value="<%=originalPosterFileIdValue%>" />
+				<input type="hidden" name="smallPosterFileId" id="small-poster-file-id" value="<%=smallPosterFileIdValue%>" />
+				<input type="hidden" name="largePosterFileIdValue" id="large-poster-file-id" value="<%=largePosterFileIdValue%>" />
+				<div id="file-exists" style="<%=posterExists ? "" : displayNone%>">
+					<button class="btn btn-warning file-upload-button"><i class="fui-upload"></i>Replace your cover poster</button>
+				</div>
+				<div id="file-missing" style="<%=posterExists ? displayNone : ""%>">
+					<button class="btn btn-primary file-upload-button"><i class="fui-upload"></i>Upload cover poster</button>
+				</div>
 			</div>
 		</div>
 		<div class="form-actions">
