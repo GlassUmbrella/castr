@@ -2,7 +2,6 @@
 <% include ../partials/menu %>
 
 <script>
-
 $(function() {
 	$(".file-upload-button").click(function(e) {
 		e.preventDefault();
@@ -42,8 +41,12 @@ $(function() {
 		};
 
 		filepicker.pickAndStore(pickerOptions, storeOptions, function(InkBlobs) {
+			$("#poster-exists").hide();
+    		$("#poster-missing").hide();
+    		$("#poster-busy").show();
 			$("#submit-button").prop("disabled", true);
 			$(".file-upload-button").prop("disabled", true);
+			//$("#").
 
 			var originalPosterBlob = InkBlobs[0];
 			console.log("original:" + JSON.stringify(originalPosterBlob));
@@ -64,8 +67,10 @@ $(function() {
 					    		console.log("large-poster-file-id: " + data.result);
 					    		$("#large-poster-file-id").val(data.result);
 
+					    		$("#current-cover-image").attr("src", smallPosterBlob.url);
     							$("#poster-exists").show();
 					    		$("#poster-missing").hide();
+					    		$("#poster-busy").hide();
 			    				$("#submit-button").prop("disabled", false);
 								$(".file-upload-button").prop("disabled", false);
 					    	});
@@ -74,10 +79,8 @@ $(function() {
 				});
 			});
 		});
-
 	});
 });
-
 </script>
 
 <h3>Create a new podcast</h3>
@@ -131,10 +134,20 @@ $(function() {
 				<input type="hidden" name="smallPosterFileId" id="small-poster-file-id" value="<%=smallPosterFileIdValue%>" />
 				<input type="hidden" name="largePosterFileId" id="large-poster-file-id" value="<%=largePosterFileIdValue%>" />
 				<div id="poster-exists" style="<%=posterExists ? "" : displayNone%>">
-					<button class="btn btn-warning file-upload-button"><i class="fui-upload"></i>Replace your cover poster</button>
+					<img src="" height="64" width="64" id="current-cover-image" class="profile" />
+					<button id="replace-cover-button" class="btn btn-warning file-upload-button">
+						<i class="fui-upload"></i>
+						Replace your cover poster
+					</button>
 				</div>
 				<div id="poster-missing" style="<%=posterExists ? displayNone : ""%>">
-					<button class="btn btn-primary file-upload-button"><i class="fui-upload"></i>Upload cover poster</button>
+					<button id="new-cover-button" class="btn btn-primary file-upload-button">
+						<i class="fui-upload"></i>
+						Upload cover poster
+					</button>
+				</div>
+				<div id="poster-busy" style="display:none">
+					<p><img src="/images/spinner_96.gif" width="48" height="48" />We're converting and resizing your pic, please wait just a little longer...</p>
 				</div>
 			</div>
 		</div>
