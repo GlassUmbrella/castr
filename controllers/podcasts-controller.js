@@ -40,12 +40,12 @@ exports.post_create = function(req, res) {
 	var url = req.body.url.toLowerCase();
 
 	if(validation.podcasts.isUrlAllowed(url)) {
-		validation.podcasts.isUrlUnique(url, function(result) {
-			if(result) {
+		validation.podcasts.isUrlUnique(url, function(isUnique) {
+			if(isUnique) {
 				// check user hasnt reached their podcast limit
 				var user = req.session.user;
-				validation.users.hasReachedPodcastCountLimit(user.id, function(result) {
-					if(result) {
+				validation.users.hasReachedPodcastCountLimit(user.id, function(reachedLimit) {
+					if(!reachedLimit) {
 						res.render("podcasts/create", {
 							title: "Create your new podcast",
 							activeTab: "podcasts",
