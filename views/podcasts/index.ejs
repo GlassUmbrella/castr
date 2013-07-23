@@ -121,8 +121,12 @@
 
 	<!-- ko if: podcasts.length == 0 -->
 	<div class="span12" style="text-align: center;">
-		<p>You don't have any podcasts.</p>
-		<p><a href="/podcasts/create" class="btn btn-large btn-primary">Create My First Podcast</a></p>
+		<h3>You don't have any podcasts.</h3>
+		<p>What would you like to do?</p>
+		<div class="btn-group">
+			<a href="/feed" class="btn btn-large btn-info span3">Follow podcasts</a>
+			<a href="/podcasts/create" class="btn btn-large btn-primary span3">Start a podcast</a>
+		</div>
 	</div>
 	<!-- /ko -->
 
