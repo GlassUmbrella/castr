@@ -20,6 +20,11 @@ $(function() {
 			access: "public"
 		};
 
+		var debug = <%=debug%>;
+		if (debug) {
+			storeOptions.path = "/dev{0}".format(storeOptions.path);
+		}
+
 		var smallSize = 128;
 		var largeSize = 512;
 

@@ -4,6 +4,8 @@
 <script>
 
 $(function() {
+	var debug = <%=debug%>;
+
 	$(".file-upload-button").click(function(e) {
 		e.preventDefault();
        	filepicker.setKey("AOGP1MTHUQJmnAelu6Yj6z");
@@ -19,6 +21,11 @@ $(function() {
 			path: "/audio/",
 			access: "public"
 		};
+
+		var debug = <%=debug%>;
+		if (debug) {
+			storeOptions.path = "/dev{0}".format(storeOptions.path);
+		}
 
 		filepicker.pickAndStore(pickerOptions, storeOptions, function (InkBlobs) {
 	    	$.post("/api/file", InkBlobs[0], function(data) {
