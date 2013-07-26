@@ -10,6 +10,7 @@ exports.index = function(req, res) {
 
 	orm.sequelizeInstance().query(query)
 	.success(function(rows) {
+		console.log("Found some rows.");
 		Podcast.findAll({ where: { ownerUserId: userId }})
 		.success(function(podcasts) {
 			// orm.sequelizeInstance().query(followingQuery(userId))
@@ -26,6 +27,9 @@ exports.index = function(req, res) {
 				});
 			});
 		});
+	}).error(function(error) {
+
+		console.log("Didn't find some rows " + error);
 	});
 };
 
