@@ -179,6 +179,17 @@ function requiresSubdomain(req, res, next) {
 	}
 }
 
+function noSubdomain(req, res, next) {
+	var requestUrl = req.headers.host;
+	requestUrl = requestUrl.replace(global.baseUrl, "baseUrl");
+	var parts = requestUrl.split(".");
+	if(parts.indexOf("baseUrl") == 0) {
+		next();
+	} else {
+		next("route");
+	}
+}
+
 // Subdomain routes
 
 app.get("/", requiresSubdomain, controllers.site.index);
@@ -191,64 +202,64 @@ app.get("/episodes/:episodeNumber", requiresSubdomain, controllers.site.episode)
 
 // API routes
 
-app.get("/api", api.default.home);
-app.get("/api/podcasts", requiresAuth, api.podcasts.list);
-app.get("/api/podcasts/:podcastId/episodes", requiresAuth, api.podcasts.episodes);
-app.get("/api/podcasts/isUrlUnique", requiresAuth, api.podcasts.isUrlUnique);
+app.get("/api", noSubdomain, api.default.home);
+app.get("/api/podcasts", noSubdomain, requiresAuth, api.podcasts.list);
+app.get("/api/podcasts/:podcastId/episodes", noSubdomain, requiresAuth, api.podcasts.episodes);
+app.get("/api/podcasts/isUrlUnique", noSubdomain, requiresAuth, api.podcasts.isUrlUnique);
 
-app.get("/api/podcasts/:podcastId/follow", requiresAuth, api.follow.follow);
-app.get("/api/podcasts/:podcastId/unfollow", requiresAuth, api.follow.unfollow);
-app.get("/api/podcasts/:podcastId/isFollowing", requiresAuth, api.follow.isFollowing);
+app.get("/api/podcasts/:podcastId/follow", noSubdomain, requiresAuth, api.follow.follow);
+app.get("/api/podcasts/:podcastId/unfollow", noSubdomain, requiresAuth, api.follow.unfollow);
+app.get("/api/podcasts/:podcastId/isFollowing", noSubdomain, requiresAuth, api.follow.isFollowing);
 
-app.get("/api/podcasts/:podcastId/episodes/:episodeId/progress", requiresAuth, api.progress.progress);
-app.post("/api/podcasts/:podcastId/episodes/:episodeId/progress", requiresAuth, api.progress.post_progress);
+app.get("/api/podcasts/:podcastId/episodes/:episodeId/progress", noSubdomain, requiresAuth, api.progress.progress);
+app.post("/api/podcasts/:podcastId/episodes/:episodeId/progress", noSubdomain, requiresAuth, api.progress.post_progress);
 
-app.get("/api/file/:fileId", requiresAuth, api.file.file);
-app.post("/api/file", requiresAuth, api.file.post_file);
-app.delete("/api/file/:fileId", requiresAuth, api.file.delete_file);
+app.get("/api/file/:fileId", noSubdomain, requiresAuth, api.file.file);
+app.post("/api/file", noSubdomain, requiresAuth, api.file.post_file);
+app.delete("/api/file/:fileId", noSubdomain, requiresAuth, api.file.delete_file);
 
 // Main app routes
 
-app.get("/", controllers.public.home);
+app.get("/", noSubdomain, controllers.public.home);
 
-app.get("/feed", requiresAuth, controllers.feed.index);
+app.get("/feed", noSubdomain, requiresAuth, controllers.feed.index);
 
-app.get("/request-invite", anonymousOnly, controllers.auth.requestInvite);
-app.post("/request-invite", anonymousOnly, controllers.auth.post_requestInvite);
+app.get("/request-invite", noSubdomain, anonymousOnly, controllers.auth.requestInvite);
+app.post("/request-invite", noSubdomain, anonymousOnly, controllers.auth.post_requestInvite);
 
-app.get("/join:inviteCode?:emailAddress?:name?", anonymousOnly, controllers.auth.join);
-app.post("/join", anonymousOnly, controllers.auth.post_join);
+app.get("/join:inviteCode?:emailAddress?:name?", noSubdomain, anonymousOnly, controllers.auth.join);
+app.post("/join", noSubdomain, anonymousOnly, controllers.auth.post_join);
 
-app.get("/login", anonymousOnly, controllers.auth.login);
-app.post("/login", anonymousOnly, controllers.auth.post_login);
-app.get("/logout", controllers.auth.logout);
+app.get("/login", noSubdomain, anonymousOnly, controllers.auth.login);
+app.post("/login", noSubdomain, anonymousOnly, controllers.auth.post_login);
+app.get("/logout", noSubdomain, controllers.auth.logout);
 
-app.get("/forgot", anonymousOnly, controllers.auth.forgot);
-app.post("/forgot", anonymousOnly, controllers.auth.post_forgot);
-app.get("/reset:resetCode?:emailAddress?", anonymousOnly, controllers.auth.reset);
-app.post("/reset", anonymousOnly, controllers.auth.post_reset);
+app.get("/forgot", noSubdomain, anonymousOnly, controllers.auth.forgot);
+app.post("/forgot", noSubdomain, anonymousOnly, controllers.auth.post_forgot);
+app.get("/reset:resetCode?:emailAddress?", noSubdomain, anonymousOnly, controllers.auth.reset);
+app.post("/reset", noSubdomain, anonymousOnly, controllers.auth.post_reset);
 
-app.get("/profile", requiresAuth, controllers.auth.profile);
-app.post("/profile", requiresAuth, controllers.auth.post_profile);
+app.get("/profile", noSubdomain, requiresAuth, controllers.auth.profile);
+app.post("/profile", noSubdomain, requiresAuth, controllers.auth.post_profile);
 
-app.get("/podcasts", requiresAuth, controllers.podcasts.index);
-app.get("/podcasts/create", requiresAuth, controllers.podcasts.create);
-app.post("/podcasts/create", requiresAuth, controllers.podcasts.post_create);
-app.get("/podcasts/:podcastId/stats", requiresAuth, controllers.podcasts.stats);
-app.get("/podcasts/:podcastId/settings", requiresAuth, controllers.podcasts.settings);
+app.get("/podcasts", noSubdomain, requiresAuth, controllers.podcasts.index);
+app.get("/podcasts/create", noSubdomain, requiresAuth, controllers.podcasts.create);
+app.post("/podcasts/create", noSubdomain, requiresAuth, controllers.podcasts.post_create);
+app.get("/podcasts/:podcastId/stats", noSubdomain, requiresAuth, controllers.podcasts.stats);
+app.get("/podcasts/:podcastId/settings", noSubdomain, requiresAuth, controllers.podcasts.settings);
 
-app.get("/podcasts/:podcastId/episodes", requiresAuth, controllers.podcasts.episodeList);
-app.get("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.podcasts.episodeCreate);
-app.post("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.podcasts.post_episodeCreate);
-app.get("/podcasts/:podcastId/episodes/:episodeId", requiresAuth, controllers.podcasts.episodeEdit);
-app.post("/podcasts/:podcastId/episodes/:episodeId", requiresAuth, controllers.podcasts.post_episodeEdit);
+app.get("/podcasts/:podcastId/episodes", noSubdomain, requiresAuth, controllers.podcasts.episodeList);
+app.get("/podcasts/:podcastId/episodes/create", noSubdomain, requiresAuth, controllers.podcasts.episodeCreate);
+app.post("/podcasts/:podcastId/episodes/create", noSubdomain, requiresAuth, controllers.podcasts.post_episodeCreate);
+app.get("/podcasts/:podcastId/episodes/:episodeId", noSubdomain, requiresAuth, controllers.podcasts.episodeEdit);
+app.post("/podcasts/:podcastId/episodes/:episodeId", noSubdomain, requiresAuth, controllers.podcasts.post_episodeEdit);
 
 
 //Admin routes
-app.get("/admin/about", adminOnly, controllers.admin.about);
-app.get("/admin/users", adminOnly, controllers.admin.users);
-app.get("/admin/invites", adminOnly, controllers.admin.invites);
-app.post("/admin/send-invite", adminOnly, controllers.admin.post_send_invite);
+app.get("/admin/about", noSubdomain, adminOnly, controllers.admin.about);
+app.get("/admin/users", noSubdomain, adminOnly, controllers.admin.users);
+app.get("/admin/invites", noSubdomain, adminOnly, controllers.admin.invites);
+app.post("/admin/send-invite", noSubdomain, adminOnly, controllers.admin.post_send_invite);
 
 /**
  * Listen.
