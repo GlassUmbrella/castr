@@ -18,20 +18,23 @@ exports.index = function(req, res, next) {
 				where: { UserId: userId }, 
 				include: [Podcast] 
 			}).success(function(following) {
-				res.render("feed/index", { 
-					title: "Feed",
-					activeTab: "feed",
-					episodes: rows,
-					podcasts: podcasts,
-					following: following
-				});
+				showFeed(res, rows, podcasts, following);
 			});
 		});
 	}).error(function(error) {
-
-		console.log("Didn't find some rows " + error);
+		showFeed(res, [], [], []);
 	});
 };
+
+function showFeed(res, rows, podcasts, following) {
+	res.render("feed/index", { 
+		title: "Feed",
+		activeTab: "feed",
+		episodes: rows,
+		podcasts: podcasts,
+		following: following
+	});
+}
 
 exports.splash = function(req, res, next) {
 	if(req.session.user) {
