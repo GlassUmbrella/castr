@@ -194,9 +194,7 @@ function noSubdomain(req, res, next) {
 app.get("/", requiresSubdomain, controllers.site.index);
 app.get("/page/:pageNumber", requiresSubdomain, controllers.site.index);
 app.get("/episodes", requiresSubdomain, controllers.site.index);
-app.get("/rss", requiresSubdomain, controllers.site.rss);
-app.get("/itunes", requiresSubdomain, controllers.site.itunes);
-app.get("/contact", requiresSubdomain, controllers.site.contact);
+app.get("/mail", requiresSubdomain, controllers.site.mail);
 app.get("/episodes/:episodeNumber", requiresSubdomain, controllers.site.episode);
 
 // API routes

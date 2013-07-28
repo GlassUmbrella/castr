@@ -21,7 +21,8 @@ exports.index = function(req, res, next) {
 				})
 				.success(function(episodes) {
 					res.render("site/index", { 
-						title: podcast.title, 
+						title: podcast.title,
+						activeTab: "home",
 						podcast: podcast,
 						episodes: episodes,
 						markdown: markdown, // markdown parser
@@ -63,21 +64,17 @@ exports.episode = function(req, res, next) {
 	}
 };
 
-exports.rss = function(req, res, next) {
-	res.end("<xml>This is supposed to be a RSS feed.</xml>");
-}
-
-exports.itunes = function(req, res, next) {
-	res.end("TODO: redirect to iTunes RSS");
-}
-
-exports.contact = function(req, res, next) {
+exports.mail = function(req, res, next) {
 	var Podcast = orm.model("Podcast");
 
 	Podcast.find({ where: { url: req.subdomain }})
 	.success(function(podcast) {
 		if(podcast) {
-			res.render("site/contact", { title: "Contact", podcast: podcast });
+			res.render("site/mail", { 
+				title: "Contact",
+				activeTab: "mail",
+				podcast: podcast
+			});
 		} else {
 			return 404;
 		}
