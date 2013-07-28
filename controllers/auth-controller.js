@@ -2,11 +2,11 @@ var orm	= require("../lib/model");
 var bcrypt = require("bcrypt-nodejs");
 var uuid = require("node-uuid");
 
-exports.login = function(req, res) {
+exports.login = function(req, res, next) {
 	res.render("auth/login", { title: "Login", message: null });
 };
 
-exports.post_login = function(req, res) {
+exports.post_login = function(req, res, next) {
 	var Users = orm.model("User");
 	var invalidCredentialsMessage = "The email address or password you entered is incorrect.";
 	
@@ -30,12 +30,12 @@ exports.post_login = function(req, res) {
 	});
 };
 
-exports.logout = function(req, res) {
+exports.logout = function(req, res, next) {
 	req.session.user = null;
     res.redirect('/');
 };
 
-exports.join = function(req, res) {
+exports.join = function(req, res, next) {
 	res.render("auth/join", { 
 		title: "Join", 
 		inviteCode: req.query.inviteCode, 
@@ -45,7 +45,7 @@ exports.join = function(req, res) {
 	});
 };
 
-exports.post_join = function(req, res) {
+exports.post_join = function(req, res, next) {
 	var Users = orm.model("User");
 	var Invites = orm.model("Invite");
 
@@ -99,11 +99,11 @@ exports.post_join = function(req, res) {
 	});
 };
 
-exports.requestInvite = function(req, res) {
+exports.requestInvite = function(req, res, next) {
 	res.render("auth/request-invite", { title: "Request Invite", error: null, sent: false });
 };
 
-exports.post_requestInvite = function(req, res) {
+exports.post_requestInvite = function(req, res, next) {
 	var Invites = orm.model("Invite");
 	
 	if(req.body.signupName && req.body.signupEmail) {
@@ -140,11 +140,11 @@ exports.post_requestInvite = function(req, res) {
 	}
 };
 
-exports.forgot = function(req, res) {
+exports.forgot = function(req, res, next) {
 	res.render("auth/forgot", { title: "Forgot Password", sent: false, error: false });
 };
 
-exports.post_forgot = function(req, res) {
+exports.post_forgot = function(req, res, next) {
 	var Users = orm.model("User");
 
 	Users.find({
@@ -168,11 +168,11 @@ exports.post_forgot = function(req, res) {
 	});
 };
 
-exports.reset = function(req, res) {
+exports.reset = function(req, res, next) {
 	res.render("auth/reset", { title: "Reset password", resetCode: req.query.resetCode, emailAddress: req.query.emailAddress, error: false });
 };
 
-exports.post_reset = function(req, res) {
+exports.post_reset = function(req, res, next) {
 	var Users = orm.model("User");
 
 	Users.find({
@@ -198,12 +198,12 @@ exports.post_reset = function(req, res) {
 	});
 };
 
-exports.profile = function(req, res) {
+exports.profile = function(req, res, next) {
 	var user = req.session.user;
 	res.render("auth/profile", { title: "Your details", updated: false, error: false, name: user.name, email: user.emailAddress });
 };
 
-exports.post_profile = function(req, res) {
+exports.post_profile = function(req, res, next) {
 	var Users = orm.model("User");
 
 	Users.find({

@@ -1,6 +1,6 @@
 var orm	= require("../lib/model");
 
-exports.index = function(req, res) {
+exports.index = function(req, res, next) {
 	var Podcast = orm.model("Podcast");
 	var Episode = orm.model("Episode");
 	var Follower = orm.model("Follower");
@@ -33,7 +33,7 @@ exports.index = function(req, res) {
 	});
 };
 
-exports.splash = function(req, res) {
+exports.splash = function(req, res, next) {
 	if(req.session.user) {
 		res.redirect("/feed");
 	} else {

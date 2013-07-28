@@ -1,6 +1,6 @@
 var orm	= require("../lib/model");
 
-exports.index = function(req, res) {
+exports.index = function(req, res, next) {
 	var Episode = orm.model("Episode");
 	var Podcast = orm.model("Podcast");
 	var markdown = require("markdown").markdown;
@@ -37,7 +37,7 @@ exports.index = function(req, res) {
 	}
 };
 
-exports.episode = function(req, res) {
+exports.episode = function(req, res, next) {
 	var Episode = orm.model("Episode");
 	var Podcast = orm.model("Podcast");
 
@@ -63,15 +63,15 @@ exports.episode = function(req, res) {
 	}
 };
 
-exports.rss = function(req, res) {
+exports.rss = function(req, res, next) {
 	res.end("<xml>This is supposed to be a RSS feed.</xml>");
 }
 
-exports.itunes = function(req, res) {
+exports.itunes = function(req, res, next) {
 	res.end("TODO: redirect to iTunes RSS");
 }
 
-exports.contact = function(req, res) {
+exports.contact = function(req, res, next) {
 	var Podcast = orm.model("Podcast");
 
 	Podcast.find({ where: { url: req.subdomain }})

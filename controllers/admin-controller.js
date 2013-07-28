@@ -1,6 +1,6 @@
 var orm	= require("../lib/model");
 
-exports.invites = function(req, res) {
+exports.invites = function(req, res, next) {
 	var Invites = orm.model("Invite");
 	var moment = require("moment");
 	
@@ -14,7 +14,7 @@ exports.invites = function(req, res) {
 	});
 };
 
-exports.about = function(req, res) {
+exports.about = function(req, res, next) {
 	var fs = require("fs");
 	var moment = require("moment");
 	
@@ -28,7 +28,7 @@ exports.about = function(req, res) {
 	});
 };
 
-exports.users = function(req, res) {
+exports.users = function(req, res, next) {
 	var Users = orm.model("User");
 	var moment = require("moment");
 	
@@ -42,7 +42,7 @@ exports.users = function(req, res) {
 	});
 };
 
-exports.post_send_invite = function(req, res) {
+exports.post_send_invite = function(req, res, next) {
 	var Invites = orm.model("Invite");
 	
 	Invites.find({

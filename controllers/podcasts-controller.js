@@ -1,6 +1,6 @@
 var orm	= require("../lib/model");
 
-exports.index = function(req, res) {
+exports.index = function(req, res, next) {
 	var user = req.session.user;
 
 	var Podcast = orm.model("Podcast");
@@ -20,7 +20,7 @@ exports.index = function(req, res) {
 	});
 };
 
-exports.stats = function(req, res) {
+exports.stats = function(req, res, next) {
 	var user = req.session.user;
 	var podcastId = req.params.podcastId;
 
@@ -36,7 +36,7 @@ exports.stats = function(req, res) {
 	});
 }
 
-exports.settings = function(req, res) {
+exports.settings = function(req, res, next) {
 	var user = req.session.user;
 	var podcastId = req.params.podcastId;
 
@@ -52,7 +52,7 @@ exports.settings = function(req, res) {
 	});
 }
 
-exports.create = function(req, res) {
+exports.create = function(req, res, next) {
 	res.render("podcasts/podcast-create", {
 		title: "Create your new podcast",
 		activeTab: "podcasts",
@@ -62,7 +62,7 @@ exports.create = function(req, res) {
 	});
 }
 
-exports.post_create = function(req, res) {
+exports.post_create = function(req, res, next) {
 	var validation = require("../lib/validation");
 	
 	// check podcast is unique
@@ -130,7 +130,7 @@ exports.post_create = function(req, res) {
  * Episodes 
  */
 
- exports.episodeList = function(req, res) {
+ exports.episodeList = function(req, res, next) {
 	var user = req.session.user;
 	var podcastId = req.params.podcastId;
 
@@ -138,17 +138,20 @@ exports.post_create = function(req, res) {
 	var Episode = orm.model("Episode");
 	Podcast.find({ where: { ownerUserId: user.id, id: podcastId }, include: [Episode]})
 	.success(function(podcast) {
-		console.log("fuck" + JSON.stringify(podcast));
-		res.render("podcasts/episode-list", {
-			title: podcast.title,
-			activeTab: "podcasts",
-			activePodcastTab: "episodes",
-			podcast: podcast
-		});
+		if(podcast) {
+			res.render("podcasts/episode-list", {
+				title: podcast.title,
+				activeTab: "podcasts",
+				activePodcastTab: "episodes",
+				podcast: podcast
+			});
+		} else {
+			next();
+		}
 	});
 }
 
-exports.episodeEdit = function(req, res) {
+exports.episodeEdit = function(req, res, next) {
 	var Podcast = orm.model("Podcast");
 	var Episode = orm.model("Episode");
 
@@ -182,7 +185,7 @@ exports.episodeEdit = function(req, res) {
 	});
 }
 
-exports.post_episodeEdit = function(req, res) {
+exports.post_episodeEdit = function(req, res, next) {
 	var Episode = orm.model("Episode");
 	var episodeId = req.params.episodeId;
 	var podcastId = req.params.podcastId;
@@ -217,7 +220,7 @@ exports.post_episodeEdit = function(req, res) {
 	});
 }
 
-exports.episodeCreate = function(req, res) {
+exports.episodeCreate = function(req, res, next) {
 	var Podcast = orm.model("Podcast");
 	Podcast.find({ where: { id: req.params.podcastId } })
 	.success(function(podcast) {
@@ -236,7 +239,7 @@ exports.episodeCreate = function(req, res) {
 	});
 }
 
-exports.post_episodeCreate = function(req, res) {
+exports.post_episodeCreate = function(req, res, next) {
 	var podcastId = req.params.podcastId;
 
 	var Podcast = orm.model("Podcast");
