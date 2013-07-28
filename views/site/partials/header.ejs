@@ -13,51 +13,28 @@
         <script src="/js/jquery-1.10.2.min.js"></script>
         <script src="/js/castr/shared.js"></script>
 
-        <style type="text/css" >
-            .sidebar {
-                top: 0px;
-                bottom: 0px;
-                position: absolute;
-                background-color: #2c3e50;
-                text-align: center;
-            }
+        <script>
+        // var podcastId = <%=podcast.id%>;
+        // var baseUrl = "<%=baseUrl%>";
 
-            .sidebar .iconbar {
-                float:none;
-                margin:0;
-            }
+        // $(function() {
+        //     $.getJSON("http://{0}/api/podcasts/{1}/isFollowing".format(baseUrl, podcastId), function(data) {
+        //         if (data.result) {
+        //             $("#followButton").val("Unfollow");
+        //         } else {
+        //             $("#followButton").val("Follow");
+        //         }
+        //     });
 
-            .sidebar .site-name  h4 {
-                color: #ecf0f1;
-                margin: 0.6em auto 0;
-            }
-
-            .castr-menu {
-                position: fixed;
-                z-index: 9999999999;
-                top: 10px;
-                right: 10px;
-                opacity: 0.8;
-            }
-
-            @media (max-width: 767px) {
-                .sidebar {
-                    position: relative;
-                }
-
-                .sidebar .site-name  h4 {
-                    color: #ecf0f1;
-                    font-size: 3em;
-                    margin: 0.6em auto 0;
-                }
-
-                .sidebar .iconbar > ul > li {
-                    float: left;
-                }
-            }
-
-
-        </style>
+        //     $("#followButton").click(function() {
+        //         $.getJSON("http://{0}/api/podcasts/{1}/follow".format(baseUrl, podcastId), function(data) {
+        //             if (data.result) {
+        //                 $("#followButton").val("Unfollow");
+        //             }
+        //         });
+        //     });
+        // });
+        </script>
 
         <!--[if lt IE 9]><script src="js/html5shiv.js"></script><![endif]-->
 	</head>
@@ -65,7 +42,11 @@
         <div class="castr-menu">
             <div class="btn-group">
                 <a class="btn btn-mini btn-secondary" href="#follow"><i class="fui-plus"></i> Follow</a>
-                <a class="btn btn-mini btn-secondary" href="#dashboard"><i class="fui-list"></i> My feed</a>
+                <% if(user.isLoggedIn) { %>
+                    <a class="btn btn-mini btn-secondary" href="<%= "{0}{1}/feed".format(global.protocol, global.baseUrl) %>"><i class="fui-list"></i> My feed</a>
+                <% } else { %>
+                    <a class="btn btn-mini btn-secondary" href="<%= "{0}{1}/request-invite".format(global.protocol, global.baseUrl) %>"><i class="fui-list"></i> Join Castr</a>
+                <% } %>
             </div>
         </div>
 

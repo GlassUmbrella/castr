@@ -189,6 +189,17 @@ function noSubdomain(req, res, next) {
 	}
 }
 
+app.get("*", function(req, res, next) {
+	app.locals({
+	    user: {
+	        isLoggedIn: req.session.user != null,
+	        isAdmin: req.session.user != null && req.session.user.isAdmin,
+	        name: req.session.user != null ? req.session.user.name : null
+	    }
+	});
+	next();
+});
+
 // Subdomain routes
 
 app.get("/", requiresSubdomain, controllers.site.index);

@@ -5,32 +5,30 @@
 		    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-01"></button>
 	    	<a href="<%= "{0}{1}".format(global.protocol, global.baseUrl) %>" class="brand">Castr</a>
 	      	<div class="nav-collapse collapse" id="nav-collapse-01">
-	      		<% if (session.user) { %>
-					<ul class="nav">
-							<li <% if(activeTab == "feed") { %> class="active" <% } %>>
-								<a href="/feed">Feed</a>
-							</li>
-						<li <% if(activeTab == "podcasts") { %> class="active" <% } %>>
-							<a href="/podcasts">My Podcasts</a>
+				<ul class="nav">
+						<li <% if(activeTab == "feed") { %> class="active" <% } %>>
+							<a href="/feed">Feed</a>
 						</li>
-					</ul>
-					<ul class="nav pull-right">
-						<li class="dropdown">
-				            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					            <%= session.user.name %> <b class="caret"></b>
-					        </a>
-				            <ul class="dropdown-menu">
-					            <li><a href="/profile">Edit my details</a></li>
-					            <li><a href="/podcasts/create">Create new podcast</a></li>
-					            <li class="divider"></li>
-					            <% if (session.user.isAdmin) { %>
-					            	<li><a href="/admin/invites">Admin</a></li>
-					            <% } %>
-								<li><a href="/logout">Logout</a></li>
-				            </ul>
-						</li>
-					</ul>
-				<% } %>
+					<li <% if(activeTab == "podcasts") { %> class="active" <% } %>>
+						<a href="/podcasts">My Podcasts</a>
+					</li>
+				</ul>
+				<ul class="nav pull-right">
+					<li class="dropdown">
+			            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				            <%= user.name %> <b class="caret"></b>
+				        </a>
+			            <ul class="dropdown-menu">
+			            	<% if (user.isAdmin) { %>
+				            	<li><a href="/admin/invites">Admin</a></li>
+				            <% } %>
+				            <li><a href="/profile">Edit my details</a></li>
+				            <li><a href="/podcasts/create">Create new podcast</a></li>
+				            <li class="divider"></li>
+							<li><a href="/logout">Logout</a></li>
+			            </ul>
+					</li>
+				</ul>
 			</div>
 	    </div>
     </div>

@@ -1,14 +1,21 @@
 <% include ../partials/header %>
-<% include ../partials/podcast-header %>
-<section class="episode">
-	<h3>Episode #<%=episode.episodeNumber%>: <%=episode.title%></h3>
-	<div class="body">
-		<p><%=episode.description%></p>
+
+<div class="span10 offset2">
+	<div class="row">
+		<div class="span10 public-main">
+			<section class="episode">
+				<h3>Episode #<%=episode.episodeNumber%>: <%=episode.title%></h3>
+				<div class="body">
+					<p><%=episode.description%></p>
+				</div>
+				<div class="show-notes">
+					<h4>Show Notes</h4>
+					<p><%=episode.notes%></p>
+				</div>
+			</section>
+			<p><a href="/">Back to episodes</a></p>
+		</div>
 	</div>
-	<div class="show-notes">
-		<h4>Show Notes</h4>
-		<p><%=episode.notes%></p>
-	</div>
-</section>
-<p><a href="/">Back to episodes</a></p>
+</div>
+
 <% include ../partials/footer %>
