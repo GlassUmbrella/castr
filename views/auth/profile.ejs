@@ -1,53 +1,55 @@
 <% include ../partials/header %>
 <% include ../partials/menu %>
 
-<div class="span10 offset1">
-	<h3>Your details</h3>
-	<hr>
+<div class="row">
+	<div class="span10 offset1">
+		<h3>Your details</h3>
+		<hr>
 
-	<form method="post" autocomplete="off">
-		<fieldset>
-			<% if(updated) { %>
-				<div class="alert alert-success">
-			    	Your details have been updated.
-			    </div>
-			<% } %>
+		<form method="post" autocomplete="off">
+			<fieldset>
+				<% if(updated) { %>
+					<div class="alert alert-success">
+				    	Your details have been updated.
+				    </div>
+				<% } %>
 
-			<% if(error) { %>
-				<div class="alert alert-error">
-			    	An error occured. But don't worry, it was logged and we'll fix it.
-			    </div>
-			<% } %>
+				<% if(error) { %>
+					<div class="alert alert-error">
+				    	An error occured. But don't worry, it was logged and we'll fix it.
+				    </div>
+				<% } %>
 
-			<div class="control-group">	
-				<label class="control-label" for="editName">Your name</label>
-				<div class="controls">
-					<input type="text" class="span3" name="editName" id="editName" placeholder="Your name" value="<%= name %>" autocomplete="off" />
+				<div class="control-group">	
+					<label class="control-label" for="editName">Your name</label>
+					<div class="controls">
+						<input type="text" class="span3" name="editName" id="editName" placeholder="Your name" value="<%= name %>" autocomplete="off" />
+					</div>
 				</div>
-			</div>
 
-			<div class="control-group">
-				<label class="control-label" for="editEmail">Email address</label>
-				<div class="controls">
-					<input type="email" class="span5" name="editEmail" id="editEmail" placeholder="Email address" value="<%= email %>" autocomplete="off" />
+				<div class="control-group">
+					<label class="control-label" for="editEmail">Email address</label>
+					<div class="controls">
+						<input type="email" class="span5" name="editEmail" id="editEmail" placeholder="Email address" value="<%= email %>" autocomplete="off" />
+					</div>
 				</div>
-			</div>
 
-			<div class="control-group">
-				<label class="control-label" for="editPassword">New Password</label>
-				<div class="controls">
-					<input type="password" class="span5" name="editPassword" id="editPassword" placeholder="New password" autocomplete="off" />
+				<div class="control-group">
+					<label class="control-label" for="editPassword">New Password</label>
+					<div class="controls">
+						<input type="password" class="span5" name="editPassword" id="editPassword" placeholder="New password" autocomplete="off" />
+					</div>
 				</div>
-			</div>
 
-			<hr>
+				<hr>
 
-			<div class="control-group">
-				<button class="btn btn-primary" type="submit">Update details</button>
-			</div>
+				<div class="control-group">
+					<button class="btn btn-primary" type="submit">Update details</button>
+				</div>
 
-		</fieldset>
-	</form>
+			</fieldset>
+		</form>
+	</div>
 </div>
 
 <% include ../partials/footer %>

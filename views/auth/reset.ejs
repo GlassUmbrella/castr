@@ -1,42 +1,44 @@
 <% include ../public/partials/header %>
 
-<div class="span6 offset3">
-	<h3>Reset password</h3>
-	<hr>
+<div class="row">
+	<div class="span6 offset3">
+		<h3>Reset password</h3>
+		<hr>
 
-	<form method="post" autocomplete="off">
-		<fieldset>
-			<% if(error) { %>
-				<div class="alert alert-error">
-			    	This password reset code has expired or is invalid.
-			    </div>
-			<% } %>
+		<form method="post" autocomplete="off">
+			<fieldset>
+				<% if(error) { %>
+					<div class="alert alert-error">
+				    	This password reset code has expired or is invalid.
+				    </div>
+				<% } %>
 
-			<div class="control-group huge">
-				<div class="controls">
-					<input type="text" name="emailAddress" id="emailAddress" placeholder="Email address" class="span6" value="<%= emailAddress || '' %>" autocomplete="off" />
+				<div class="control-group huge">
+					<div class="controls">
+						<input type="text" name="emailAddress" id="emailAddress" placeholder="Email address" class="span6" value="<%= emailAddress || '' %>" autocomplete="off" />
+					</div>
 				</div>
-			</div>
 
-			<div class="control-group huge">
-				<div class="controls">
-					<input type="text" name="newPassword" id="newPassword" placeholder="New password" class="span6" autofocus autocomplete="off" />
+				<div class="control-group huge">
+					<div class="controls">
+						<input type="text" name="newPassword" id="newPassword" placeholder="New password" class="span6" autofocus autocomplete="off" />
+					</div>
 				</div>
-			</div>
 
-			<div class="control-group">
-				<input type="hidden" name="resetCode" id="resetCode" value="<%= resetCode || '' %>" />
-				<button class="btn btn-huge btn-primary btn-block" type="submit">Reset</button>
-			</div>
+				<div class="control-group">
+					<input type="hidden" name="resetCode" id="resetCode" value="<%= resetCode || '' %>" />
+					<button class="btn btn-huge btn-primary btn-block" type="submit">Reset</button>
+				</div>
 
-			<hr>
+				<hr>
 
-			<div class="controls-row">
-				<a class="btn btn-small btn-secondary" href="/login">Remembered your password?</a>
-				<a class="btn btn-small btn-secondary" href="/request-invite">Need an account?</a>
-			</div>
-		</fieldset>
-	</form>
+				<div class="controls-row">
+					<a class="btn btn-small btn-secondary" href="/login">Remembered your password?</a>
+					<a class="btn btn-small btn-secondary" href="/request-invite">Need an account?</a>
+				</div>
+			</fieldset>
+		</form>
+	</div>
 </div>
 
 <% include ../partials/footer %>

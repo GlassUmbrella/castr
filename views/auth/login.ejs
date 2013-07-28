@@ -1,43 +1,45 @@
 <% include ../public/partials/header %>
 
-<div class="span6 offset3">
-	<h3>Login</h3>
-	<hr>
+<div class="row">
+	<div class="span6 offset3">
+		<h3>Login</h3>
+		<hr>
 
-	<form method="post">
-		<fieldset>
-			<% if(message) { %>
-			<div class="alert alert-error">
-				<%= message %>
-			</div>
-			<% } %>
-
-			<div class="control-group huge">
-				<div class="input-append">
-					<input type="email" class="span6" name="loginEmail" id="loginEmail" placeholder="Email address" autofocus />
-					<span class="add-on fui-user"></span>
+		<form method="post">
+			<fieldset>
+				<% if(message) { %>
+				<div class="alert alert-error">
+					<%= message %>
 				</div>
-			</div>
+				<% } %>
 
-			<div class="control-group huge">
-				<div class="input-append">
-					<input type="password" class="span6" name="loginPassword" id="loginPassword" placeholder="Password" />
-					<span class="add-on fui-lock"></span>
+				<div class="control-group huge">
+					<div class="input-append">
+						<input type="email" class="span6" name="loginEmail" id="loginEmail" placeholder="Email address" autofocus />
+						<span class="add-on fui-user"></span>
+					</div>
 				</div>
-			</div>
 
-			<div class="control-group">
-				<button class="btn btn-huge btn-primary btn-block" type="submit">Sign in</button>
-			</div>
+				<div class="control-group huge">
+					<div class="input-append">
+						<input type="password" class="span6" name="loginPassword" id="loginPassword" placeholder="Password" />
+						<span class="add-on fui-lock"></span>
+					</div>
+				</div>
 
-			<hr>
+				<div class="control-group">
+					<button class="btn btn-huge btn-primary btn-block" type="submit">Sign in</button>
+				</div>
 
-			<div class="controls-row">
-				<a class="btn btn-small btn-info" href="/request-invite">Request an invite</a>
-				<a class="btn btn-small btn-secondary" href="/forgot">Forgot your password?</a>
-			</div>
-		</fieldset>
-	</form>
+				<hr>
+
+				<div class="controls-row">
+					<a class="btn btn-small btn-info" href="/request-invite">Request an invite</a>
+					<a class="btn btn-small btn-secondary" href="/forgot">Forgot your password?</a>
+				</div>
+			</fieldset>
+		</form>
+	</div>
 </div>
 
 <% include ../partials/footer %>

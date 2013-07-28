@@ -1,12 +1,14 @@
 <% include partials/header %>
 
-<div class="span6 offset3">
-	<h3><%= title %></h3>
-	<hr>
-	<p>The page you are looking for cannot be found.</p>
-	<p>Please <a href="<%= "{0}{1}".format(global.protocol, global.baseUrl) %>">click here</a> to go to the home page.</p>
-	<hr>
-	<p>If you think this is an error, tweet us <a href="https://twitter.com/castrnet">@castrnet</a>.</p>
+<div class="row">
+	<div class="span6 offset3">
+		<h3><%= title %></h3>
+		<hr>
+		<p>The page you are looking for cannot be found.</p>
+		<p>Please <a href="<%= "{0}{1}".format(global.protocol, global.baseUrl) %>">click here</a> to go to the home page.</p>
+		<hr>
+		<p>If you think this is an error, tweet us <a href="https://twitter.com/castrnet">@castrnet</a>.</p>
+	</div>
 </div>
 
 <% include ../partials/footer %>

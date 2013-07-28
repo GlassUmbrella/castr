@@ -1,39 +1,41 @@
 <% include ../public/partials/header %>
 
-<div class="span6 offset3">
-	<h3>Forgot password</h3>
-	<hr>
+<div class="row">
+	<div class="span6 offset3">
+		<h3>Forgot password</h3>
+		<hr>
 
-	<form method="post" autocomplete="off">
-		<fieldset>
-			<% if(sent) { %>
-				<div class="alert alert-success">
-			    	Instructions of how to reset your password have been sent to your email address.
-			    </div>
-			<% } %>
+		<form method="post" autocomplete="off">
+			<fieldset>
+				<% if(sent) { %>
+					<div class="alert alert-success">
+				    	Instructions of how to reset your password have been sent to your email address.
+				    </div>
+				<% } %>
 
-			<% if(error) { %>
-				<div class="alert alert-error">
-			    	The email address you entered was not found in our system.
-			    </div>
-			<% } %>
+				<% if(error) { %>
+					<div class="alert alert-error">
+				    	The email address you entered was not found in our system.
+				    </div>
+				<% } %>
 
-			<div class="control-group huge">
-				<input type="text" class="span6" name="emailAddress" id="emailAddress" placeholder="Email address" autofocus autocomplete="off" />
-			</div>
+				<div class="control-group huge">
+					<input type="text" class="span6" name="emailAddress" id="emailAddress" placeholder="Email address" autofocus autocomplete="off" />
+				</div>
 
-			<div class="control-group huge">
-				<button class="btn btn-huge btn-primary btn-block" type="submit">Reset</button>
-			</div>
+				<div class="control-group huge">
+					<button class="btn btn-huge btn-primary btn-block" type="submit">Reset</button>
+				</div>
 
-			<hr>
+				<hr>
 
-			<div class="controls-row">
-				<a class="btn btn-small btn-secondary" href="/login">Remembered your password?</a>
-				<a class="btn btn-small btn-secondary" href="/request-invite">Need an account?</a>
-			</div>
-		</fieldset>	
-	</form>
+				<div class="controls-row">
+					<a class="btn btn-small btn-secondary" href="/login">Remembered your password?</a>
+					<a class="btn btn-small btn-secondary" href="/request-invite">Need an account?</a>
+				</div>
+			</fieldset>	
+		</form>
+	</div>
 </div>
 
 <% include ../partials/footer %>

@@ -3,9 +3,7 @@
   	<div class="navbar-inner">
 	    <div class="container">
 		    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-01"></button>
-		    	<a href="/" class="brand">
-	      			Castr
-	      		</a>
+	    	<a href="<%= "{0}{1}".format(global.protocol, global.baseUrl) %>" class="brand">Castr</a>
 	      	<div class="nav-collapse collapse" id="nav-collapse-01">
 	      		<% if (session.user) { %>
 					<ul class="nav">

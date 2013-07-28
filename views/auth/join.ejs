@@ -1,46 +1,48 @@
 <% include ../public/partials/header %>
 
-<div class="span6 offset3">
-	<h3>Register a new account</h3>
-	<hr>
+<div class="row">
+	<div class="span6 offset3">
+		<h3>Register a new account</h3>
+		<hr>
 
-	<form method="post" autocomplete="off">
-		<fieldset>
-			<% if(error) { %>
-				<div class="alert alert-error">
-			    	<%= error %>
-			    </div>
-			<% } %>
+		<form method="post" autocomplete="off">
+			<fieldset>
+				<% if(error) { %>
+					<div class="alert alert-error">
+				    	<%= error %>
+				    </div>
+				<% } %>
 
-			<div class="control-group huge">
-				<input type="text" class="span6" name="signupName" id="signupName" placeholder="Your name" value="<%= name || '' %>" autofocus autocomplete="off" />
-			</div>
+				<div class="control-group huge">
+					<input type="text" class="span6" name="signupName" id="signupName" placeholder="Your name" value="<%= name || '' %>" autofocus autocomplete="off" />
+				</div>
 
-			<div class="control-group huge">
-				<input type="email" class="span6" name="signupEmail" id="signupEmail" placeholder="Email address" value="<%= emailAddress || '' %>" autocomplete="off" />
-			</div>
+				<div class="control-group huge">
+					<input type="email" class="span6" name="signupEmail" id="signupEmail" placeholder="Email address" value="<%= emailAddress || '' %>" autocomplete="off" />
+				</div>
 
-			<div class="control-group huge">
-				<input type="password" class="span6" name="signupPassword" id="signupPassword" placeholder="Password" autocomplete="off" />
-			</div>
+				<div class="control-group huge">
+					<input type="password" class="span6" name="signupPassword" id="signupPassword" placeholder="Password" autocomplete="off" />
+				</div>
 
-			<div class="control-group huge">
-				<input type="text" class="span6" name="signupInviteCode" id="signupInviteCode" placeholder="Invite code" value="<%= inviteCode || '' %>" autocomplete="off" />
-			</div>
+				<div class="control-group huge">
+					<input type="text" class="span6" name="signupInviteCode" id="signupInviteCode" placeholder="Invite code" value="<%= inviteCode || '' %>" autocomplete="off" />
+				</div>
 
-			<div class="control-group">
-				<button class="btn btn-huge btn-primary btn-block" type="submit">Sign up</button>
-			</div>
+				<div class="control-group">
+					<button class="btn btn-huge btn-primary btn-block" type="submit">Sign up</button>
+				</div>
 
-			<hr>
+				<hr>
 
-			<div class="controls-row">
-				<a class="btn btn-mini btn-secondary" href="/request-invite">Need an invite code?</a>
-				<a class="btn btn-mini btn-secondary" href="/login">Already got an account?</a>
-				<a class="btn btn-mini btn-secondary" href="/forgot">Forgot your password?</a>
-			</div>
-		</fieldset>
-	</form>
+				<div class="controls-row">
+					<a class="btn btn-mini btn-secondary" href="/request-invite">Need an invite code?</a>
+					<a class="btn btn-mini btn-secondary" href="/login">Already got an account?</a>
+					<a class="btn btn-mini btn-secondary" href="/forgot">Forgot your password?</a>
+				</div>
+			</fieldset>
+		</form>
+	</div>
 </div>
 
 <% include ../partials/footer %>
