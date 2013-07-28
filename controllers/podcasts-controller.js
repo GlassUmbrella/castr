@@ -1,30 +1,59 @@
 var orm	= require("../lib/model");
 
 exports.index = function(req, res) {
-	var Podcast = orm.model("Podcast");
 	var user = req.session.user;
-	var selectedPodcastId = 0;
-	if(req.params.podcastId) {
-		selectedPodcastId = req.params.podcastId;
-	}
-	
+
+	var Podcast = orm.model("Podcast");
 	Podcast.findAll({ where: { ownerUserId: user.id } })
 	.success(function(podcasts) {
-		res.render("podcasts/index", { 
-			title: "My podcasts",
-			activeTab: "podcasts",
-			podcasts: podcasts, 
-			selectedPodcastId : selectedPodcastId 
-		});
+		if(podcasts.length == 0) {
+			return res.redirect("/podcasts/create");
+		} else if(podcasts.length == 1) {
+			return res.redirect("/podcasts/{0}/episodes".format(podcasts[0].id));
+		} else {
+			return res.render("podcasts/podcast-list", { 
+				title: "My podcasts",
+				activeTab: "podcasts",
+				podcasts: podcasts
+			});
+		}
 	});
 };
 
-/**
- * Podcasts 
- */
+exports.stats = function(req, res) {
+	var user = req.session.user;
+	var podcastId = req.params.podcastId;
+
+	var Podcast = orm.model("Podcast");
+	Podcast.find({ where: { ownerUserId: user.id, id: podcastId } })
+	.success(function(podcast) {
+		res.render("podcasts/podcast-stats", {
+			title: "stats - " + podcast.title,
+			activeTab: "podcasts",
+			activePodcastTab: "stats",
+			podcast: podcast
+		});
+	});
+}
+
+exports.settings = function(req, res) {
+	var user = req.session.user;
+	var podcastId = req.params.podcastId;
+
+	var Podcast = orm.model("Podcast");
+	Podcast.find({ where: { ownerUserId: user.id, id: podcastId } })
+	.success(function(podcast) {
+		res.render("podcasts/podcast-settings", {
+			title: "stats - " + podcast.title,
+			activeTab: "podcasts",
+			activePodcastTab: "settings",
+			podcast: podcast
+		});
+	});
+}
 
 exports.create = function(req, res) {
-	res.render("podcasts/create", {
+	res.render("podcasts/podcast-create", {
 		title: "Create your new podcast",
 		activeTab: "podcasts",
 		hasReachedPodcastCountLimit: false,
@@ -46,7 +75,7 @@ exports.post_create = function(req, res) {
 				var user = req.session.user;
 				validation.users.hasReachedPodcastCountLimit(user.id, function(reachedLimit) {
 					if(reachedLimit) {
-						res.render("podcasts/create", {
+						res.render("podcasts/podcast-create", {
 							title: "Create your new podcast",
 							activeTab: "podcasts",
 							hasReachedPodcastCountLimit: true,
@@ -77,7 +106,7 @@ exports.post_create = function(req, res) {
 					});
 				});
 			} else {
-				res.render("podcasts/create", {
+				res.render("podcasts/podcast-create", {
 					title: "Create your new podcast",
 					activeTab: "podcasts",
 					hasReachedPodcastCountLimit: false,
@@ -87,7 +116,7 @@ exports.post_create = function(req, res) {
 			}
 		});
 	} else {
-		res.render("podcasts/create", {
+		res.render("podcasts/podcast-create", {
 			title: "Create your new podcast",
 			activeTab: "podcasts",
 			hasReachedPodcastCountLimit: false,
@@ -101,9 +130,27 @@ exports.post_create = function(req, res) {
  * Episodes 
  */
 
-exports.episode = function(req, res) {
-	var Episode = orm.model("Episode");
+ exports.episodeList = function(req, res) {
+	var user = req.session.user;
+	var podcastId = req.params.podcastId;
+
 	var Podcast = orm.model("Podcast");
+	var Episode = orm.model("Episode");
+	Podcast.find({ where: { ownerUserId: user.id, id: podcastId }, include: [Episode]})
+	.success(function(podcast) {
+		console.log("fuck" + JSON.stringify(podcast));
+		res.render("podcasts/episode-list", {
+			title: podcast.title,
+			activeTab: "podcasts",
+			activePodcastTab: "episodes",
+			podcast: podcast
+		});
+	});
+}
+
+exports.episodeEdit = function(req, res) {
+	var Podcast = orm.model("Podcast");
+	var Episode = orm.model("Episode");
 
 	var message = "";
 	if (req.query.action == "saved") {
@@ -121,7 +168,7 @@ exports.episode = function(req, res) {
 		include: [Podcast]
 	}).success(function(episode) {
 		if (episode) {
-			res.render("podcasts/episode-create", { 
+			res.render("podcasts/episode-edit", { 
 				title: "Edit episode",
 				activeTab: "podcasts",
 				episode: episode, 
@@ -135,9 +182,8 @@ exports.episode = function(req, res) {
 	});
 }
 
-exports.post_episode = function(req, res) {
+exports.post_episodeEdit = function(req, res) {
 	var Episode = orm.model("Episode");
-	var Podcast = orm.model("Podcast");
 	var episodeId = req.params.episodeId;
 	var podcastId = req.params.podcastId;
 
@@ -153,6 +199,7 @@ exports.post_episode = function(req, res) {
 			episode.isPublished = true;
 			episode.publishDate = new Date();
 			// get next episode number
+			var Podcast = orm.model("Podcast");
 			Podcast.find({ where: { id: podcastId } })
 			.success(function(podcast) {
 				episode.episodeNumber = ++podcast.currentEpisodeNumber;
@@ -172,11 +219,10 @@ exports.post_episode = function(req, res) {
 
 exports.episodeCreate = function(req, res) {
 	var Podcast = orm.model("Podcast");
-
 	Podcast.find({ where: { id: req.params.podcastId } })
 	.success(function(podcast) {
 		if (podcast) {
-			res.render("podcasts/episode-create", { 
+			res.render("podcasts/episode-edit", { 
 					title: "Create a new episode", 
 					activeTab: "podcasts",
 					podcast: podcast,
@@ -191,9 +237,9 @@ exports.episodeCreate = function(req, res) {
 }
 
 exports.post_episodeCreate = function(req, res) {
-	var Podcast = orm.model("Podcast");
 	var podcastId = req.params.podcastId;
-	
+
+	var Podcast = orm.model("Podcast");
 	Podcast.find({ where: { id: podcastId } }).success(function(podcast) {
 		// TODO: check if episode rate limit reached for podcast
 		

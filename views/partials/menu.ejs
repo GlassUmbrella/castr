@@ -25,7 +25,9 @@
 					            <%= session.user.name %> <b class="caret"></b>
 					        </a>
 				            <ul class="dropdown-menu">
-					            <li><a href="/profile">Profile</a></li>
+					            <li><a href="/profile">Edit my details</a></li>
+					            <li><a href="/podcasts/create">Create new podcast</a></li>
+					            <li class="divider"></li>
 					            <% if (session.user.isAdmin) { %>
 					            	<li><a href="/admin/invites">Admin</a></li>
 					            <% } %>

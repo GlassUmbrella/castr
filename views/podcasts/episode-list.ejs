@@ -1,0 +1,63 @@
+<% include ../partials/header %>
+<% include ../partials/menu %>
+
+<div class="row">
+	<div class="span12">
+		<% include partials/tab-bar %>
+
+		<% if(podcast.episodes) { %>
+
+
+		<div class="row">
+			<a class="btn btn-primary pull-right" href="/podcasts/<%= podcast.id %>/episodes/create">
+				<i class="fui-plus"></i>
+				New episode
+			</a>
+		</div>
+
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th style="width:8%;">Episode</th>
+					<th style="width:60%;">Title</th>
+					<th>Published Date</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% for(var i = 0; i < podcast.episodes.length; i++) { %>
+				<tr>
+					<td style="text-align: center;">
+					<% if(podcast.episodes[i].episodeNumber > 0) { %>
+						<span class="label label-inverse"><%= podcast.episodes[i].episodeNumber %></span>
+					<% } else { %>
+						<span class="label label-secondary">Draft</span>
+					<% } %>
+					</td>
+					<td>
+						<a href="/podcasts/<%= podcast.id %>/episodes/<%= podcast.episodes[i].id %>">
+							<%= podcast.episodes[i].title %>
+						</a>
+					</td>
+					<td>
+						<%= podcast.episodes[i].publishDate ? moment(podcast.episodes[i].publishDate).fromNow() : "Not published" %>
+					</td>
+				</tr>
+				<% } %>
+			</tbody>
+		</table>
+
+		<% } else { %>
+
+			<div class="span12" style="text-align: center;">
+				<p>No episodes found.</p>
+				<a class="btn btn-primary" href="/podcasts/<%= podcast.id %>/episodes/create">
+					<i class="fui-plus"></i>
+					Add first episode
+				</a>
+			</div>
+
+		<% } %>
+	</div>
+</div>
+
+<% include ../partials/footer %>

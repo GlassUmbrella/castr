@@ -1,0 +1,34 @@
+<% if(!locals.activePodcastTab) { activePodcastTab = "none"; } %>
+
+<h3><%= podcast.title %></h3>
+
+<div class="row">
+	<div class="span12">
+		<ul class="nav nav-tabs">
+			<li <% if(activePodcastTab == "episodes") { %> class="active" <% } %>>
+			    <a href="episodes">
+			    	<span class="fui-mic"></span>
+			    	Episodes
+			    </a>
+			</li>
+			<li <% if(activePodcastTab == "stats") { %> class="active" <% } %>>
+			    <a href="stats">
+			    	<span class="fui-document"></span>
+			    	Stats
+			    </a>
+			</li>
+			<li <% if(activePodcastTab == "settings") { %> class="active" <% } %>>
+			    <a href="settings">
+			    	<span class="fui-gear"></span>
+			    	Settings
+			    </a>
+			</li>
+			<li class="pull-right">
+			    <a href="#">
+			    	<span class="fui-upload"></span>
+			    	View
+			    </a>
+			</li>
+		</ul>
+	</div>
+</div>

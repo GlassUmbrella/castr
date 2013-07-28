@@ -73,20 +73,18 @@ var notesValue = episode.id ? episode.notes : "";
 var fileIdValue = episode.AudioFileId ? episode.AudioFileId : "";
 %>
 
-<ul class="breadcrumb">
-	<li><a href="/podcasts">My Podcasts</a></li>
-	<li class="<%= (isNew ? "active" : "") %>">
-		<a href="/podcasts/<%= podcast.id %>"><%= podcast.title %></a>
+<ul class="pagination-plain">
+	<li class="previous">
+		<a href="/podcasts/<%= podcast.id %>/episodes">&larr; <%= podcast.title %> episode list</a>
 	</li>
-	<% if (!isNew) { %>
-		<li class="active"><%= episode.title %></li>
-	<% } %>
 </ul>
+
 <% if (isNew) { %>
 	<h3>
 		Create a new episode of <%= podcast.title %>
 	</h3>
 <% } %>
+
 <hr>
 <div class="panel">
 	<form method="post" class="form-horizontal">

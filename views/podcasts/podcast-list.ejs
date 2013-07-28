@@ -1,0 +1,17 @@
+<% include ../partials/header %>
+<% include ../partials/menu %>
+
+
+<h3>My Podcasts</h3>
+
+<ul>
+<% for (var i = 0; i < podcasts.length; i++) { %>
+	<li>
+		<a href="/podcasts/<%= podcasts[i].id %>/episodes"><%= podcasts[i].title %></a>
+	</li>
+<% } %>
+</ul>
+
+<p>Needs styles</p>
+
+<% include ../partials/footer %>

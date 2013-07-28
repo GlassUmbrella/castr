@@ -76,7 +76,6 @@ if("development" == app.settings.env) {
 
 	app.use(less({
 		force: true,
-		debug: true,
 		src: __dirname + "/public",
 		compress: false
 	}));
@@ -235,13 +234,14 @@ app.post("/profile", requiresAuth, controllers.auth.post_profile);
 app.get("/podcasts", requiresAuth, controllers.podcasts.index);
 app.get("/podcasts/create", requiresAuth, controllers.podcasts.create);
 app.post("/podcasts/create", requiresAuth, controllers.podcasts.post_create);
-app.get("/podcasts/:podcastId", requiresAuth, controllers.podcasts.index);
+app.get("/podcasts/:podcastId/stats", requiresAuth, controllers.podcasts.stats);
+app.get("/podcasts/:podcastId/settings", requiresAuth, controllers.podcasts.settings);
 
+app.get("/podcasts/:podcastId/episodes", requiresAuth, controllers.podcasts.episodeList);
 app.get("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.podcasts.episodeCreate);
 app.post("/podcasts/:podcastId/episodes/create", requiresAuth, controllers.podcasts.post_episodeCreate);
-
-app.get("/podcasts/:podcastId/episodes/:episodeId", requiresAuth, controllers.podcasts.episode);
-app.post("/podcasts/:podcastId/episodes/:episodeId", requiresAuth, controllers.podcasts.post_episode);
+app.get("/podcasts/:podcastId/episodes/:episodeId", requiresAuth, controllers.podcasts.episodeEdit);
+app.post("/podcasts/:podcastId/episodes/:episodeId", requiresAuth, controllers.podcasts.post_episodeEdit);
 
 
 //Admin routes
