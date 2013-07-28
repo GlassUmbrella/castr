@@ -119,6 +119,8 @@
 	});
 </script>
 
+<% if(episodes.length > 0) { %>
+
 <p id="prog"></p>
 
 <div class="row">
@@ -130,15 +132,13 @@
 				<span data-bind="text: episodeTitle"></span> - 
 				<span data-bind="text: podcastTitle"></span>
 			</p>
-			<audio src="http://s3.amazonaws.com/audiojs/02-juicy-r.mp3" preload="none"></audio>
+			<audio preload="none"></audio>
 		</div>
 	</div>
 </div>
 
 <div class="row">
-
 	<div class="feed span9">
-
 		<ul class="media-list">
 
 			<% 
@@ -211,7 +211,13 @@
 			<% } %>
 		</ul>
 	</div>
-
 </div>
+
+<% } else { %>
+
+	<h3>Nothing</h3>
+	<p>Before release the Glass Umbrella podcast should be followed by default</p>
+
+<% } %>
 
 <% include ../partials/footer %>
