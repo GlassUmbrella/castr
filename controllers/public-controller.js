@@ -5,3 +5,7 @@ exports.home = function(req, res, next) {
 		res.redirect("/feed");
 	}
 };
+
+exports.apps = function(req, res, next) {
+	res.render("public/apps", { title: "Apps" });
+};

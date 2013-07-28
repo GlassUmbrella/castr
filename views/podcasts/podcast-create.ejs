@@ -88,79 +88,83 @@ $(function() {
 });
 </script>
 
-<h3>Create a new podcast</h3>
-<hr>
-<form method="post" class="form-horizontal" enctype="multipart/form-data">
-	<fieldset>
-		<% if(hasReachedPodcastCountLimit) { %>
-			<div class="alert alert-error">
-		    	Looks like you've reach your podcast limit, <a href="#">archive an old podcast</a> or <a href="#">buy more space</a>.
-		    </div>
-		<% } %>
-		<% if(urlIsTaken || urlIsBanned) { %>
-			<div class="alert alert-error">
-		    	Looks like that URL is taken, please try again.
-		    </div>
-		<% } %>
+<div class="row">
+	<div class="span10 offset1">
+		<h3>Create a new podcast</h3>
+		<hr>
+		<form method="post" class="form-horizontal" enctype="multipart/form-data">
+			<fieldset>
+				<% if(hasReachedPodcastCountLimit) { %>
+					<div class="alert alert-error">
+				    	Looks like you've reach your podcast limit, <a href="#">archive an old podcast</a> or <a href="#">buy more space</a>.
+				    </div>
+				<% } %>
+				<% if(urlIsTaken || urlIsBanned) { %>
+					<div class="alert alert-error">
+				    	Looks like that URL is taken, please try again.
+				    </div>
+				<% } %>
 
-		<div class="control-group huge">
-			<label class="control-label" for="title">Title</label>
-			<div class="controls">
-				<input type="text" name="title" id="title" placeholder="Podcast title" class="span6" />
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="url">Domain</label>
-			<div class="controls">
-				<div class="input-append">
-					<input type="text" name="url" id="url" style="text-align:right" />
-					<span class="add-on">.castr.net</span>
+				<div class="control-group huge">
+					<label class="control-label" for="title">Title</label>
+					<div class="controls">
+						<input type="text" name="title" id="title" placeholder="Podcast title" class="span6" />
+					</div>
 				</div>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="description">Description</label>
-			<div class="controls">
-				<textarea name="description" id="description" placeholder="A short description of your podcast" class="span6" rows="5"></textarea>
-			</div>
-		</div>
-		<%
-			// todo: hook up podcast editing
-			var posterExists = false;
-			var originalPosterFileIdValue = null;
-			var smallPosterFileIdValue = null;
-			var largePosterFileIdValue = null;
-			var displayNone = "display:none";
-		%>
-		<div class="control-group">
-			<label class="control-label" for="cover">Cover Art</label>
-			<div class="controls">
-				<input type="hidden" name="originalPosterFileId" id="original-poster-file-id" value="<%=originalPosterFileIdValue%>" />
-				<input type="hidden" name="smallPosterFileId" id="small-poster-file-id" value="<%=smallPosterFileIdValue%>" />
-				<input type="hidden" name="largePosterFileId" id="large-poster-file-id" value="<%=largePosterFileIdValue%>" />
-				<div id="poster-exists" style="<%=posterExists ? "" : displayNone%>">
-					<img src="" height="64" width="64" id="current-cover-image" class="profile" />
-					<button id="replace-cover-button" class="btn btn-warning file-upload-button">
-						<i class="fui-upload"></i>
-						Replace your cover poster
-					</button>
+				<div class="control-group">
+					<label class="control-label" for="url">Domain</label>
+					<div class="controls">
+						<div class="input-append">
+							<input type="text" name="url" id="url" style="text-align:right" />
+							<span class="add-on">.castr.net</span>
+						</div>
+					</div>
 				</div>
-				<div id="poster-missing" style="<%=posterExists ? displayNone : ""%>">
-					<button id="new-cover-button" class="btn btn-primary file-upload-button">
-						<i class="fui-upload"></i>
-						Upload cover poster
-					</button>
+				<div class="control-group">
+					<label class="control-label" for="description">Description</label>
+					<div class="controls">
+						<textarea name="description" id="description" placeholder="A short description of your podcast" class="span6" rows="5"></textarea>
+					</div>
 				</div>
-				<div id="poster-busy" style="display:none">
-					<p><img src="/images/spinner_96.gif" width="48" height="48" />We're converting and resizing your pic, please wait just a little longer...</p>
+				<%
+					// todo: hook up podcast editing
+					var posterExists = false;
+					var originalPosterFileIdValue = null;
+					var smallPosterFileIdValue = null;
+					var largePosterFileIdValue = null;
+					var displayNone = "display:none";
+				%>
+				<div class="control-group">
+					<label class="control-label" for="cover">Cover art</label>
+					<div class="controls">
+						<input type="hidden" name="originalPosterFileId" id="original-poster-file-id" value="<%=originalPosterFileIdValue%>" />
+						<input type="hidden" name="smallPosterFileId" id="small-poster-file-id" value="<%=smallPosterFileIdValue%>" />
+						<input type="hidden" name="largePosterFileId" id="large-poster-file-id" value="<%=largePosterFileIdValue%>" />
+						<div id="poster-exists" style="<%=posterExists ? "" : displayNone%>">
+							<img src="" height="64" width="64" id="current-cover-image" class="profile" />
+							<button id="replace-cover-button" class="btn btn-warning file-upload-button">
+								<i class="fui-upload"></i>
+								Replace your cover poster
+							</button>
+						</div>
+						<div id="poster-missing" style="<%=posterExists ? displayNone : ""%>">
+							<button id="new-cover-button" class="btn btn-primary file-upload-button">
+								<i class="fui-upload"></i>
+								Upload cover poster
+							</button>
+						</div>
+						<div id="poster-busy" style="display:none">
+							<p><img src="/images/spinner_96.gif" width="48" height="48" />We're converting and resizing your pic, please wait just a little longer...</p>
+						</div>
+					</div>
 				</div>
-			</div>
-		</div>
-		<div class="form-actions">
-			<button type="submit" class="btn btn-primary" id="submit-button">Create</button>
-			<a href="/" class="btn btn-link">Cancel</a>
-		</div>
-	</fieldset>
-</form>
+				<div class="form-actions">
+					<button type="submit" class="btn btn-primary" id="submit-button">Create</button>
+					<a href="/" class="btn">Cancel</a>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>
 
 <% include ../partials/footer %>

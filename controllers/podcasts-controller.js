@@ -75,14 +75,13 @@ exports.post_create = function(req, res, next) {
 				var user = req.session.user;
 				validation.users.hasReachedPodcastCountLimit(user.id, function(reachedLimit) {
 					if(reachedLimit) {
-						res.render("podcasts/podcast-create", {
+						return res.render("podcasts/podcast-create", {
 							title: "Create your new podcast",
 							activeTab: "podcasts",
 							hasReachedPodcastCountLimit: true,
 							urlIsTaken: false,
 							urlIsBanned: false
 						});
-						return;
 					}
 
 					var originalPosterFileId = req.body.originalPosterFileId > 0 ? req.body.originalPosterFileId : null;
@@ -102,7 +101,7 @@ exports.post_create = function(req, res, next) {
 						LargePosterFileId: largePosterFileId
 					}).success(function(podcast) {
 						podcast.setUsers([user]);
-						res.redirect("/podcasts/{0}".format(podcast.id));
+						res.redirect("/podcasts/{0}/episodes".format(podcast.id));
 					});
 				});
 			} else {
