@@ -14,24 +14,67 @@
         <script src="/js/castr/shared.js"></script>
 
         <style type="text/css" >
-        .sidebar {
-            top:0px;
-            bottom:0px;
-            position:absolute;
-            background-color: #2c3e50;
-            text-align: center;
-        }
+            .sidebar {
+                top: 0px;
+                bottom: 0px;
+                position: absolute;
+                background-color: #2c3e50;
+                text-align: center;
+            }
+
+            .sidebar .iconbar {
+                float:none;
+                margin:0;
+            }
+
+            .sidebar .site-name  h4 {
+                color: #ecf0f1;
+                margin: 0.6em auto 0;
+            }
+
+            .castr-menu {
+                position: fixed;
+                z-index: 9999999999;
+                top: 10px;
+                right: 10px;
+                opacity: 0.8;
+            }
+
+            @media (max-width: 767px) {
+                .sidebar {
+                    position: relative;
+                }
+
+                .sidebar .site-name  h4 {
+                    color: #ecf0f1;
+                    font-size: 3em;
+                    margin: 0.6em auto 0;
+                }
+
+                .sidebar .iconbar > ul > li {
+                    float: left;
+                }
+            }
+
+
         </style>
 
         <!--[if lt IE 9]><script src="js/html5shiv.js"></script><![endif]-->
 	</head>
 	<body>
+        <div class="castr-menu">
+            <div class="btn-group">
+                <a class="btn btn-mini btn-secondary" href="#follow"><i class="fui-plus"></i> Follow</a>
+                <a class="btn btn-mini btn-secondary" href="#dashboard"><i class="fui-list"></i> My feed</a>
+            </div>
+        </div>
+
         <div class="row">
-            <div class="sidebar hidden-phone span2">
-                <a href="<%= "{0}{1}".format(global.protocol, global.baseUrl) %>">
-                    <h4 style="color: #ecf0f1;margin: 0.6em auto 0;">Castr</h4>
+            <div class="sidebar span2">
+                <a class="site-name" href="<%= "{0}{1}".format(global.protocol, global.baseUrl) %>">
+                    <h4>Castr</h4>
                 </a>
-                <div class="iconbar" style="float:none; margin:0;">
+                <div class="iconbar">
                     <ul>
                         <li <% if(activeTab == "home") { %> class="active" <% } %>><a href="/" class="fui-home"></a></li>
                         <li <% if(activeTab == "mail") { %> class="active" <% } %>><a href="/mail" class="fui-mail"></a></li>
