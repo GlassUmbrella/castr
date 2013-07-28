@@ -1,6 +1,8 @@
 <% include ../partials/header %>
 <% include ../partials/menu %>
 
+<link rel="stylesheet" href="/css/audio.css">
+
 <script>
 	var nowPlayingViewModel = {
 		episodeId: ko.observable(),
@@ -15,7 +17,37 @@
 	};
 
 	$(function() {
-		var a = audiojs.createAll();
+		var a = audiojs.createAll({
+			createPlayer: {
+				markup: '\
+					<div class="castr-scrubber"> \
+					<div class="castr-progress"></div> \
+					<div class="castr-loaded"></div> \
+					</div> \
+					<div class="castr-play-pause"> \
+					<p class="castr-play"><span class="fui-play"></span></p> \
+					<p class="castr-pause"><span class="fui-pause"></span></p> \
+					<p class="castr-loading"><span class="fui-time"></span></p> \
+					<p class="castr-error"><span class="fui-cross"></span></p> \
+					</div> \
+					<div class="castr-time"> \
+					<em class="castr-played">00:00</em>/<strong class="castr-duration">00:00</strong> \
+					</div> \
+					<div class="castr-error-message"></div>',
+				playPauseClass: 'castr-play-pause',
+				scrubberClass: 'castr-scrubber',
+				progressClass: 'castr-progress',
+				loaderClass: 'castr-loaded',
+				timeClass: 'castr-time',
+				durationClass: 'castr-duration',
+				playedClass: 'castr-played',
+				errorMessageClass: 'castr-error-message',
+				playingClass: 'castr-playing',
+				loadingClass: 'castr-loading',
+				errorClass: 'castr-error'
+			},
+			css: false
+ 		});
 
 		var lastSentTime = 0; // tracks last sent time
 		var audio = a[0];
@@ -98,7 +130,7 @@
 				<span data-bind="text: episodeTitle"></span> - 
 				<span data-bind="text: podcastTitle"></span>
 			</p>
-			<audio preload="none"></audio>
+			<audio src="http://s3.amazonaws.com/audiojs/02-juicy-r.mp3" preload="none"></audio>
 		</div>
 	</div>
 </div>
