@@ -19,11 +19,11 @@
 				            <%= user.name %> <b class="caret"></b>
 				        </a>
 			            <ul class="dropdown-menu">
-			            	<% if (user.isAdmin) { %>
-				            	<li><a href="/admin/invites">Admin</a></li>
-				            <% } %>
+			            	<li><a href="/podcasts/create">Create new podcast</a></li>
 				            <li><a href="/profile">Edit my details</a></li>
-				            <li><a href="/podcasts/create">Create new podcast</a></li>
+				            <% if (user.isAdmin) { %>
+				            	<li><a href="/admin/invites">Admin area</a></li>
+				            <% } %>
 				            <li class="divider"></li>
 							<li><a href="/logout">Logout</a></li>
 			            </ul>
