@@ -189,6 +189,7 @@ function noSubdomain(req, res, next) {
 	}
 }
 
+//Values set for every route
 app.get("*", function(req, res, next) {
 	app.locals({
 	    user: {
@@ -201,7 +202,7 @@ app.get("*", function(req, res, next) {
 });
 
 // Subdomain routes
-
+app.get("*", requiresSubdomain, controllers.site.setupValues);
 app.get("/", requiresSubdomain, controllers.site.index);
 app.get("/page/:pageNumber", requiresSubdomain, controllers.site.index);
 app.get("/episodes", requiresSubdomain, controllers.site.index);
@@ -209,7 +210,6 @@ app.get("/mail", requiresSubdomain, controllers.site.mail);
 app.get("/episodes/:episodeNumber", requiresSubdomain, controllers.site.episode);
 
 // API routes
-
 app.get("/api", noSubdomain, api.default.home);
 app.get("/api/podcasts", noSubdomain, requiresAuth, api.podcasts.list);
 app.get("/api/podcasts/:podcastId/episodes", noSubdomain, requiresAuth, api.podcasts.episodes);
@@ -227,7 +227,6 @@ app.post("/api/file", noSubdomain, requiresAuth, api.file.post_file);
 app.delete("/api/file/:fileId", noSubdomain, requiresAuth, api.file.delete_file);
 
 // Main app routes
-
 app.get("/", noSubdomain, controllers.public.home);
 app.get("/apps", noSubdomain, controllers.public.apps);
 

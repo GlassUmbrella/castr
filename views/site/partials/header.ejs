@@ -41,7 +41,12 @@
 	<body>
         <div class="castr-menu">
             <div class="btn-group">
-                <a class="btn btn-mini btn-secondary" href="#follow"><i class="fui-plus"></i> Follow</a>
+                <% if(userIsFollowingThisPodcast) { %>
+                    <a class="btn btn-mini btn-secondary" href="#follow"><i class="fui-check"></i> Following</a>
+                <% } else { %>
+                    <a class="btn btn-mini btn-secondary" href="#follow"><i class="fui-plus"></i> Follow</a>
+                <% } %>
+                
                 <% if(user.isLoggedIn) { %>
                     <a class="btn btn-mini btn-secondary" href="<%= "{0}{1}/feed".format(global.protocol, global.baseUrl) %>"><i class="fui-list"></i> My feed</a>
                 <% } else { %>
@@ -61,7 +66,9 @@
                         <li <% if(activeTab == "mail") { %> class="active" <% } %>><a href="/mail" class="fui-mail"></a></li>
                         <li><a href="#twitter" class="fui-twitter"></a></li> <!-- Only display if podcast is linked to facebook -->
                         <li><a href="#facebook" class="fui-facebook"></a></li> <!-- Only display if podcast is linked to twitter -->
-                        <li><a href="#mysettingspage" class="fui-gear"></a></li> <!-- Only display if belongs to currently logged on user -->
+                        <% if(userOwnsThisPodcast) { %>
+                            <li><a href="#mysettingspage" class="fui-gear"></a></li>
+                        <% } %>
                     </ul>
                 </div>
             </div>

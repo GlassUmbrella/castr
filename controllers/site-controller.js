@@ -1,5 +1,12 @@
 var orm	= require("../lib/model");
 
+//Runs for every route with a subdomain
+exports.setupValues = function(req, res, next) {
+	res.locals.userIsFollowingThisPodcast = true;
+	res.locals.userOwnsThisPodcast = true;
+	next();
+}
+
 exports.index = function(req, res, next) {
 	var Episode = orm.model("Episode");
 	var Podcast = orm.model("Podcast");
