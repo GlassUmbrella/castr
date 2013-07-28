@@ -120,7 +120,7 @@ exports.post_requestInvite = function(req, res, next) {
 					dateRequested: new Date()
 				}).success(function(invite) {
 					var mailer = require("../lib/mailer");
-					mailer.sendInQueue(invite.emailAddress, "http://" + req.headers.host, invite.name);
+					mailer.sendInQueue(invite.emailAddress, "{0}{1}".format(global.protocol, global.baseUrl), invite.name);
 					res.render("auth/request-invite", { 
 						title: "Request Invite", 
 						error: null, 
@@ -158,8 +158,8 @@ exports.post_forgot = function(req, res, next) {
 			user.resetRequestTime = new Date();
 			user.save().success(function() {
 				var mailer = require("../lib/mailer");
-				var resetURL = "http://" + req.headers.host + "/reset?resetCode=" + guid + "&emailAddress=" + user.emailAddress;
-				mailer.sendPasswordReset(user.emailAddress, "http://" + req.headers.host, user.name, resetURL);
+				var resetURL = "{0}{1}".format(global.protocol, global.baseUrl) + "/reset?resetCode=" + guid + "&emailAddress=" + user.emailAddress;
+				mailer.sendPasswordReset(user.emailAddress, "{0}{1}".format(global.protocol, global.baseUrl), user.name, resetURL);
 				res.render("auth/forgot", { title: "Forgot Password", sent: true, error: false });
 			});
 		} else {

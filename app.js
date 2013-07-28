@@ -42,9 +42,6 @@ var api = {
 
 var app = express();
 
-
-// global.baseUrl = "castr.dev:3000";
-
 app.set("port", process.env.PORT || 3000);
 app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
@@ -72,6 +69,7 @@ app.use(cookieSessions("8FD0A82D-7ADE-433A-8CE1-F1020B545D36", cookieDomain));
 var databaseUser = {};
 if("development" == app.settings.env) {
 	databaseUser = config.mysql.dev;
+	global.protocol = "http://";
 	global.baseUrl = "castr.dev:3000";
 
 	app.use(less({
@@ -81,6 +79,7 @@ if("development" == app.settings.env) {
 	}));
 } else {
 	databaseUser = config.mysql.live;
+	global.protocol = "http://";
 	global.baseUrl = "castr.net";
 	
 	app.use(less({

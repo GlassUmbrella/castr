@@ -55,8 +55,8 @@ exports.post_send_invite = function(req, res, next) {
 			invite.save();
 			
 			var mailer = require("../lib/mailer");
-			var inviteURL = "http://" + req.headers.host + "/join?inviteCode=" + invite.inviteCode + "&emailAddress=" + invite.emailAddress + "&name=" + invite.name;
-			mailer.sendInviteCode(invite.emailAddress, "http://" + req.headers.host, invite.name, inviteURL);			
+			var inviteURL = "{0}{1}".format(global.protocol, global.baseUrl) + "/join?inviteCode=" + invite.inviteCode + "&emailAddress=" + invite.emailAddress + "&name=" + invite.name;
+			mailer.sendInviteCode(invite.emailAddress, "{0}{1}".format(global.protocol, global.baseUrl), invite.name, inviteURL);			
 			res.json(true);
 			
 		} else {
