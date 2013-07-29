@@ -109,7 +109,6 @@ mailer.init(config.mailer);
 
 console.log("Environment: " + app.settings.env);
 
-
 // static middleware
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -166,7 +165,6 @@ function adminOnly(req, res, next) {
 }
 
 function requiresSubdomain(req, res, next) {
-	console.log("Host: " + req.headers.host);
 	var requestUrl = req.headers.host;
 	requestUrl = requestUrl.replace(global.baseUrl, "baseUrl");
 	var parts = requestUrl.split(".");
