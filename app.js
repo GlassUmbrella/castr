@@ -96,7 +96,7 @@ app.use(function(req, res, next) {
 	res.locals.baseUrl = global.baseUrl;
 	res.locals.moment = require("moment");
 	res.locals.markdown = require("markdown").markdown;
-	res.locals.debug = app.settings.env == "development";
+	res.locals.isDebug = app.settings.env == "development";
 	next();
 });
 

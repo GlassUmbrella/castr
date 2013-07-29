@@ -4,7 +4,7 @@
 <script>
 
 $(function() {
-	var debug = <%=debug%>;
+	var debug = <%=isDebug%>;
 
 	$(".file-upload-button").click(function(e) {
 		e.preventDefault();
@@ -23,7 +23,6 @@ $(function() {
 			access: "public"
 		};
 
-		var debug = <%=debug%>;
 		if (debug) {
 			storeOptions.path = "/dev{0}".format(storeOptions.path);
 		}

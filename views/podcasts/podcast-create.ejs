@@ -19,7 +19,7 @@ $(function() {
 			access: "public"
 		};
 
-		var debug = <%=debug%>;
+		var debug = <%=isDebug%>;
 		if (debug) {
 			storeOptions.path = "/dev{0}".format(storeOptions.path);
 		}
