@@ -8,6 +8,22 @@
 		<% if(podcast.episodes.length > 0) { %>
 
 		<ul class="timeline">
+			<li class="timeline-menu">
+
+				<div class="btn-group">
+						<a class="btn" style="width: 130px;" href="<%= "/podcasts/{0}/episodes/create".format(podcast.id) %>">
+							<i class="fui-plus"></i>
+							New episode
+						</a>
+
+						<a class="btn" style="width: 130px;" href="<%= "{0}{1}.{2}".format(global.protocol, locals.podcast.url, global.baseUrl) %>">
+							<span class="fui-upload"></span>
+							View podcast
+						</a>
+					</div>
+
+			</li>
+
 			<% for(var i = 0; i < podcast.episodes.length; i++) { %>
 				<% var side = (i%2 == 0) ? "right" : "left"; %>
 				<li class="<%=side%>">
@@ -19,9 +35,9 @@
 							<%= podcast.episodes[i].episodeNumber > 0 ? "Episode {0}".format(podcast.episodes[i].episodeNumber) : "Draft" %>
 						</span>
 					</h4>
-					<div class="timeline-dot <%= podcast.episodes[i].episodeNumber > 0 ? "" : "draft" %>">
+					<a class="timeline-dot <%= podcast.episodes[i].episodeNumber > 0 ? "" : "draft" %>" href="/podcasts/<%= podcast.id %>/episodes/<%= podcast.episodes[i].id %>">
 						<%= podcast.episodes[i].episodeNumber > 0 ? podcast.episodes[i].episodeNumber : "draft" %>
-					</div>
+					</a>
 					<p><%= podcast.episodes[i].description %></p>
 					<small style="float:right;"><%= podcast.episodes[i].publishDate ? moment(podcast.episodes[i].publishDate).fromNow() : "Not published" %></small>
 				</li>

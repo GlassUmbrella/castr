@@ -93,7 +93,7 @@ img.profile {
 	}
 }
 
-input {
+input, textarea {
 	&.h3-style {
 		border: none;
 		outline: none;
@@ -209,7 +209,7 @@ input {
 	background-repeat: repeat-y;
 	background-image: url('/images/timeline.gif');
 
-	li {
+	> li {
 		border: 2px solid #e1e4e7;
 		border-radius: 4px;
 		position: relative;
@@ -224,6 +224,7 @@ input {
 
 		.timeline-dot {
 			background: #e1e4e7;
+			color: #34495e;
 			border: 5px solid #fff;
 			display: block;
 			width: 50px;
@@ -239,6 +240,32 @@ input {
 
 			&.draft {
 				font-size: 1em;
+			}
+
+			&:hover {
+				text-decoration: none;
+				cursor: pointer;
+				background: #7f8c8d;
+				color: #fff;
+			}
+		}
+
+		&.timeline-menu {
+			border: none;
+			width: 90%;
+			margin: 0 auto 1.5em;
+			clear: both;
+			text-align: center;
+			padding: 0;
+
+			a {
+				background: #e1e4e7;
+				color: #34495e;
+
+				&:hover {
+					background: #7f8c8d;
+					color: #fff;
+				}
 			}
 		}
 
