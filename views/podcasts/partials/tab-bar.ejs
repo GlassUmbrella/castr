@@ -1,21 +1,27 @@
 <% if(!locals.activePodcastTab) { activePodcastTab = "none"; } %>
 
-<div id="podcastDetails">
-	<div class="row">
-		<div class="span10">
-	    	<input data-bind="value: podcastName, hasFocus: podcastNameEditing" class="h3-style span10" value="<%= podcast.title %>" />
-		</div>
+<div class="row" style="margin-bottom:1em;">
+	<ul class="nav nav-pills pull-right">
+		<li>
+			<a href="<%= "/podcasts/{0}/episodes/create".format(podcast.id) %>">
+				<i class="fui-plus"></i>
+				New episode
+			</a>
+		</li>
+		<li>
+			<a href="<%= "{0}{1}.{2}".format(global.protocol, locals.podcast.url, global.baseUrl) %>">
+				<span class="fui-upload"></span>
+				View
+			</a>
+		</li>
+	</ul>
 
-		<a class="btn btn-primary" style="float:right;" href="/podcasts/<%= podcast.id %>/episodes/create">
-			<i class="fui-plus"></i>
-			New episode
-		</a>
-	</div>
+	<div class="span8" id="podcastDetails">
+		<h3 data-bind="visible: !podcastNameEditing(), text: podcastName, click: editPodcastName"><%= podcast.title %></h3>
+    	<input data-bind="visible: podcastNameEditing, value: podcastName, hasFocus: podcastNameEditing" class="h3-style span10" value="<%= podcast.title %>" />
 
-	<div class="row" style="margin-bottom:1em;">
-		<div class="span10">
-			<input data-bind="value: podcastDescription, hasFocus: podcastDescriptionEditing" class="span-style span10" value="<%= podcast.description %>" />
-		</div>
+    	<span data-bind="visible: !podcastDescriptionEditing(), text: podcastDescription, click: editPodcastDescription"><%= podcast.description %></span>
+		<input data-bind="visible: podcastDescriptionEditing, value: podcastDescription, hasFocus: podcastDescriptionEditing" class="span-style span10" value="<%= podcast.description %>" />
 	</div>
 </div>
 
@@ -34,18 +40,6 @@
 			    	Stats
 			    </a>
 			</li>
-			<!-- <li <% if(activePodcastTab == "settings") { %> class="active" <% } %>>
-			    <a href="settings">
-			    	<span class="fui-gear"></span>
-			    	Settings
-			    </a>
-			</li> -->
-			<li class="pull-right">
-			    <a href="<%= "{0}{1}.{2}".format(global.protocol, locals.podcast.url, global.baseUrl) %>">
-			    	<span class="fui-upload"></span>
-			    	View
-			    </a>
-			</li>
 		</ul>
 	</div>
 </div>
@@ -60,6 +54,14 @@
 	    this.podcastNameEditing = ko.observable(false);
 	    this.podcastDescriptionEditing = ko.observable(false);
 	         
+		this.editPodcastName = function() {
+			this.podcastNameEditing(true)
+		};
+
+		this.editPodcastDescription = function() {
+			this.podcastDescriptionEditing(true)
+		};
+
 		this.podcastNameEditing.subscribe(function(isEditing) {
 			if(!isEditing) {
 				$.ajax({ type: "POST", url: "/api/podcasts/<%= podcast.id %>/changeTitle/{0}".format(self.podcastName())});
