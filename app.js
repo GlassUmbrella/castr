@@ -251,7 +251,7 @@ app.get("/profile", noSubdomain, requiresAuth, controllers.auth.profile);
 app.post("/profile", noSubdomain, requiresAuth, controllers.auth.post_profile);
 
 app.get("/podcasts", noSubdomain, requiresAuth, controllers.podcasts.index);
-app.get("/podcasts/create", noSubdomain, requiresAuth, controllers.podcasts.create);
+app.get("/podcasts/create:firstVisit?", noSubdomain, requiresAuth, controllers.podcasts.create);
 app.post("/podcasts/create", noSubdomain, requiresAuth, controllers.podcasts.post_create);
 app.get("/podcasts/:podcastId/stats", noSubdomain, requiresAuth, controllers.podcasts.stats);
 

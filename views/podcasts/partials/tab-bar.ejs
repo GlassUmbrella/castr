@@ -14,7 +14,7 @@
 
 <div class="row">
 	<div class="span12">
-		<ul class="nav nav-tabs">
+		<ul class="nav nav-tabs" <% if(activePodcastTab == "episodes") { %> style="margin-bottom: 0px;" <% } %>>
 			<li <% if(activePodcastTab == "episodes") { %> class="active" <% } %>>
 			    <a href="episodes">
 			    	<span class="fui-mic"></span>

@@ -7,36 +7,28 @@
 
 		<% if(podcast.episodes.length > 0) { %>
 
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th style="width:8%;">Episode</th>
-						<th style="width:60%;">Title</th>
-						<th>Published Date</th>
-					</tr>
-				</thead>
-				<tbody>
-					<% for(var i = 0; i < podcast.episodes.length; i++) { %>
-					<tr>
-						<td style="text-align: center;">
-						<% if(podcast.episodes[i].episodeNumber > 0) { %>
-							<span class="label label-inverse"><%= podcast.episodes[i].episodeNumber %></span>
-						<% } else { %>
-							<span class="label label-secondary">Draft</span>
-						<% } %>
-						</td>
-						<td>
-							<a href="/podcasts/<%= podcast.id %>/episodes/<%= podcast.episodes[i].id %>">
-								<%= podcast.episodes[i].title %>
-							</a>
-						</td>
-						<td>
-							<%= podcast.episodes[i].publishDate ? moment(podcast.episodes[i].publishDate).fromNow() : "Not published" %>
-						</td>
-					</tr>
-					<% } %>
-				</tbody>
-			</table>
+		<ul class="timeline">
+			<% for(var i = 0; i < podcast.episodes.length; i++) { %>
+				<% var side = (i%2 == 0) ? "right" : "left"; %>
+				<li class="<%=side%>">
+					<h4>
+						<a href="/podcasts/<%= podcast.id %>/episodes/<%= podcast.episodes[i].id %>">
+							<%= podcast.episodes[i].title %>
+						</a>
+						<span class="label label-secondary hideWhenDotShown">
+							<%= podcast.episodes[i].episodeNumber > 0 ? "Episode {0}".format(podcast.episodes[i].episodeNumber) : "Draft" %>
+						</span>
+					</h4>
+					<div class="timeline-dot <%= podcast.episodes[i].episodeNumber > 0 ? "" : "draft" %>">
+						<%= podcast.episodes[i].episodeNumber > 0 ? podcast.episodes[i].episodeNumber : "Draft" %>
+					</div>
+					<p><%= podcast.episodes[i].description %></p>
+					<span><%= podcast.episodes[i].publishDate ? moment(podcast.episodes[i].publishDate).fromNow() : "Not published" %></span>
+
+				</li>
+				
+			<% } %>
+		</ul>
 
 		<% } else { %>
 
@@ -49,6 +41,7 @@
 			</div>
 
 		<% } %>
+
 	</div>
 </div>
 

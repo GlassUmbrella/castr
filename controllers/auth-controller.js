@@ -82,7 +82,7 @@ exports.post_join = function(req, res, next) {
 								invite.createdUserId = user.id;
 								invite.save();
 							}
-							res.redirect("/");
+							res.redirect("/podcasts/create?firstVisit=true");
 						});
 					}
 				});
@@ -130,7 +130,7 @@ exports.post_requestInvite = function(req, res, next) {
 			} else {
 				res.render("auth/request-invite", { 
 					title: "Request Invite", 
-					error: "You're already in the invite queue. Hang on tight, we're sending out invites as quick as we can..", 
+					error: "You're already in the invite queue. Hang on tight, we're sending out invites as quick as we can.", 
 					sent: false 
 				});
 			}

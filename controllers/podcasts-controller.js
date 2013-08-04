@@ -42,7 +42,8 @@ exports.create = function(req, res, next) {
 		activeTab: "podcasts",
 		hasReachedPodcastCountLimit: false,
 		urlIsTaken: false,
-		urlIsBanned: false
+		urlIsBanned: false,
+		firstVisit: req.query.firstVisit
 	});
 };
 
@@ -119,7 +120,7 @@ exports.episodeList = function(req, res, next) {
 
 	var Podcast = orm.model("Podcast");
 	var Episode = orm.model("Episode");
-	Podcast.find({ where: { ownerUserId: user.id, id: podcastId }, include: [Episode]})
+	Podcast.find({ where: { ownerUserId: user.id, id: podcastId }, include: [Episode], order: 'publishDate IS NULL DESC, publishDate DESC'})
 	.success(function(podcast) {
 		if(podcast) {
 			res.render("podcasts/episode-list", {
