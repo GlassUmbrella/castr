@@ -217,7 +217,8 @@ app.get("/api/podcasts/:podcastId/follow", noSubdomain, requiresAuth, api.follow
 app.get("/api/podcasts/:podcastId/unfollow", noSubdomain, requiresAuth, api.follow.unfollow);
 app.get("/api/podcasts/:podcastId/isFollowing", noSubdomain, requiresAuth, api.follow.isFollowing);
 
-app.post("/api/podcasts/:podcastId/rename/:newName", noSubdomain, requiresAuth, api.podcasts.renamePodcast);
+app.post("/api/podcasts/:podcastId/changeTitle/:newName", noSubdomain, requiresAuth, api.podcasts.changeTitle);
+app.post("/api/podcasts/:podcastId/changeDescription/:newDescription", noSubdomain, requiresAuth, api.podcasts.changeDescription);
 
 app.get("/api/podcasts/:podcastId/episodes/:episodeId/progress", noSubdomain, requiresAuth, api.progress.progress);
 app.post("/api/podcasts/:podcastId/episodes/:episodeId/progress", noSubdomain, requiresAuth, api.progress.post_progress);

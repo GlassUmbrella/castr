@@ -1,15 +1,22 @@
 <% if(!locals.activePodcastTab) { activePodcastTab = "none"; } %>
 
-<div class="row" style="margin-bottom:1em;">
-	<div class="span10" id="podcastNameArea">
-		<h3 data-bind="visible: !editing(), text: podcastName, click: edit"><%= podcast.title %></h3>
-    	<input data-bind="visible: editing, value: podcastName, hasFocus: editing" class="h3-style span10" style="display:none;" />
+<div id="podcastDetails">
+	<div class="row">
+		<div class="span10">
+	    	<input data-bind="value: podcastName, hasFocus: podcastNameEditing" class="h3-style span10" value="<%= podcast.title %>" />
+		</div>
+
+		<a class="btn btn-primary" style="float:right;" href="/podcasts/<%= podcast.id %>/episodes/create">
+			<i class="fui-plus"></i>
+			New episode
+		</a>
 	</div>
 
-	<a class="btn btn-primary" style="float:right;" href="/podcasts/<%= podcast.id %>/episodes/create">
-		<i class="fui-plus"></i>
-		New episode
-	</a>
+	<div class="row" style="margin-bottom:1em;">
+		<div class="span10">
+			<input data-bind="value: podcastDescription, hasFocus: podcastDescriptionEditing" class="span-style span10" value="<%= podcast.description %>" />
+		</div>
+	</div>
 </div>
 
 <div class="row">
@@ -44,22 +51,27 @@
 </div>
 
 <script>
-	function PodcastNameViewModel(podcastName) {
+	function PodcastDetailsViewModel(podcastName, podcastDescription) {
 		var self = this;
 
 	    this.podcastName = ko.observable(podcastName);
-	    this.editing = ko.observable(false);
-	         
-	    this.edit = function() {
-	    	this.editing(true)
-	    };
+	    this.podcastDescription = ko.observable(podcastDescription);
 
-		this.editing.subscribe(function(isEditing) {
+	    this.podcastNameEditing = ko.observable(false);
+	    this.podcastDescriptionEditing = ko.observable(false);
+	         
+		this.podcastNameEditing.subscribe(function(isEditing) {
 			if(!isEditing) {
-				$.ajax({ type: "POST", url: "/api/podcasts/<%= podcast.id %>/rename/{0}".format(self.podcastName())});
+				$.ajax({ type: "POST", url: "/api/podcasts/<%= podcast.id %>/changeTitle/{0}".format(self.podcastName())});
+			}
+		});
+
+		this.podcastDescriptionEditing.subscribe(function(isEditing) {
+			if(!isEditing) {
+				$.ajax({ type: "POST", url: "/api/podcasts/<%= podcast.id %>/changeDescription/{0}".format(self.podcastDescription())});
 			}
 		});
 	}
 	 
-	ko.applyBindings(new PodcastNameViewModel("<%= podcast.title %>"), document.getElementById("podcastNameArea"));
+	ko.applyBindings(new PodcastDetailsViewModel("<%= podcast.title %>", "<%= podcast.description %>"), document.getElementById("podcastDetails"));
 </script>
