@@ -24,7 +24,7 @@ exports.list = function(req, res) {
 			res.json({ result: [] });
 		}
 	});
-}
+};
 
 exports.episodes = function(req, res) {
 	var podcastId = req.params.podcastId;
@@ -39,4 +39,21 @@ exports.episodes = function(req, res) {
 			res.status(401);
 		}
 	});
-}
+};
+
+exports.renamePodcast = function(req, res) {
+	var podcastId = req.params.podcastId;
+	var Podcast = orm.model("Podcast");
+
+	Podcast.find({ where: { ownerUserId: req.session.user.id, id: podcastId }})
+	.success(function(podcast) {
+		if (podcast) {
+			podcast.title = req.params.newName;
+			podcast.save().success(function() {
+				res.json({ result: true });
+			});
+		} else {
+			res.status(401);
+		}
+	});
+};

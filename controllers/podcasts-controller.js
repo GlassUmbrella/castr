@@ -34,23 +34,7 @@ exports.stats = function(req, res, next) {
 			podcast: podcast
 		});
 	});
-}
-
-exports.settings = function(req, res, next) {
-	var user = req.session.user;
-	var podcastId = req.params.podcastId;
-
-	var Podcast = orm.model("Podcast");
-	Podcast.find({ where: { ownerUserId: user.id, id: podcastId } })
-	.success(function(podcast) {
-		res.render("podcasts/podcast-settings", {
-			title: "stats - " + podcast.title,
-			activeTab: "podcasts",
-			activePodcastTab: "settings",
-			podcast: podcast
-		});
-	});
-}
+};
 
 exports.create = function(req, res, next) {
 	res.render("podcasts/podcast-create", {
@@ -60,7 +44,7 @@ exports.create = function(req, res, next) {
 		urlIsTaken: false,
 		urlIsBanned: false
 	});
-}
+};
 
 exports.post_create = function(req, res, next) {
 	var validation = require("../lib/validation");
@@ -123,13 +107,13 @@ exports.post_create = function(req, res, next) {
 			urlIsBanned: true
 		});
 	}
-}
+};
 
 /**
  * Episodes 
  */
 
- exports.episodeList = function(req, res, next) {
+exports.episodeList = function(req, res, next) {
 	var user = req.session.user;
 	var podcastId = req.params.podcastId;
 
@@ -148,7 +132,7 @@ exports.post_create = function(req, res, next) {
 			next();
 		}
 	});
-}
+};
 
 exports.episodeEdit = function(req, res, next) {
 	var Podcast = orm.model("Podcast");
@@ -182,7 +166,7 @@ exports.episodeEdit = function(req, res, next) {
 			res.status(404);
 		}
 	});
-}
+};
 
 exports.post_episodeEdit = function(req, res, next) {
 	var Episode = orm.model("Episode");
@@ -217,7 +201,7 @@ exports.post_episodeEdit = function(req, res, next) {
 			});
 		}
 	});
-}
+};
 
 exports.episodeCreate = function(req, res, next) {
 	var Podcast = orm.model("Podcast");
@@ -236,7 +220,7 @@ exports.episodeCreate = function(req, res, next) {
 			res.status(404);
 		}
 	});
-}
+};
 
 exports.post_episodeCreate = function(req, res, next) {
 	var podcastId = req.params.podcastId;

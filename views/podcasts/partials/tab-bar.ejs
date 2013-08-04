@@ -1,9 +1,15 @@
 <% if(!locals.activePodcastTab) { activePodcastTab = "none"; } %>
 
 <div class="row" style="margin-bottom:1em;">
-	<div class="span12">
-		<h3><%= podcast.title %></h3>
+	<div class="span10" id="podcastNameArea">
+		<h3 data-bind="visible: !editing(), text: podcastName, click: edit"><%= podcast.title %></h3>
+    	<input data-bind="visible: editing, value: podcastName, hasFocus: editing" class="h3-style span10" style="display:none;" />
 	</div>
+
+	<a class="btn btn-primary" style="float:right;" href="/podcasts/<%= podcast.id %>/episodes/create">
+		<i class="fui-plus"></i>
+		New episode
+	</a>
 </div>
 
 <div class="row">
@@ -21,12 +27,12 @@
 			    	Stats
 			    </a>
 			</li>
-			<li <% if(activePodcastTab == "settings") { %> class="active" <% } %>>
+			<!-- <li <% if(activePodcastTab == "settings") { %> class="active" <% } %>>
 			    <a href="settings">
 			    	<span class="fui-gear"></span>
 			    	Settings
 			    </a>
-			</li>
+			</li> -->
 			<li class="pull-right">
 			    <a href="<%= "{0}{1}.{2}".format(global.protocol, locals.podcast.url, global.baseUrl) %>">
 			    	<span class="fui-upload"></span>
@@ -36,3 +42,24 @@
 		</ul>
 	</div>
 </div>
+
+<script>
+	function PodcastNameViewModel(podcastName) {
+		var self = this;
+
+	    this.podcastName = ko.observable(podcastName);
+	    this.editing = ko.observable(false);
+	         
+	    this.edit = function() {
+	    	this.editing(true)
+	    };
+
+		this.editing.subscribe(function(isEditing) {
+			if(!isEditing) {
+				$.ajax({ type: "POST", url: "/api/podcasts/<%= podcast.id %>/rename/{0}".format(self.podcastName())});
+			}
+		});
+	}
+	 
+	ko.applyBindings(new PodcastNameViewModel("<%= podcast.title %>"), document.getElementById("podcastNameArea"));
+</script>

@@ -217,6 +217,8 @@ app.get("/api/podcasts/:podcastId/follow", noSubdomain, requiresAuth, api.follow
 app.get("/api/podcasts/:podcastId/unfollow", noSubdomain, requiresAuth, api.follow.unfollow);
 app.get("/api/podcasts/:podcastId/isFollowing", noSubdomain, requiresAuth, api.follow.isFollowing);
 
+app.post("/api/podcasts/:podcastId/rename/:newName", noSubdomain, requiresAuth, api.podcasts.renamePodcast);
+
 app.get("/api/podcasts/:podcastId/episodes/:episodeId/progress", noSubdomain, requiresAuth, api.progress.progress);
 app.post("/api/podcasts/:podcastId/episodes/:episodeId/progress", noSubdomain, requiresAuth, api.progress.post_progress);
 
@@ -252,7 +254,6 @@ app.get("/podcasts", noSubdomain, requiresAuth, controllers.podcasts.index);
 app.get("/podcasts/create", noSubdomain, requiresAuth, controllers.podcasts.create);
 app.post("/podcasts/create", noSubdomain, requiresAuth, controllers.podcasts.post_create);
 app.get("/podcasts/:podcastId/stats", noSubdomain, requiresAuth, controllers.podcasts.stats);
-app.get("/podcasts/:podcastId/settings", noSubdomain, requiresAuth, controllers.podcasts.settings);
 
 app.get("/podcasts/:podcastId/episodes", noSubdomain, requiresAuth, controllers.podcasts.episodeList);
 app.get("/podcasts/:podcastId/episodes/create", noSubdomain, requiresAuth, controllers.podcasts.episodeCreate);
