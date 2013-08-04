@@ -184,11 +184,6 @@ input.h3-style {
     }
 }
 
-
-
-
-
-
 /* Timeline */
 
 .timeline {
@@ -203,18 +198,19 @@ input.h3-style {
 	li {
 		border: 2px solid #e1e4e7;
 		border-radius: 4px;
+		position: relative;
 		padding: 1em;
 		margin-bottom: 1.5em;
 		background-color: #fff;
-		width: 43%;
+		width: 42%;
 
 		@media screen and (max-width: 980px) {
-			width: 41%;
+			width: 40%;
 		}
 
 		.timeline-dot {
 			background: #e1e4e7;
-			border: 2px solid #fff;
+			border: 5px solid #fff;
 			display: block;
 			width: 50px;
 			height: 50px;
@@ -223,7 +219,8 @@ input.h3-style {
 			line-height: 50px;
 			font-size: 1.5em;
 			font-weight: bold;
-			position: relative;
+			position: absolute;
+			top: 50%;
 			margin-top: -25px;
 
 			&.draft {
@@ -236,9 +233,36 @@ input.h3-style {
 			margin-right: 10%;
 			clear: left;
 
+			@media screen and (min-width: 770px) {
+				&:after, &:before {
+					left: 100%;
+					border: solid transparent;
+					content: " ";
+					height: 0;
+					width: 0;
+					position: absolute;
+					pointer-events: none;
+				}
+
+				&:after {
+					border-color: rgba(255, 255, 255, 0);
+					border-left-color: #fff;
+					border-width: 10px;
+					top: 50%;
+					margin-top: -10px;
+				}
+				&:before {
+					border-color: rgba(225, 228, 231, 0);
+					border-left-color: #e1e4e7;
+					border-width: 13px;
+					top: 50%;
+					margin-top: -13px;
+				}
+			}
+
 			.timeline-dot {
-				float: right;
-				margin-right: -78px;
+				right: 0;
+				margin-right: -75.5px;
 			}
 		}
 
@@ -247,9 +271,36 @@ input.h3-style {
 			margin-left: 10%;
 			clear: right;
 
+			@media screen and (min-width: 770px) {
+				&:after, &:before {
+					right: 100%;
+					border: solid transparent;
+					content: " ";
+					height: 0;
+					width: 0;
+					position: absolute;
+					pointer-events: none;
+				}
+
+				&:after {
+					border-color: rgba(255, 255, 255, 0);
+					border-right-color: #fff;
+					border-width: 10px;
+					top: 50%;
+					margin-top: -10px;
+				}
+				&:before {
+					border-color: rgba(225, 228, 231, 0);
+					border-right-color: #e1e4e7;
+					border-width: 13px;
+					top: 50%;
+					margin-top: -13px;
+				}
+			}
+
 			.timeline-dot {
-				float: left;
-				margin-left: -78px;
+				left: 0;
+				margin-left: -75.5px;
 			}
 		}
 
@@ -258,6 +309,8 @@ input.h3-style {
 		}
 
 		@media screen and (max-width: 770px) {
+			overflow: hidden;
+
 			&.left, &.right {
 				float: none;
 				width: auto;

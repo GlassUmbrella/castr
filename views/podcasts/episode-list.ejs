@@ -20,11 +20,10 @@
 						</span>
 					</h4>
 					<div class="timeline-dot <%= podcast.episodes[i].episodeNumber > 0 ? "" : "draft" %>">
-						<%= podcast.episodes[i].episodeNumber > 0 ? podcast.episodes[i].episodeNumber : "Draft" %>
+						<%= podcast.episodes[i].episodeNumber > 0 ? podcast.episodes[i].episodeNumber : "draft" %>
 					</div>
 					<p><%= podcast.episodes[i].description %></p>
-					<span><%= podcast.episodes[i].publishDate ? moment(podcast.episodes[i].publishDate).fromNow() : "Not published" %></span>
-
+					<small style="float:right;"><%= podcast.episodes[i].publishDate ? moment(podcast.episodes[i].publishDate).fromNow() : "Not published" %></small>
 				</li>
 				
 			<% } %>
