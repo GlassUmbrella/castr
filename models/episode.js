@@ -35,7 +35,8 @@ module.exports = {
        		{ name: "Progress" }
        	],
        	belongsTo: [
-       		{ name: "Podcast" }
+       		{ name: "Podcast" },
+       		{ name: "File", foreignKey: "AudioFileId" }
        	]
     },
     options: {}

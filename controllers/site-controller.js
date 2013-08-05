@@ -10,6 +10,7 @@ exports.setupValues = function(req, res, next) {
 exports.index = function(req, res, next) {
 	var Episode = orm.model("Episode");
 	var Podcast = orm.model("Podcast");
+	var File = orm.model("File");
 	var markdown = require("markdown").markdown;
 	var moment = require("moment");
 
@@ -24,6 +25,7 @@ exports.index = function(req, res, next) {
 						PodcastId: podcast.id, 
 						isPublished: true 
 					},
+					include: [File],
 					order: "episodeNumber DESC"
 				})
 				.success(function(episodes) {

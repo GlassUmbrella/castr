@@ -1,5 +1,41 @@
 <% include /partials/header %>
 
+<script>
+$(function() {
+	var a = audiojs.createAll({
+			createPlayer: {
+				markup: '\
+					<div class="castr-scrubber"> \
+					<div class="castr-progress"></div> \
+					<div class="castr-loaded"></div> \
+					</div> \
+					<div class="castr-play-pause"> \
+					<p class="castr-play"><span class="fui-play"></span></p> \
+					<p class="castr-pause"><span class="fui-pause"></span></p> \
+					<p class="castr-loading"><span class="fui-time"></span></p> \
+					<p class="castr-error"><span class="fui-cross"></span></p> \
+					</div> \
+					<div class="castr-time"> \
+					<em class="castr-played">00:00</em>/<strong class="castr-duration">00:00</strong> \
+					</div> \
+					<div class="castr-error-message"></div>',
+				playPauseClass: 'castr-play-pause',
+				scrubberClass: 'castr-scrubber',
+				progressClass: 'castr-progress',
+				loaderClass: 'castr-loaded',
+				timeClass: 'castr-time',
+				durationClass: 'castr-duration',
+				playedClass: 'castr-played',
+				errorMessageClass: 'castr-error-message',
+				playingClass: 'castr-playing',
+				loadingClass: 'castr-loading',
+				errorClass: 'castr-error'
+			},
+			css: false
+ 		});
+})
+</script>
+
 <div class="span10 offset2">
 	<div class="row">
 		<div class="span10 public-main">
@@ -35,12 +71,11 @@
 						</div>
 						<% } %>
 
+						<% if (episode.file) { %>
 						<div class="">
-							<a href="<%= '/episodes/{0}/download'.format(episode.episodeNumber) %>" class="btn btn-mini">
-								<i class="fui-plus-inverted"></i>
-								Download episode #<%=episode.episodeNumber%>
-							</a>
-						</div>
+							<audio src="<%=episode.file.url%>" preload="none"></audio>
+						</div>						
+						<% } %>
 
 						<div class="">
 							First Broadcast: <%= moment(episode.publishDate).fromNow() %>
