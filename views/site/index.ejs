@@ -36,18 +36,18 @@ $(function() {
 })
 </script>
 
-<div class="span10 offset2">
 	<div class="row">
-		<div class="span10 public-main">
+		<div class="span10 centre public-main">
 			<h3><%= podcast.title %></h3>
+			
 			<hr>
-
+			
 			<div class="episodes">
-				<div class="row">	
 				<% 
 					for(var i = 0; i < episodes.length; i++) { 
 						var episode  = episodes[i];
 				%>
+				<div class="row">	
 					<section class="episode span9">
 						<h3>
 							<a href="<%= '/episodes/{0}'.format(episode.episodeNumber) %>">
@@ -55,7 +55,13 @@ $(function() {
 							</a>
 						</h3>
 
-						<div class="description">
+						<% if (episode.file) { %>
+						<div class="player">
+							<audio src="<%=episode.file.url%>" preload="metadata"></audio>
+						</div>						
+						<% } %>
+
+						<div class="description">	
 							<%
 							var descriptionHtml = markdown.toHTML(episode.description);
 							%>
@@ -71,23 +77,15 @@ $(function() {
 						</div>
 						<% } %>
 
-						<% if (episode.file) { %>
-						<div class="">
-							<audio src="<%=episode.file.url%>" preload="none"></audio>
-						</div>						
-						<% } %>
-
 						<div class="">
 							First Broadcast: <%= moment(episode.publishDate).fromNow() %>
 						</div>
 
 					</section>
-
-					<hr>
-				<%	} %>
 				</div>
+				<%	} %>
 			</div>
 		</div>
 	</div>
-</div>
+
 <% include /partials/footer %>
