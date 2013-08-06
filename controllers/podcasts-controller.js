@@ -230,11 +230,14 @@ exports.post_episodeCreate = function(req, res, next) {
 	Podcast.find({ where: { id: podcastId } }).success(function(podcast) {
 		// TODO: check if episode rate limit reached for podcast
 		
+		var fileId = req.body.fileId == "" ? null : req.body.fileId;
+
 		var Episode = orm.model("Episode");
 		Episode.create({
 			title: req.body.title,
 			description: req.body.description,
 			notes: req.body.notes,
+			AudioFileId: fileId,
 			isPublished: false
 		}).success(function(episode) {
 			episode.setPodcast(podcast);
