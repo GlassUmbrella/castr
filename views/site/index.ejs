@@ -46,43 +46,41 @@ $(function() {
 				<% 
 					for(var i = 0; i < episodes.length; i++) { 
 						var episode  = episodes[i];
-				%>
-				<div class="row">	
-					<section class="episode">
-						<h4>
-							<a href="<%= '/episodes/{0}'.format(episode.episodeNumber) %>">
-								Episode #<%= episode.episodeNumber %>: <%= episode.title %>
-							</a>
-						</h4>
+				%>	
+				<section class="episode">
+					<h4>
+						<a href="<%= '/episodes/{0}'.format(episode.episodeNumber) %>">
+							Episode #<%= episode.episodeNumber %>: <%= episode.title %>
+						</a>
+					</h4>
 
-						<% if (episode.file) { %>
-						<div class="player">
-							<audio src="<%=episode.file.url%>" preload="metadata"></audio>
-						</div>						
-						<% } %>
+					<% if (episode.file) { %>
+					<div class="player">
+						<audio src="<%=episode.file.url%>" preload="metadata"></audio>
+					</div>						
+					<% } %>
 
-						<div class="description">	
-							<%
-							var descriptionHtml = markdown.toHTML(episode.description);
-							%>
-							<%- descriptionHtml %>
-						</div>
+					<div class="description">	
+						<%
+						var descriptionHtml = markdown.toHTML(episode.description);
+						%>
+						<%- descriptionHtml %>
+					</div>
 
-						<% if(episode.notes) { %>
-						<div class="show-notes">
-							<%
-							var showNotesHtml = markdown.toHTML(episode.notes);
-							%>
-							<%- showNotesHtml %>
-						</div>
-						<% } %>
+					<% if(episode.notes) { %>
+					<div class="show-notes">
+						<%
+						var showNotesHtml = markdown.toHTML(episode.notes);
+						%>
+						<%- showNotesHtml %>
+					</div>
+					<% } %>
 
-						<div class="meta">
-							First Broadcast: <%= moment(episode.publishDate).fromNow() %>
-						</div>
+					<div class="meta">
+						First Broadcast: <%= moment(episode.publishDate).fromNow() %>
+					</div>
 
-					</section>
-				</div>
+				</section>
 				<%	} %>
 			</div>
 		</div>
