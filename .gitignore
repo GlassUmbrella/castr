@@ -19,6 +19,7 @@ node_modules
 
 # cache files
 public/css/style.css
+public/css/site.css
 
 # ssl certs
 ssl-cert.pem
