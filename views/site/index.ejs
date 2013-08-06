@@ -38,7 +38,7 @@ $(function() {
 
 	<div class="row">
 		<div class="span10 centre public-main">
-			<h3><%= podcast.title %></h3>
+			<h3 style="text-align: center"><%= podcast.title %></h3>
 			
 			<hr>
 			
@@ -49,11 +49,11 @@ $(function() {
 				%>
 				<div class="row">	
 					<section class="episode">
-						<h3>
+						<h4>
 							<a href="<%= '/episodes/{0}'.format(episode.episodeNumber) %>">
 								Episode #<%= episode.episodeNumber %>: <%= episode.title %>
 							</a>
-						</h3>
+						</h4>
 
 						<% if (episode.file) { %>
 						<div class="player">
