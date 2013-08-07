@@ -90,15 +90,17 @@
             <p class="lead podcast-description"><%= podcast.description %></p>
             <% } %>
 
+            <% if (podcast.twitterUsername) { %>
             <div class="navbar navbar-podcast">
                 <div class="navbar-inner">
                     <div class="container">
                         <div class="nav-wrapper">
                             <ul class="nav">
                                 <li><a href="/">Episodes</a></li>
-                                <li><a href="/">Twitter</a></li>
+                                <li><a href="<%="https://twitter.com/{0}".format(podcast.twitterUsername)%>">Twitter</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
+            <% } %>

@@ -28,6 +28,10 @@ module.exports = {
 		currentEpisodeNumber: {
 			type: Seq.INTEGER,
 			defaultValue: 0
+		},
+		twitterUsername: {
+			type: Seq.STRING,
+			allowNull: true
 		}
 	},
     relations: {
