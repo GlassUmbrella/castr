@@ -13,6 +13,21 @@
     }
 }
 
+.podcast-title {
+	text-align: center;
+	a {
+		color: #526476;	
+
+		&:hover {
+			color: #16a085;
+		}
+	}
+}
+
+.podcast-description {
+	font-size: 1.3em;
+	text-align: center;
+}
 
 .episode {
 	margin: 40px 0;
@@ -26,10 +41,14 @@
 	}
 }
 
-.navbar {
+.navbar-header {
 	.navbar-inner {
 		border-radius: 0;
 	}
+}
+
+.navbar-podcast .nav > li > a {
+	font-size: 1.3em;
 }
 
 .centre {
@@ -37,3 +56,12 @@
 	margin-left: auto;
 	margin-right: auto;
 }
+
+.navbar-inner .nav-wrapper {
+    float:none;
+    display:inline-block;
+    *display:inline; /* ie7 fix */
+    *zoom:1; /* hasLayout ie7 trigger */
+    vertical-align: top;
+}
+.navbar-inner > .container { text-align:center; }

@@ -1,21 +1,54 @@
-<% include ../partials/header %>
+<% include /partials/header %>
 
-<div class="span10 offset2">
-	<div class="row">
-		<div class="span10 public-main">
-			<section class="episode">
-				<h3>Episode #<%=episode.episodeNumber%>: <%=episode.title%></h3>
-				<div class="body">
-					<p><%=episode.description%></p>
-				</div>
-				<div class="show-notes">
-					<h4>Show Notes</h4>
-					<p><%=episode.notes%></p>
-				</div>
-			</section>
-			<p><a href="/">Back to episodes</a></p>
+	<section class="episode">
+		<h4>
+			<a href="<%= '/episodes/{0}'.format(episode.episodeNumber) %>">
+				Episode #<%= episode.episodeNumber %>: <%= episode.title %>
+			</a>
+		</h4>
+
+		<% if (episode.file) { %>
+		<div class="player">
+			<audio src="<%=episode.file.url%>" preload="metadata"></audio>
+		</div>						
+		<% } %>
+
+		<div class="description">	
+			<%
+			var descriptionHtml = markdown.toHTML(episode.description);
+			%>
+			<%- descriptionHtml %>
 		</div>
-	</div>
-</div>
 
-<% include ../partials/footer %>
+		<% if(episode.notes) { %>
+		<div class="show-notes">
+			<%
+			var showNotesHtml = markdown.toHTML(episode.notes);
+			%>
+			<%- showNotesHtml %>
+		</div>
+		<% } %>
+
+		<div class="meta">
+			Broadcast <%= moment(episode.publishDate).fromNow() %>
+		</div>
+
+		<hr>
+
+		<div class="nav">
+			<% if (previousEpisodeExists) { %>
+				<a class="btn btn-secondary btn-small pull-left" href="<%="/episodes/{0}".format(episode.episodeNumber - 1)%>">
+					<span class="fui-arrow-left"></span>
+					Previous episode
+				</a>
+			<% } %>
+			<% if (nextEpisodeExists) { %>
+				<a class="btn btn-secondary btn-small pull-right" href="<%="/episodes/{0}".format(episode.episodeNumber + 1)%>">
+					Next episode
+					<span class="fui-arrow-right"></span>
+				</a>
+			<% } %>
+		</div>
+	</section>
+
+<% include /partials/footer %>

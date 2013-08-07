@@ -17,31 +17,45 @@
         <script src="/js/bootstrap.min.js"></script>
 
         <script>
-        // var podcastId = <%=podcast.id%>;
-        // var baseUrl = "<%=baseUrl%>";
-
-        // $(function() {
-        //     $.getJSON("http://{0}/api/podcasts/{1}/isFollowing".format(baseUrl, podcastId), function(data) {
-        //         if (data.result) {
-        //             $("#followButton").val("Unfollow");
-        //         } else {
-        //             $("#followButton").val("Follow");
-        //         }
-        //     });
-
-        //     $("#followButton").click(function() {
-        //         $.getJSON("http://{0}/api/podcasts/{1}/follow".format(baseUrl, podcastId), function(data) {
-        //             if (data.result) {
-        //                 $("#followButton").val("Unfollow");
-        //             }
-        //         });
-        //     });
-        // });
+        $(function() {
+            var a = audiojs.createAll({
+                createPlayer: {
+                    markup: '\
+                        <div class="castr-scrubber"> \
+                        <div class="castr-progress"></div> \
+                        <div class="castr-loaded"></div> \
+                        </div> \
+                        <div class="castr-play-pause"> \
+                        <p class="castr-play"><span class="fui-play"></span></p> \
+                        <p class="castr-pause"><span class="fui-pause"></span></p> \
+                        <p class="castr-loading"><span class="fui-time"></span></p> \
+                        <p class="castr-error"><span class="fui-cross"></span></p> \
+                        </div> \
+                        <div class="castr-time"> \
+                        <em class="castr-played">00:00</em>/<strong class="castr-duration">00:00</strong> \
+                        </div> \
+                        <div class="castr-error-message"></div>',
+                    playPauseClass: 'castr-play-pause',
+                    scrubberClass: 'castr-scrubber',
+                    progressClass: 'castr-progress',
+                    loaderClass: 'castr-loaded',
+                    timeClass: 'castr-time',
+                    durationClass: 'castr-duration',
+                    playedClass: 'castr-played',
+                    errorMessageClass: 'castr-error-message',
+                    playingClass: 'castr-playing',
+                    loadingClass: 'castr-loading',
+                    errorClass: 'castr-error'
+                },
+                css: false
+            });
+        });
         </script>
 
         <!--[if lt IE 9]><script src="js/html5shiv.js"></script><![endif]-->
 	</head>
 	<body>
+        <% /* %>
         <div class="castr-menu">
             <div class="btn-group">
                 <% if (userIsFollowingThisPodcast) { %>
@@ -58,22 +72,33 @@
             </div>
         </div>
 
-        <div class="navbar">
+        <% */ %>
+
+        <div class="navbar navbar-inverse navbar-header">
             <div class="navbar-inner">
                 <div class="container">
-                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-01"></button>
                     <a class="brand" href="<%= "{0}{1}".format(global.protocol, global.baseUrl) %>">Castr</a>
-                    <div class="nav-collapse collapse" id="nav-collapse-01">
-                        <ul class="nav">
-                            <li <% if(activeTab == "home") { %> class="active" <% } %>><a href="/" class="fui-home"></a></li>
-                            <li <% if(activeTab == "mail") { %> class="active" <% } %>><a href="/mail" class="fui-mail"></a></li>
-                            <li><a href="#twitter" class="fui-twitter"></a></li> <!-- Only display if podcast is linked to facebook -->
-                            <li><a href="#facebook" class="fui-facebook"></a></li> <!-- Only display if podcast is linked to twitter -->
-                            <% if(userOwnsThisPodcast) { %>
-                                <li><a href="#mysettingspage" class="fui-gear"></a></li>
-                            <% } %>
-                        </ul>
-                    </div>
                 </div>
             </div>
         </div>
+
+        <div class="span10 centre public-main">
+
+            <h3 class="podcast-title"><a href="/"><%= podcast.title %></a></h3>
+            
+            <% if (podcast.description) {%>
+            <p class="lead podcast-description"><%= podcast.description %></p>
+            <% } %>
+
+            <div class="navbar navbar-podcast">
+                <div class="navbar-inner">
+                    <div class="container">
+                        <div class="nav-wrapper">
+                            <ul class="nav">
+                                <li><a href="/">Episodes</a></li>
+                                <li><a href="/">Twitter</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>

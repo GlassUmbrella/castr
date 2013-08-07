@@ -19,7 +19,7 @@ exports.index = function(req, res, next) {
 		Podcast.find({ 
 			where: { url: podcastDomain }
 		}).success(function(podcast) {
-			if(podcast) {
+			if (podcast) {
 				Episode.findAll({ 
 					where: { 
 						PodcastId: podcast.id, 
@@ -27,15 +27,12 @@ exports.index = function(req, res, next) {
 					},
 					include: [File],
 					order: "episodeNumber DESC"
-				})
-				.success(function(episodes) {
+				}).success(function(episodes) {
 					res.render("site/index", { 
 						title: podcast.title,
 						activeTab: "home",
 						podcast: podcast,
-						episodes: episodes,
-						markdown: markdown, // markdown parser
-						moment: moment
+						episodes: episodes
 					});
 				});
 			} else {
@@ -50,16 +47,48 @@ exports.index = function(req, res, next) {
 exports.episode = function(req, res, next) {
 	var Episode = orm.model("Episode");
 	var Podcast = orm.model("Podcast");
+	var File = orm.model("File");
 
 	var podcastDomain = req.subdomain;
 	if (podcastDomain) {
 		Podcast.find({ where: { url: podcastDomain } })
 		.success(function(podcast) {
-			if(podcast) {
-				Episode.find({ where: { PodcastId: podcast.id, episodeNumber: req.params.episodeNumber } })
-				.success(function(episode) {
+			if (podcast) {
+				Episode.find({ 
+					where: { 
+						PodcastId: podcast.id, 
+						episodeNumber: req.params.episodeNumber 
+					},
+					include: [File]
+				}).success(function(episode) {
 					if (episode) {
-						res.render("site/episode", { title: episode.title, episode: episode, podcast: podcast });
+						// find next and previous episodes
+						Episode.count({ 
+							where: { 
+								PodcastId: podcast.id, 
+								episodeNumber: parseInt(req.params.episodeNumber) + 1,
+								isPublished: true
+							}
+						}).success(function(nextEpisodeCount) {
+							var nextEpisodeExists = nextEpisodeCount > 0;
+							Episode.count({ 
+								where: { 
+									PodcastId: podcast.id, 
+									episodeNumber: parseInt(req.params.episodeNumber) - 1,
+									isPublished: true
+								}
+							}).success(function(previousEpisodeCount) {
+								var previousEpisodeExists = previousEpisodeCount > 0;
+								res.render("site/episode", { 
+									title: episode.title, 
+									episode: episode, 
+									podcast: podcast, 
+									nextEpisodeExists: nextEpisodeExists,
+									previousEpisodeExists: previousEpisodeExists,
+									activeTab: ""
+								});
+							});
+						});
 					} else {
 						res.status(404);
 					}
@@ -78,7 +107,7 @@ exports.mail = function(req, res, next) {
 
 	Podcast.find({ where: { url: req.subdomain }})
 	.success(function(podcast) {
-		if(podcast) {
+		if (podcast) {
 			res.render("site/mail", { 
 				title: "Contact",
 				activeTab: "mail",
