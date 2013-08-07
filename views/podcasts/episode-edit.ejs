@@ -11,10 +11,10 @@ $(function() {
        	filepicker.setKey("AOGP1MTHUQJmnAelu6Yj6z");
 
        	var pickerOptions = {
-			mimetype: "audio/*",
 			container: "modal",
-			// extensions: [".mp3", ".mp4", ".aac"],
-			maxSize: 104857600 // 100MB 
+			extensions: [".mp3", ".mp4", ".aac"],
+			maxSize: 104857600, // 100MB 
+			services:["COMPUTER"]
 		};
 
        	var storeOptions = { 
