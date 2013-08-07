@@ -1,0 +1,12 @@
+<% if (session.user) { %>
+	<% include ../partials/header %>
+	<% include ../partials/menu %>
+<% } else { %>
+	<% include partials/header %>
+<% } %>
+
+<h3>Need to get in touch?</h3>
+
+<p>Contact us via Twitter: @<a href="https://twitter.com/castrnet">castrnet</a></p>
+
+<% include ../partials/footer %>

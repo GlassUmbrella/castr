@@ -6,6 +6,10 @@ exports.home = function(req, res, next) {
 	}
 };
 
-exports.apps = function(req, res, next) {
-	res.render("public/apps", { title: "Apps" });
+exports.support = function(req, res, next) {
+	res.render("public/support", { title: "Support" });
+};
+
+exports.terms = function(req, res, next) {
+	res.render("public/terms", { title: "Terms" });
 };
