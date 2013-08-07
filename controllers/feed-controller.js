@@ -1,6 +1,10 @@
 var orm	= require("../lib/model");
 
 exports.index = function(req, res, next) {
+	// temp redirect
+	res.redirect("/podcasts");
+	return;
+
 	var Podcast = orm.model("Podcast");
 	var Episode = orm.model("Episode");
 	var Follower = orm.model("Follower");
