@@ -229,6 +229,7 @@ app.delete("/api/file/:fileId", noSubdomain, requiresAuth, api.file.delete_file)
 
 // Main app routes
 app.get("/", noSubdomain, controllers.public.home);
+app.get("/feedback", noSubdomain, controllers.public.feedback);
 app.get("/support", noSubdomain, controllers.public.support);
 app.get("/terms", noSubdomain, controllers.public.terms);
 
