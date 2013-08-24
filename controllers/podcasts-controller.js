@@ -58,61 +58,69 @@ exports.post_create = function(req, res, next) {
 	// check podcast is unique
 	var url = req.body.url.toLowerCase();
 
-	if(validation.podcasts.isUrlAllowed(url)) {
-		validation.podcasts.isUrlUnique(url, function(isUnique) {
-			if(isUnique) {
-				// check user hasnt reached their podcast limit
-				var user = req.session.user;
-				validation.users.hasReachedPodcastCountLimit(user.id, function(reachedLimit) {
-					if(reachedLimit) {
-						return res.render("podcasts/podcast-create", {
-							title: "Create your new podcast",
-							activeTab: "podcasts",
-							hasReachedPodcastCountLimit: true,
-							urlIsTaken: false,
-							urlIsBanned: false
-						});
-					}
+	var user = req.session.user;
+	var Podcast = orm.model("Podcast");
+	Podcast.findAll({ where: { ownerUserId: user.id } })
+	.success(function(podcasts) {
+		if(validation.podcasts.isUrlAllowed(url)) {
+			validation.podcasts.isUrlUnique(url, function(isUnique) {
+				if(isUnique) {
+					// check user hasnt reached their podcast limit
+					var user = req.session.user;
+					validation.users.hasReachedPodcastCountLimit(user.id, function(reachedLimit) {
+						if(reachedLimit) {
+							return res.render("podcasts/podcast-create", {
+								title: "Create your new podcast",
+								activeTab: "podcasts",
+								hasReachedPodcastCountLimit: true,
+								urlIsTaken: false,
+								urlIsBanned: false,
+								hasOtherPodcasts: podcasts.length > 0
+							});
+						}
 
-					var originalPosterFileId = req.body.originalPosterFileId > 0 ? req.body.originalPosterFileId : null;
-					var smallPosterFileId = req.body.smallPosterFileId > 0 ? req.body.smallPosterFileId : null;
-					var largePosterFileId = req.body.largePosterFileId > 0 ? req.body.largePosterFileId : null;
-			
-					// create the podcast
-					var Podcast = orm.model("Podcast");
-					Podcast.create({
-						title: req.body.title,
-						description: req.body.description,
-						coverLocation: "",
-						url: url,
-						ownerUserId: user.id,
-						OriginalPosterFileId: originalPosterFileId,
-						SmallPosterFileId: smallPosterFileId,
-						LargePosterFileId: largePosterFileId
-					}).success(function(podcast) {
-						podcast.setUsers([user]);
-						res.redirect("/podcasts/{0}/episodes".format(podcast.id));
+						var originalPosterFileId = req.body.originalPosterFileId > 0 ? req.body.originalPosterFileId : null;
+						var smallPosterFileId = req.body.smallPosterFileId > 0 ? req.body.smallPosterFileId : null;
+						var largePosterFileId = req.body.largePosterFileId > 0 ? req.body.largePosterFileId : null;
+				
+						// create the podcast
+						var Podcast = orm.model("Podcast");
+						Podcast.create({
+							title: req.body.title,
+							description: req.body.description,
+							coverLocation: "",
+							url: url,
+							ownerUserId: user.id,
+							OriginalPosterFileId: originalPosterFileId,
+							SmallPosterFileId: smallPosterFileId,
+							LargePosterFileId: largePosterFileId
+						}).success(function(podcast) {
+							podcast.setUsers([user]);
+							res.redirect("/podcasts/{0}/episodes".format(podcast.id));
+						});
 					});
-				});
-			} else {
-				res.render("podcasts/podcast-create", {
-					title: "Create your new podcast",
-					activeTab: "podcasts",
-					hasReachedPodcastCountLimit: false,
-					urlIsTaken: true,
-					urlIsBanned: false
-				});
-			}
-		});
-	} else {
-		res.render("podcasts/podcast-create", {
-			title: "Create your new podcast",
-			activeTab: "podcasts",
-			hasReachedPodcastCountLimit: false,
-			urlIsTaken: false,
-			urlIsBanned: true
-		});
-	}
+				} else {
+					res.render("podcasts/podcast-create", {
+						title: "Create your new podcast",
+						activeTab: "podcasts",
+						hasReachedPodcastCountLimit: false,
+						urlIsTaken: true,
+						urlIsBanned: false,
+						hasOtherPodcasts: podcasts.length > 0
+					});
+				}
+			});
+		} else {
+			res.render("podcasts/podcast-create", {
+				title: "Create your new podcast",
+				activeTab: "podcasts",
+				hasReachedPodcastCountLimit: false,
+				urlIsTaken: false,
+				urlIsBanned: true,
+				hasOtherPodcasts: podcasts.length > 0
+			});
+		}
+	});
 };
 
 /**
