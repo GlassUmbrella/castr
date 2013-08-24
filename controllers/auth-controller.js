@@ -82,7 +82,7 @@ exports.post_join = function(req, res, next) {
 								invite.createdUserId = user.id;
 								invite.save();
 							}
-							res.redirect("/podcasts/create?firstVisit=true");
+							res.redirect("/podcasts/create");
 						});
 					}
 				});

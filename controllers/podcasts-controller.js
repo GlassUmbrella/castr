@@ -37,13 +37,18 @@ exports.stats = function(req, res, next) {
 };
 
 exports.create = function(req, res, next) {
-	res.render("podcasts/podcast-create", {
-		title: "Create your new podcast",
-		activeTab: "podcasts",
-		hasReachedPodcastCountLimit: false,
-		urlIsTaken: false,
-		urlIsBanned: false,
-		firstVisit: req.query.firstVisit
+	var user = req.session.user;
+	var Podcast = orm.model("Podcast");
+	Podcast.findAll({ where: { ownerUserId: user.id } })
+	.success(function(podcasts) {
+		res.render("podcasts/podcast-create", {
+			title: "Create your new podcast",
+			activeTab: "podcasts",
+			hasReachedPodcastCountLimit: false,
+			urlIsTaken: false,
+			urlIsBanned: false,
+			hasOtherPodcasts: podcasts.length > 0
+		});
 	});
 };
 
