@@ -25,3 +25,6 @@ public/css/site.css
 ssl-cert.pem
 ssl-key.pem
 certrequest.csr
+
+# config
+config.js
